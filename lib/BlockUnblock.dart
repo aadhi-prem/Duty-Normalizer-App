@@ -9,41 +9,87 @@ import 'package:flutter/services.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
+import 'filter_BlockUnblock.dart';
 
-void main() {
-  runApp(const block());
-}
+// void main() {
+//   runApp(const block());
+// }
 
 class block extends StatelessWidget {
-  const block({Key? key}) : super(key: key);
+  // const block({Key? key}) : super(key: key);
+
+  String? dept,category;
+  block({required this.dept, required this.category});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       // Remove the debug banner
       debugShowCheckedModeBanner: false,
       title: 'Search',
-      home: HomePage(),
+      home: HomePage(dept,category),
     );
   }
 }
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  // const HomePage({Key? key}) : super(key: key);
+
+  String? dept,category;
+  HomePage(this.dept, this.category);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomePage> createState() => _HomePageState(dept,category);
 }
 
 class _HomePageState extends State<HomePage> {
+
+  String? dept,category;
+  _HomePageState(this.dept,this.category);
 // Open the database and store the reference.
 
   // This holds a list of fiction users
   // You can use data fetched from a database or a server as well
   Future<void> runSqlQuery() async {
-    _allUsers = await LocalDB().readDB("SELECT * FROM Phd UNION select * from Mtech union select * from Adhoc;");
-    blockedusers = await LocalDB().readDB("SELECT * FROM Phd where Status = 'Blocked' UNION select * from Mtech where Status = 'Blocked' union select * from Adhoc where Status = 'Blocked';");
-    unblockedusers = await LocalDB().readDB("SELECT * FROM Phd where Status = 'Unblocked' UNION select * from Mtech where Status = 'Unblocked' union select * from Adhoc where Status = 'UnBlocked';");
+    // _allUsers = await LocalDB().readDB("SELECT * FROM Phd UNION select * from Mtech union select * from Adhoc  order by name ;");
+
+    if('$dept'=='null' && '$category'=='null' )
+      _allUsers = await LocalDB().readDB("SELECT * FROM Phd UNION select * from Mtech union select * from Adhoc  order by name ;");
+    else if('$dept'!='null' && '$category'=='null')
+      _allUsers = await LocalDB().readDB("SELECT * FROM Phd where department='$dept' union SELECT * FROM Mtech where department='$dept' union SELECT * FROM Adhoc where department='$dept'");
+    else if('$dept'=='null' && '$category'!='null')
+      _allUsers = await LocalDB().readDB("SELECT * FROM '$category';");
+    else
+      _allUsers = await LocalDB().readDB("SELECT * FROM '$category' where department='$dept';");
+
+
+
+
+    // blockedusers = await LocalDB().readDB("SELECT * FROM Phd where Status = 'Blocked' UNION select * from Mtech where Status = 'Blocked' union select * from Adhoc where Status = 'Blocked';");
+
+    if('$dept'=='null' && '$category'=='null' )
+      blockedusers = await LocalDB().readDB("SELECT * FROM Phd where Status = 'Blocked' UNION select * from Mtech where Status = 'Blocked' union select * from Adhoc where Status = 'Blocked';");
+    else if('$dept'!='null' && '$category'=='null')
+      blockedusers = await LocalDB().readDB("SELECT * FROM Phd where department='$dept' and Status = 'Blocked' union SELECT * FROM Mtech where department='$dept'  and Status = 'Blocked'  union SELECT * FROM Adhoc where department='$dept'  and Status = 'Blocked' ");
+    else if('$dept'=='null' && '$category'!='null')
+      blockedusers = await LocalDB().readDB("SELECT * FROM '$category' where Status = 'Blocked';");
+    else
+      blockedusers = await LocalDB().readDB("SELECT * FROM '$category' where department='$dept' and Status = 'Blocked';");
+
+
+
+    // unblockedusers = await LocalDB().readDB("SELECT * FROM Phd where Status = 'Unblocked' UNION select * from Mtech where Status = 'Unblocked' union select * from Adhoc where Status = 'UnBlocked';");
+
+    if('$dept'=='null' && '$category'=='null' )
+      unblockedusers = await LocalDB().readDB("SELECT * FROM Phd where Status = 'Unblocked' UNION select * from Mtech where Status = 'Unblocked' union select * from Adhoc where Status = 'Unblocked';");
+    else if('$dept'!='null' && '$category'=='null')
+      unblockedusers = await LocalDB().readDB("SELECT * FROM Phd where department='$dept' and Status = 'Unblocked' union SELECT * FROM Mtech where department='$dept'  and Status = 'Unblocked'  union SELECT * FROM Adhoc where department='$dept'  and Status = 'Unblocked' ");
+    else if('$dept'=='null' && '$category'!='null')
+      unblockedusers = await LocalDB().readDB("SELECT * FROM '$category' where Status = 'Unblocked';");
+    else
+      unblockedusers = await LocalDB().readDB("SELECT * FROM '$category' where department='$dept' and Status = 'Unblocked';");
+
+
     setState(() {
       _allUsers=_allUsers;
       blockedusers=blockedusers;
@@ -194,13 +240,12 @@ class _HomePageState extends State<HomePage> {
               height: 5,
             ),
             Row(
-
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 ElevatedButton.icon(
                   onPressed: (){
-                    // Navigator.push(context, MaterialPageRoute(builder: (context) => FilterPage()),
-                    // );
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => FilterPage_BlockUnblock()),
+                    );
                   },
                   icon: Icon(Icons.filter_alt,color: Colors.black87,),
 
