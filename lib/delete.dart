@@ -48,6 +48,7 @@ class _DeleteState extends State<Delete> {
 
   Map<String,bool> _selected={};//selected students list
   // This list holds the data for the list view
+  bool selectall=false;
   List<Map<String, dynamic>> _foundUsers = [];
   List<Map<String, dynamic>> _allUsers = [];
   late String searchWord;
@@ -192,6 +193,19 @@ class _DeleteState extends State<Delete> {
                   )
 
                 ],
+
+            ),
+            CheckboxListTile(
+              value: selectall,
+              onChanged: (value) {
+                setState(() {
+                  selectall = value!;
+                  _allUsers.forEach((user) {
+                    _selected[user["RollNo"]] = selectall;
+                  });
+                });
+              },
+              controlAffinity: ListTileControlAffinity.leading,
             ),
             Expanded(
               child: _foundUsers.isNotEmpty
