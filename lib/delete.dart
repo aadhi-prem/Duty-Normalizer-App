@@ -11,35 +11,66 @@ import 'package:flutter/services.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
+import 'filter_delete.dart';
 
 class DeletePage extends StatelessWidget {
-  const DeletePage({Key? key}) : super(key: key);
+  // const DeletePage({Key? key}) : super(key: key);
+  
+  String? dept,category;
+  DeletePage({required this.dept, required this.category});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       // Remove the debug banner
       debugShowCheckedModeBanner: false,
       title: 'Search',
-      home: Delete(),
+      home: Delete(dept,category),
     );
   }
 }
 
 class Delete extends StatefulWidget {
-  const Delete({Key? key}) : super(key: key);
+//   const Delete({Key? key}) : super(key: key);
+  
+  String? dept,category;
+  Delete(this.dept, this.category);
 
   @override
-  State<Delete> createState() => _DeleteState();
+  State<Delete> createState() => _DeleteState(dept,category);
 }
 
 class _DeleteState extends State<Delete> {
+  
+  String? dept,category;
+  _DeleteState(this.dept,this.category);
 // Open the database and store the reference.
 
   // This holds a list of fiction users
   // You can use data fetched from a database or a server as well
   Future<void> runSqlQuery() async {
-    _allUsers = await LocalDB().readDB("SELECT * FROM Phd UNION select * from Mtech union select * from Adhoc;");
+    if('$dept'=='null' && '$category'=='null' )
+      _allUsers = await LocalDB().readDB("SELECT * FROM Phd UNION select * from Mtech union select * from Adhoc  order by name ;");
+    else if('$dept'!='null' && '$category'=='null')
+      _allUsers = await LocalDB().readDB("SELECT * FROM Phd where department='$dept' union SELECT * FROM Mtech where department='$dept' union SELECT * FROM Adhoc where department='$dept'");
+    else if('$dept'=='null' && '$category'!='null')
+    {
+      if('$category'=='MTech')
+        _allUsers = await LocalDB().readDB("SELECT * FROM Mtech;");
+      else if('$category'=='PhD')
+        _allUsers = await LocalDB().readDB("SELECT * FROM Phd;");
+      else if('$category'=='Adhoc')
+        _allUsers = await LocalDB().readDB("SELECT * FROM Adhoc;");
+    }
+    else
+    {
+      if('$category'=='MTech')
+        _allUsers = await LocalDB().readDB("SELECT * FROM Mtech where department='$dept';");
+      else if('$category'=='PhD')
+        _allUsers = await LocalDB().readDB("SELECT * FROM Phd where department='$dept';");
+      else if('$category'=='Adhoc')
+        _allUsers = await LocalDB().readDB("SELECT * FROM Adhoc where department='$dept';");
+    }
 
     setState(() {
       _allUsers=_allUsers;
