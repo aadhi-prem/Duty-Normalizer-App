@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:sqflite/sqflite.dart';
@@ -54,6 +55,11 @@ class LocalDB{
     Database db = await this.dataBase;
     List<Map<String,dynamic>> _ak = await db.rawQuery(s);
     return _ak;
+  }
+
+  Future<void> executeDB(String s) async {
+    Database db = await this.dataBase;
+    await db.rawQuery(s);
   }
 
   Future<void> writeDB( Map<String, dynamic> a,String s) async {
