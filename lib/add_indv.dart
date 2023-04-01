@@ -31,6 +31,7 @@ class MyCustomFormState extends State<MyCustomForm> {
   final _formKey = GlobalKey<FormState>();
   String?batch;
   String?rollno;
+  String?rollno1;
   String?name;
   String?dep;
   String?phno;
@@ -39,6 +40,8 @@ class MyCustomFormState extends State<MyCustomForm> {
   late String newValue2;
   List _deptList=["CSE","CE","EEE","ECE","ME","CHE","EP","PE","MSE","BT","AR","MCA"];
   List _catList=["MTech","PhD","Adhoc"];
+  String mychar='';
+  //String mychar1='';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,14 +94,36 @@ class MyCustomFormState extends State<MyCustomForm> {
                   hintText: 'Enter your roll number',
                 ),
                 validator: (value) {
+                  //value=value?.toUpperCase();
                   if (value==null||value.isEmpty) {
                     //debugPrint("1");
                     return 'Please enter your roll number';
                   }
+                  if(batch=='MTech')
+                  {
+                    mychar='M';
+                    //mychar1='m';
+                  }
+                  else if(batch=='PhD')
+                  {
+                    mychar='P';
+                    //mychar1='p';
+                  } else
+                  {
+                    mychar='A';
+                   // mychar1='a';
+                  }
+                    if (value.toUpperCase().startsWith(mychar)==false) {
+                      debugPrint("NO: starts with correct letter");
+                      return 'Invalid Roll number';
+                    }
+
                   return null;
                 },
                 onSaved: (value) {
-                  rollno = value;
+                  rollno1 = value;
+                  rollno=rollno1?.toUpperCase();
+                  debugPrint(rollno);
                 },
               ),
 
@@ -175,6 +200,8 @@ class MyCustomFormState extends State<MyCustomForm> {
                     // debugPrint("4");
                     return 'Please enter your email';
                   }
+                  if(validateEmail(value)==false)
+                    return 'Invalid Email';
                   return null;
                 },
                 onSaved: (value) {
@@ -196,28 +223,63 @@ class MyCustomFormState extends State<MyCustomForm> {
                       debugPrint('Roll number: $rollno');
                       debugPrint('Phone number: $phno');
                       debugPrint('Department: $dep');
+                      debugPrint('Batch: $batch');
 
                       Map<String, dynamic> a = {
-                        'RollNumber': rollno,
+                        'Rollnumber': rollno,
                         'Name': name,
                         'Department': dep,
                         'PhoneNo': phno,
                         'Email': email,
                       };
 
-                      if(batch=='Mtech') {
-                        LocalDB().writeDB(a, 'Mtech');
-                      }
-                      if(batch=='PhD') {
-                        LocalDB().writeDB(a, 'Phd');
-                      }
-                      if(batch=='Adhoc') {
-                        LocalDB().writeDB(a, 'Adhoc');
-                      }
+                      insertform(a, batch!);
+
+                      showDialog(
+                        context: context,
+                        builder: (ctx) => AlertDialog(
+                          title: const Text("Alert Dialog Box"),
+                          content: const Text("Data Entered into DB successfully"),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(ctx).pop();
+                              },
+                              child: Container(
+                                color: Colors.lightBlueAccent,
+                                padding: const EdgeInsets.all(14),
+                                child: const Text("ok"),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+
+
 
                     }
                     else{
                       debugPrint("Fail");
+                      showDialog(
+                        context: context,
+                        builder: (ctx) =>
+                            AlertDialog(
+                              title: const Text("Pop Up"),
+                              content: Text("Please enter valid field data!"),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(ctx).pop();
+                                  },
+                                  child: Container(
+                                    color: Colors.blueAccent,
+                                    padding: const EdgeInsets.all(14),
+                                    child: const Text("ok"),
+                                  ),
+                                ),
+                              ],
+                            ),
+                      );
                     }
                   },
                   child: Text('Submit'),
@@ -228,5 +290,25 @@ class MyCustomFormState extends State<MyCustomForm> {
         ),
       ),
     );
+  }
+
+  Future<void> insertform(Map<String,dynamic> a,String B)async {
+    if(B=='MTech') {
+      await LocalDB().writeDB(a, 'Mtech');
+    }
+    if(B=='PhD') {
+      await LocalDB().writeDB(a, 'Phd');
+    }
+    if(B=='Adhoc') {
+      await LocalDB().writeDB(a, 'Adhoc');
+    }
+  }
+
+  bool validateEmail(String email) {
+    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    if (email.isEmpty) {
+      return false;
+    }
+    return emailRegex.hasMatch(email);
   }
 }
