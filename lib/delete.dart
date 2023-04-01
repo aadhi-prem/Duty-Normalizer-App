@@ -196,8 +196,8 @@ class _DeleteState extends State<Delete> {
               children: [
                 ElevatedButton.icon(
                   onPressed: (){
-                    // Navigator.push(context, MaterialPageRoute(builder: (context) => FilterPage()),
-                    // );
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => FilterPage()),
+                    );
                   },
                   icon: Icon(Icons.filter_alt,color: Colors.black87,),
 
