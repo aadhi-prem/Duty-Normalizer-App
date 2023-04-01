@@ -51,7 +51,7 @@ class _DeleteState extends State<Delete> {
   bool selectall=false;
   List<Map<String, dynamic>> _foundUsers = [];
   List<Map<String, dynamic>> _allUsers = [];
-  late String searchWord;
+  late String searchWord = "";
   @override
   @override
   void initState() {
@@ -72,7 +72,7 @@ class _DeleteState extends State<Delete> {
 
   void _runFilter(String enteredKeyword) {
     List<Map<String, dynamic>> results = [];
-    if (enteredKeyword.isEmpty) {
+    if (enteredKeyword == "") {
       // if the search field is empty or only contains white-space, we'll display all users
       results = _allUsers;
     } else {
@@ -142,7 +142,7 @@ class _DeleteState extends State<Delete> {
                 // controller: textController,
                 onChanged: (value) {
                   searchWord = value;
-                  _runFilter(value);
+                  _runFilter(searchWord);
                 } ,
                 decoration: InputDecoration(
                   prefixIcon: Icon(
@@ -175,24 +175,24 @@ class _DeleteState extends State<Delete> {
             ),
             Row(
 
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  ElevatedButton.icon(
-                    onPressed: (){
-                      // Navigator.push(context, MaterialPageRoute(builder: (context) => FilterPage()),
-                      // );
-                    },
-                    icon: Icon(Icons.filter_alt,color: Colors.black87,),
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                ElevatedButton.icon(
+                  onPressed: (){
+                    // Navigator.push(context, MaterialPageRoute(builder: (context) => FilterPage()),
+                    // );
+                  },
+                  icon: Icon(Icons.filter_alt,color: Colors.black87,),
 
-                    label: Text('Filter',style: TextStyle(color: Colors.black87),),
-                    style:
-                    ElevatedButton.styleFrom(
-                        primary:
-                        Colors.grey[300]
-                    ),
-                  )
+                  label: Text('Filter',style: TextStyle(color: Colors.black87),),
+                  style:
+                  ElevatedButton.styleFrom(
+                      primary:
+                      Colors.grey[300]
+                  ),
+                )
 
-                ],
+              ],
 
             ),
             CheckboxListTile(
