@@ -54,7 +54,7 @@ class _HomePageState extends State<HomePage> {
     // _allUsers = await LocalDB().readDB("SELECT * FROM Phd UNION select * from Mtech union select * from Adhoc  order by name ;");
 
     if('$dept'=='null' && '$category'=='null' )
-      _allUsers = await LocalDB().readDB("SELECT * FROM Phd UNION select * from Mtech union select * from Adhoc  order by name ;");
+      _allUsers = await LocalDB().readDB("SELECT * FROM Phd UNION select * from Mtech union select * from Adhoc;");
     else if('$dept'!='null' && '$category'=='null')
       _allUsers = await LocalDB().readDB("SELECT * FROM Phd where department='$dept' union SELECT * FROM Mtech where department='$dept' union SELECT * FROM Adhoc where department='$dept'");
     else if('$dept'=='null' && '$category'!='null')
