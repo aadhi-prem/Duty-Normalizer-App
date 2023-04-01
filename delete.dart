@@ -1,7 +1,9 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'DB_HELPER.dart';
 
-import 'blankpage.dart';
+//import 'blankpage.dart';
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
@@ -10,12 +12,8 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class DeletePage extends StatelessWidget {
+  const DeletePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,19 +21,19 @@ class MyApp extends StatelessWidget {
       // Remove the debug banner
       debugShowCheckedModeBanner: false,
       title: 'Search',
-      home: HomePage(),
+      home: Delete(),
     );
   }
 }
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class Delete extends StatefulWidget {
+  const Delete({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<Delete> createState() => _DeleteState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _DeleteState extends State<Delete> {
 // Open the database and store the reference.
 
   // This holds a list of fiction users
@@ -121,6 +119,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color(0xff9381ff),
         title: const Text('Search'),
       ),
       body: Padding(
@@ -130,10 +129,42 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(
               height: 20,
             ),
-            TextField(
-              onChanged: (value) => _runFilter(value),
-              decoration: const InputDecoration(
-                  labelText: 'Search', suffixIcon: Icon(Icons.search)),
+            Container(
+              decoration: BoxDecoration(boxShadow: [
+                BoxShadow(
+                    offset: const Offset(12, 26),
+                    blurRadius: 50,
+                    spreadRadius: 0,
+                    color: Colors.grey.withOpacity(.1)),
+              ]),
+              child: TextField(
+                // controller: textController,
+                onChanged: (value) => _runFilter(value),
+                decoration: InputDecoration(
+                  prefixIcon: Icon(
+                    Icons.search,
+                    color: Colors.grey[500]!,
+                  ),
+                  filled: true,
+                  fillColor: Colors.white,
+                  hintText: 'Search',
+                  hintStyle:
+                  const TextStyle(color: Colors.grey, fontWeight: FontWeight.w300),
+                  contentPadding:
+                  const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+                  border: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(45.0)),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey[300]!, width: 1.0),
+                    borderRadius: BorderRadius.all(Radius.circular(45.0)),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey[400]!, width: 1.5),
+                    borderRadius: BorderRadius.all(Radius.circular(45.0)),
+                  ),
+                ),
+              ),
             ),
             const SizedBox(
               height: 20,
@@ -144,24 +175,29 @@ class _HomePageState extends State<HomePage> {
                 itemCount: _foundUsers.length,
                 itemBuilder: (context, index) => Card(
                   key: ValueKey(_foundUsers[index]["id"]),
-                  color: Colors.blueAccent,
+                  color: Color(0xff9381ff),
                   elevation: 4,
                   margin: const EdgeInsets.symmetric(vertical: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Checkbox(
-                        value: _selected[_foundUsers[index]["RollNo"]],
-                        onChanged: (value) {
-                          setState(() {
-                            _selected[_foundUsers[index]["RollNo"]] = value!;
-                          });
-                        },
-                      ),
-                      Text('Roll No: ${_foundUsers[index]["RollNo"]}'),
-                      Text('Name: ${_foundUsers[index]["Name"]}'),
-                      Text('Dept: ${_foundUsers[index]["DEPARTMENT"]}'),
-                    ],
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Checkbox(
+                          activeColor: Color(0xfff28482),
+                          checkColor: Colors.black,
+                          value: _selected[_foundUsers[index]["RollNo"]],
+                          onChanged: (value) {
+                            setState(() {
+                              _selected[_foundUsers[index]["RollNo"]] = value!;
+                            });
+                          },
+                        ),
+                        Text('Roll No: ${_foundUsers[index]["RollNo"]} '),
+                        Text('Name: ${_foundUsers[index]["Name"]} '),
+                        Text('Dept: ${_foundUsers[index]["DEPARTMENT"]} '),
+                      ],
+                    ),
                   ),
                 ),
               )
@@ -171,9 +207,10 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             ElevatedButton(
+              style: ElevatedButton.styleFrom( primary: Color(0xffff595e),),
               onPressed: () {
                 List<Map<String, dynamic>> selectedUsers = [];
-                for (Map<String,dynamic>r in _foundUsers) {
+                for (Map<String,dynamic>r in _allUsers) {
                   if (_selected[r["RollNo"]]!) {
                     selectedUsers.add(r);
                   }
@@ -185,7 +222,7 @@ class _HomePageState extends State<HomePage> {
                 //   MaterialPageRoute(builder: (context) => BlankPage(selectedusers: selectedUsers)),
                 // );
               },
-              child: const Text('Delete'),
+              child: const Text('Delete',style: TextStyle(fontSize: 17),),
             )
 
           ],
