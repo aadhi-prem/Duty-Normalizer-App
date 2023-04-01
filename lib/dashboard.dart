@@ -314,7 +314,7 @@ class _DashboardState extends State<Dashboard> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => DeletePage(),
+                  builder: (context) => DeletePage(dept: 'null', category: 'null',),
                 ),
               );
               break;
