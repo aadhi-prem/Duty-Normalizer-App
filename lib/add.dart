@@ -7,7 +7,6 @@ import 'dart:io';
 import 'dart:convert' show utf8;
 import 'DB_HELPER.dart';
 import 'dart:core';
-import 'package:email_validator/email_validator.dart';
 
 void main() => runApp(MyApp());
 
