@@ -128,7 +128,6 @@ class _HomePageState extends State<HomePage> {
     }
     await runSqlQuery();
     setState(() {
-      debugPrint('fking work $searchWord');
       _runFilter(searchWord);
     });
 
@@ -153,13 +152,33 @@ class _HomePageState extends State<HomePage> {
               onChanged: (value) {
                 searchWord = value;
                 _runFilter(value);
-
               },
               decoration: const InputDecoration(
                   labelText: 'Search', suffixIcon: Icon(Icons.search)),
             ),
             const SizedBox(
-              height: 20,
+              height: 5,
+            ),
+            Row(
+
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  ElevatedButton.icon(
+                    onPressed: (){
+                      // Navigator.push(context, MaterialPageRoute(builder: (context) => FilterPage()),
+                      // );
+                    },
+                    icon: Icon(Icons.filter_alt,color: Colors.black87,),
+
+                    label: Text('Filter',style: TextStyle(color: Colors.black87),),
+                    style:
+                    ElevatedButton.styleFrom(
+                        primary:
+                        Colors.grey[300]
+                    ),
+                  )
+
+                ],
             ),
             Expanded(
               child: blockedusers.isNotEmpty
@@ -235,7 +254,7 @@ class _HomePageState extends State<HomePage> {
                 }
                 // debugPrint('$selectedUsers');
                 await _statuschange(selectedUsers);
-                await runSqlQuery();
+                // await runSqlQuery();
                 setState(() {
                   for(Map<String,dynamic>row in _allUsers){
                     _selected[row["RollNo"]]=false;
