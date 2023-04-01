@@ -36,6 +36,7 @@ class MyCustomFormState extends State<MyCustomForm> {
   String?dep;
   String?phno;
   String?email;
+  int pop=-1;
   late String newValue;
   late String newValue2;
   List _deptList=["CSE","CE","EEE","ECE","ME","CHE","EP","PE","MSE","BT","AR","MCA"];
@@ -211,7 +212,7 @@ class MyCustomFormState extends State<MyCustomForm> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     _formKey.currentState?.save();
                     if (_formKey.currentState?.validate()==true) {
                       // Save form fields
@@ -233,33 +234,68 @@ class MyCustomFormState extends State<MyCustomForm> {
                         'Email': email,
                       };
 
-                      insertform(a, batch!);
+                     // pop=check(rollno!) as int;
+                      List<Map<String, dynamic>> _allUsers = [];
+                      _allUsers = await LocalDB().readDB("SELECT * FROM $batch where RollNo = '$rollno';") as List<Map<String, dynamic>>;
+                      if(_allUsers.length==0) pop= 1;
+                      else {
+                        pop= 0;
+                      }
+                      if(pop==1) {
+                        insertform(a, batch!);
 
-                      showDialog(
-                        context: context,
-                        builder: (ctx) => AlertDialog(
-                          title: const Text("Alert Dialog Box"),
-                          content: const Text("Data Entered into DB successfully"),
-                          actions: <Widget>[
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(ctx).pop();
-                              },
-                              child: Container(
-                                color: Colors.lightBlueAccent,
-                                padding: const EdgeInsets.all(14),
-                                child: const Text("ok"),
+                        showDialog(
+                          context: context,
+                          builder: (ctx) =>
+                              AlertDialog(
+                                title: const Text("Alert Dialog Box"),
+                                content: const Text(
+                                    "Data Entered into DB successfully"),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(ctx).pop();
+                                    },
+                                    child: Container(
+                                      color: Colors.lightBlueAccent,
+                                      padding: const EdgeInsets.all(14),
+                                      child: const Text("ok"),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ],
-                        ),
-                      );
-
-
+                        );
+                      }
+                      else if(pop==0){
+                        showDialog(
+                          context: context,
+                          builder: (ctx) =>
+                              AlertDialog(
+                                title: const Text("Pop Up"),
+                                content: Text("$rollno already exist in database!"),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(ctx).pop();
+                                    },
+                                    child: Container(
+                                      color: Colors.blueAccent,
+                                      padding: const EdgeInsets.all(14),
+                                      child: const Text("ok"),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                        );
+                      }
+                      else{
+                        debugPrint("Pop is -1");
+                      }
 
                     }
                     else{
                       debugPrint("Fail");
+
                       showDialog(
                         context: context,
                         builder: (ctx) =>
@@ -280,6 +316,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                               ],
                             ),
                       );
+
                     }
                   },
                   child: Text('Submit'),
@@ -311,4 +348,14 @@ class MyCustomFormState extends State<MyCustomForm> {
     }
     return emailRegex.hasMatch(email);
   }
+
+  // Future<int> check(String s) async {
+  //   List<Map<String, dynamic>> _allUsers = [];
+  //   _allUsers = await LocalDB().readDB("SELECT Name FROM Mtech where RollNo='$s';");
+  //   if(_allUsers.length==0) return 1;
+  //   else {
+  //     return 0;
+  //   }
+  // }
+
 }
