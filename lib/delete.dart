@@ -278,6 +278,7 @@ class _DeleteState extends State<Delete> {
             ElevatedButton(
               style: ElevatedButton.styleFrom( primary: Color(0xffff595e),),
               onPressed: () {
+                selectall=false;
                 List<Map<String, dynamic>> selectedUsers = [];
                 for (Map<String,dynamic>r in _allUsers) {
                   if (_selected[r["RollNo"]]!) {
