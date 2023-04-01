@@ -186,6 +186,7 @@ class _ToggleButtonScreenState extends State<ToggleButtonScreen> {
       for (Map<String, dynamic> a in rows) {
         debugPrint("FLAG IS TRUE");
         await LocalDB().writeDB(a, _buttonvalue);
+      }
         // await LocalDB().writeD
         showDialog(
           context: context,
@@ -208,7 +209,6 @@ class _ToggleButtonScreenState extends State<ToggleButtonScreen> {
               ),
         );
 
-      }
     }
     else
       {
