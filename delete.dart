@@ -50,6 +50,7 @@ class _DeleteState extends State<Delete> {
   // This list holds the data for the list view
   List<Map<String, dynamic>> _foundUsers = [];
   List<Map<String, dynamic>> _allUsers = [];
+  late String searchWord;
   @override
   @override
   void initState() {
@@ -68,7 +69,6 @@ class _DeleteState extends State<Delete> {
   }
 
 
-  // This function is called whenever the text field changes
   void _runFilter(String enteredKeyword) {
     List<Map<String, dynamic>> results = [];
     if (enteredKeyword.isEmpty) {
@@ -111,7 +111,7 @@ class _DeleteState extends State<Delete> {
     // Refresh the UI
     await runSqlQuery();
     setState(() {
-      _foundUsers = _allUsers;
+      _runFilter(searchWord);
     });
   }
 
@@ -139,7 +139,10 @@ class _DeleteState extends State<Delete> {
               ]),
               child: TextField(
                 // controller: textController,
-                onChanged: (value) => _runFilter(value),
+                onChanged: (value) {
+                  searchWord = value;
+                  _runFilter(value);
+                } ,
                 decoration: InputDecoration(
                   prefixIcon: Icon(
                     Icons.search,
