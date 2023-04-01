@@ -53,6 +53,8 @@ class _HomePageState extends State<HomePage> {
 
   Map<String,bool> _selected={};//selected students list
   // This list holds the data for the list view
+  bool selectall1=false;
+  bool selectall2=false;
   List<Map<String,dynamic>> blockedusers=[];
   List<Map<String,dynamic>> unblockedusers=[];
   List<Map<String, dynamic>> _foundUsers = [];
@@ -99,7 +101,7 @@ class _HomePageState extends State<HomePage> {
           .toList();
       unblockedusers= results
           .where((user) =>
-          user["Status"]=="Unblocked"  )
+      user["Status"]=="Unblocked"  )
           .toList();
     });
   }
@@ -131,7 +133,7 @@ class _HomePageState extends State<HomePage> {
       _runFilter(searchWord);
     });
 
-   // blockedusers = await LocalDB().readDB("SELECT * FROM Phd where Status = 'Blocked' UNION select * from Mtech where Status = 'Blocked' union select * from Adhoc where Status = 'Blocked';");
+    // blockedusers = await LocalDB().readDB("SELECT * FROM Phd where Status = 'Blocked' UNION select * from Mtech where Status = 'Blocked' union select * from Adhoc where Status = 'Blocked';");
     //debugPrint('$blockedusers');
   }
 
@@ -161,24 +163,36 @@ class _HomePageState extends State<HomePage> {
             ),
             Row(
 
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  ElevatedButton.icon(
-                    onPressed: (){
-                      // Navigator.push(context, MaterialPageRoute(builder: (context) => FilterPage()),
-                      // );
-                    },
-                    icon: Icon(Icons.filter_alt,color: Colors.black87,),
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                ElevatedButton.icon(
+                  onPressed: (){
+                    // Navigator.push(context, MaterialPageRoute(builder: (context) => FilterPage()),
+                    // );
+                  },
+                  icon: Icon(Icons.filter_alt,color: Colors.black87,),
 
-                    label: Text('Filter',style: TextStyle(color: Colors.black87),),
-                    style:
-                    ElevatedButton.styleFrom(
-                        primary:
-                        Colors.grey[300]
-                    ),
-                  )
+                  label: Text('Filter',style: TextStyle(color: Colors.black87),),
+                  style:
+                  ElevatedButton.styleFrom(
+                      primary:
+                      Colors.grey[300]
+                  ),
+                )
 
-                ],
+              ],
+            ),
+            CheckboxListTile(
+              value: selectall1,
+              onChanged: (value) {
+                setState(() {
+                  selectall1 = value!;
+                  blockedusers.forEach((user) {
+                    _selected[user["RollNo"]] = selectall1;
+                  });
+                });
+              },
+              controlAffinity: ListTileControlAffinity.leading,
             ),
             Expanded(
               child: blockedusers.isNotEmpty
@@ -211,6 +225,18 @@ class _HomePageState extends State<HomePage> {
                 'No results found',
                 style: TextStyle(fontSize: 24),
               ),
+            ),
+            CheckboxListTile(
+              value: selectall2,
+              onChanged: (value) {
+                setState(() {
+                  selectall2 = value!;
+                  unblockedusers.forEach((user) {
+                    _selected[user["RollNo"]] = selectall2;
+                  });
+                });
+              },
+              controlAffinity: ListTileControlAffinity.leading,
             ),
             Expanded(
               child: unblockedusers.isNotEmpty
@@ -246,6 +272,8 @@ class _HomePageState extends State<HomePage> {
             ),
             ElevatedButton(
               onPressed: () async {
+                selectall1=false;
+                selectall2=false;
                 List<Map<String, dynamic>> selectedUsers = [];
                 for (Map<String,dynamic>r in _allUsers) {
                   if (_selected[r["RollNo"]]!) {
