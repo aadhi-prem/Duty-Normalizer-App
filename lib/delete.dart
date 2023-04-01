@@ -54,23 +54,9 @@ class _DeleteState extends State<Delete> {
     else if('$dept'!='null' && '$category'=='null')
       _allUsers = await LocalDB().readDB("SELECT * FROM Phd where department='$dept' union SELECT * FROM Mtech where department='$dept' union SELECT * FROM Adhoc where department='$dept'");
     else if('$dept'=='null' && '$category'!='null')
-    {
-      if('$category'=='MTech')
-        _allUsers = await LocalDB().readDB("SELECT * FROM Mtech;");
-      else if('$category'=='PhD')
-        _allUsers = await LocalDB().readDB("SELECT * FROM Phd;");
-      else if('$category'=='Adhoc')
-        _allUsers = await LocalDB().readDB("SELECT * FROM Adhoc;");
-    }
+      _allUsers = await LocalDB().readDB("SELECT * FROM '$category';");
     else
-    {
-      if('$category'=='MTech')
-        _allUsers = await LocalDB().readDB("SELECT * FROM Mtech where department='$dept';");
-      else if('$category'=='PhD')
-        _allUsers = await LocalDB().readDB("SELECT * FROM Phd where department='$dept';");
-      else if('$category'=='Adhoc')
-        _allUsers = await LocalDB().readDB("SELECT * FROM Adhoc where department='$dept';");
-    }
+      _allUsers = await LocalDB().readDB("SELECT * FROM '$category' where department='$dept';");
 
     setState(() {
       _allUsers=_allUsers;
