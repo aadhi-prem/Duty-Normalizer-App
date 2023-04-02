@@ -208,7 +208,7 @@ class _DeleteState extends State<Delete> {
                         onChanged: (value) {
                           setState(() {
                             selectall = value!;
-                            _allUsers.forEach((user) {
+                            _foundUsers.forEach((user) {
                               _selected[user["RollNo"]] = selectall;
                             });
                           });
