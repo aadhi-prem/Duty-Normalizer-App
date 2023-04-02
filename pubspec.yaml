@@ -41,6 +41,7 @@ dependencies:
   sqflite: any
   path: any
   fluttertoast: ^8.0.8
+  dotted_border: ^2.0.0+3
 
 dev_dependencies:
   flutter_test:
