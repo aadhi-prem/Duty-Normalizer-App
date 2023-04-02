@@ -43,14 +43,16 @@ class _DashboardState extends State<Dashboard> {
       // set up the buttons
       Widget cancelButton = TextButton(
         onPressed: () {
-          Navigator.pushReplacement(context, MaterialPageRoute(
-            builder: (context) => Dashboard(),
-          ),); //dismiss dialog
+          Navigator.of(context, rootNavigator: true).pop();
+          // Navigator.pushReplacement(context, MaterialPageRoute(
+          //   builder: (context) => Dashboard(),
+          // ),); //dismiss dialog
         },
         child: Text("Cancel"),
       );
       Widget continueButton = TextButton(
         onPressed: () {
+          Navigator.of(context, rootNavigator: true).pop();
           Navigator.push(context, MaterialPageRoute(
             builder: (context) => PinEntryPage(),
           ),); /////////////// add the enter pin function here

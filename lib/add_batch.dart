@@ -256,13 +256,14 @@ class _ToggleButtonScreenState extends State<ToggleButtonScreen> {
       for (Map<String, dynamic> a in rows) {
         debugPrint("FLAG IS TRUE");
         await LocalDB().writeDB(a, _buttonvalue);
+      }
         // await LocalDB().writeD
         showDialog(
           context: context,
           builder: (ctx) =>
               AlertDialog(
                 title: const Text("Added Successfully"),
-                content: const Text("File picked and added to DB sucessfully!"),
+                content: const Text("File picked and added sucessfully!"),
                 actions: <Widget>[
                   TextButton(
                     onPressed: () {
@@ -271,14 +272,14 @@ class _ToggleButtonScreenState extends State<ToggleButtonScreen> {
                     child: Container(
                       color: Color(0xff9381ff),
                       padding: const EdgeInsets.all(14),
-                      child: const Text("OK"),
+                      child: const Text("OK",style: TextStyle(color: Colors.white),),
                     ),
                   ),
                 ],
               ),
         );
 
-      }
+
     }
     else
     {
