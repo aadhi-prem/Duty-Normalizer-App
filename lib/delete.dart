@@ -1,7 +1,9 @@
 import 'dart:ffi';
 
+import 'package:demoapp/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'DB_HELPER.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 //import 'blankpage.dart';
 import 'dart:async';
@@ -15,7 +17,7 @@ import 'filter_delete.dart';
 
 class DeletePage extends StatelessWidget {
   // const DeletePage({Key? key}) : super(key: key);
-  
+
   String? dept,category;
   DeletePage({required this.dept, required this.category});
 
@@ -32,7 +34,7 @@ class DeletePage extends StatelessWidget {
 
 class Delete extends StatefulWidget {
 //   const Delete({Key? key}) : super(key: key);
-  
+
   String? dept,category;
   Delete(this.dept, this.category);
 
@@ -41,7 +43,7 @@ class Delete extends StatefulWidget {
 }
 
 class _DeleteState extends State<Delete> {
-  
+
   String? dept,category;
   _DeleteState(this.dept,this.category);
 // Open the database and store the reference.
@@ -138,7 +140,7 @@ class _DeleteState extends State<Delete> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xff9381ff),
-        title: const Text('Search'),
+        title: const Text('Delete Student/Faculty'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10),
@@ -192,8 +194,33 @@ class _DeleteState extends State<Delete> {
             ),
             Row(
 
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                Row(
+                  children: [
+                    Container(
+                      width: 25,
+                      child: CheckboxListTile(
+                        activeColor: Color(0xfff28482),
+                        checkColor: Colors.black,
+                        // title: Text('Select All'),
+                        value: selectall,
+                        onChanged: (value) {
+                          setState(() {
+                            selectall = value!;
+                            _allUsers.forEach((user) {
+                              _selected[user["RollNo"]] = selectall;
+                            });
+                          });
+                        },
+
+                        controlAffinity: ListTileControlAffinity.leading,
+                      ),
+                    ),
+                    Text("  Select All",style: TextStyle(color: Colors.black87),),
+                  ],
+                ),
+
                 ElevatedButton.icon(
                   onPressed: (){
                     Navigator.push(context, MaterialPageRoute(builder: (context) => FilterPage()),
@@ -212,18 +239,7 @@ class _DeleteState extends State<Delete> {
               ],
 
             ),
-            CheckboxListTile(
-              value: selectall,
-              onChanged: (value) {
-                setState(() {
-                  selectall = value!;
-                  _allUsers.forEach((user) {
-                    _selected[user["RollNo"]] = selectall;
-                  });
-                });
-              },
-              controlAffinity: ListTileControlAffinity.leading,
-            ),
+
             Expanded(
               child: _foundUsers.isNotEmpty
                   ? ListView.builder(
@@ -258,12 +274,40 @@ class _DeleteState extends State<Delete> {
               )
                   : const Text(
                 'No results found',
-                style: TextStyle(fontSize: 24),
+                style: TextStyle(fontSize: 24,color: Color(0xffff595e),),
               ),
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Color(0xff9381ff),
+                  ),
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Dashboard(),
+                      ),
+                    );
+                  },
+                  child: Text('Cancel',style: TextStyle(fontSize: 17),),
+                ),
+
+            SizedBox(width: 32,),
             ElevatedButton(
               style: ElevatedButton.styleFrom( primary: Color(0xffff595e),),
               onPressed: () {
+                Fluttertoast.showToast(
+                    msg: "Deleted Successfully",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: Colors.grey[600],
+                    textColor: Colors.white,
+                    fontSize: 16.0
+                );
                 selectall=false;
                 List<Map<String, dynamic>> selectedUsers = [];
                 for (Map<String,dynamic>r in _allUsers) {
@@ -280,7 +324,8 @@ class _DeleteState extends State<Delete> {
               },
               child: const Text('Delete',style: TextStyle(fontSize: 17),),
             )
-
+              ],
+            ),
           ],
         ),
       ),

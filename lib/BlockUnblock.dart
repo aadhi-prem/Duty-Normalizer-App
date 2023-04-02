@@ -1,5 +1,7 @@
+import 'package:demoapp/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'DB_HELPER.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 // import 'blankpage.dart';
 import 'dart:async';
@@ -169,9 +171,27 @@ class _HomePageState extends State<HomePage> {
       }
       if (selectedusers[i]["Status"] == 'Unblocked') {
         await LocalDB().executeDB("Update $table set Status = 'Blocked' where RollNo = '$rollNo';");
+        Fluttertoast.showToast(
+            msg: "Status Updated",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.grey[600],
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
       }
       else {
         await LocalDB().executeDB("Update $table set Status = 'Unblocked' where RollNo = '$rollNo';");
+        Fluttertoast.showToast(
+            msg: "Status Updated",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.grey[600],
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
       }
     }
     await runSqlQuery();
@@ -187,7 +207,9 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Search'),
+        title: const Text('Block/Unblock'),
+        elevation: .1,
+        backgroundColor: Color(0xff9381ff),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10),
@@ -240,8 +262,32 @@ class _HomePageState extends State<HomePage> {
               height: 5,
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                Row(
+                  children: [
+                    Container(
+                      width: 25,
+                      child: CheckboxListTile(
+                        activeColor: Color(0xff06d6a0),
+                        checkColor: Colors.black,
+                        value: selectall1,
+                        onChanged: (value) {
+                          setState(() {
+                            selectall1 = value!;
+                            blockedusers.forEach((user) {
+                              _selected[user["RollNo"]] = selectall1;
+                            });
+                          });
+                        },
+                        controlAffinity: ListTileControlAffinity.leading,
+                      ),
+                    ),
+
+                    Text("  Select All",style: TextStyle(color: Colors.black),),
+                  ],
+                ),
+                Text("Blocked Users",style: TextStyle(fontSize: 20,color: Colors.deepPurple[900]),),
                 ElevatedButton.icon(
                   onPressed: (){
                     Navigator.push(context, MaterialPageRoute(builder: (context) => FilterPage_BlockUnblock()),
@@ -259,18 +305,7 @@ class _HomePageState extends State<HomePage> {
 
               ],
             ),
-            CheckboxListTile(
-              value: selectall1,
-              onChanged: (value) {
-                setState(() {
-                  selectall1 = value!;
-                  blockedusers.forEach((user) {
-                    _selected[user["RollNo"]] = selectall1;
-                  });
-                });
-              },
-              controlAffinity: ListTileControlAffinity.leading,
-            ),
+
             Expanded(
               child: blockedusers.isNotEmpty
                   ? ListView.builder(
@@ -280,74 +315,120 @@ class _HomePageState extends State<HomePage> {
                   color: Colors.red,
                   elevation: 4,
                   margin: const EdgeInsets.symmetric(vertical: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Checkbox(
-                        value: _selected[blockedusers[index]["RollNo"]],
-                        onChanged: (value) {
-                          setState(() {
-                            _selected[blockedusers[index]["RollNo"]] = value!;
-                          });
-                        },
-                      ),
-                      Text('Roll No: ${blockedusers[index]["RollNo"]}'),
-                      Text('Name: ${blockedusers[index]["Name"]}'),
-                      Text('Dept: ${blockedusers[index]["DEPARTMENT"]}'),
-                    ],
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Checkbox(
+                          activeColor:  Color(0xff06d6a0),
+                          checkColor: Colors.black,
+                          value: _selected[blockedusers[index]["RollNo"]],
+                          onChanged: (value) {
+                            setState(() {
+                              _selected[blockedusers[index]["RollNo"]] = value!;
+                            });
+                          },
+                        ),
+                        Text('Roll No: ${blockedusers[index]["RollNo"]} '),
+                        Text('Name: ${blockedusers[index]["Name"]} '),
+                        Text('Dept: ${blockedusers[index]["DEPARTMENT"]} '),
+                      ],
+                    ),
                   ),
                 ),
               )
                   : const Text(
                 'No results found',
-                style: TextStyle(fontSize: 24),
+                style: TextStyle(fontSize: 24,color: Color(0xffff595e),),
               ),
             ),
-            CheckboxListTile(
-              value: selectall2,
-              onChanged: (value) {
-                setState(() {
-                  selectall2 = value!;
-                  unblockedusers.forEach((user) {
-                    _selected[user["RollNo"]] = selectall2;
-                  });
-                });
-              },
-              controlAffinity: ListTileControlAffinity.leading,
+            Row(
+              children: [
+                Container(
+                  width: 25,
+                  child: CheckboxListTile(
+                    activeColor: Color(0xfff28482),
+                    checkColor: Colors.black,
+                    value: selectall2,
+                    onChanged: (value) {
+                      setState(() {
+                        selectall2 = value!;
+                        unblockedusers.forEach((user) {
+                          _selected[user["RollNo"]] = selectall2;
+                        });
+                      });
+                    },
+                    controlAffinity: ListTileControlAffinity.leading,
+                  ),
+                ),
+                Text("  Select All",style: TextStyle(color: Colors.black),),
+                SizedBox(width: 33,),
+                Text("Unblocked Users",style: TextStyle(fontSize: 20,color: Colors.deepPurple[900]),),
+              ],
             ),
+
             Expanded(
               child: unblockedusers.isNotEmpty
                   ? ListView.builder(
                 itemCount: unblockedusers.length,
                 itemBuilder: (context, index) => Card(
                   key: ValueKey(unblockedusers[index]["id"]),
-                  color: Colors.blueAccent,
+                  color: Color(0xff9381ff),
                   elevation: 4,
                   margin: const EdgeInsets.symmetric(vertical: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Checkbox(
-                        value: _selected[unblockedusers[index]["RollNo"]],
-                        onChanged: (value) {
-                          setState(() {
-                            _selected[unblockedusers[index]["RollNo"]] = value!;
-                          });
-                        },
-                      ),
-                      Text('Roll No: ${unblockedusers[index]["RollNo"]}'),
-                      Text('Name: ${unblockedusers[index]["Name"]}'),
-                      Text('Dept: ${unblockedusers[index]["DEPARTMENT"]}'),
-                    ],
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Checkbox(
+                          activeColor: Color(0xfff28482),
+                          checkColor: Colors.black,
+                          value: _selected[unblockedusers[index]["RollNo"]],
+                          onChanged: (value) {
+                            setState(() {
+                              _selected[unblockedusers[index]["RollNo"]] = value!;
+                            });
+                          },
+                        ),
+                        Text('Roll No: ${unblockedusers[index]["RollNo"]} '),
+                        Text('Name: ${unblockedusers[index]["Name"]} '),
+                        Text('Dept: ${unblockedusers[index]["DEPARTMENT"]} '),
+                      ],
+                    ),
                   ),
                 ),
               )
                   : const Text(
                 'No results found',
-                style: TextStyle(fontSize: 24),
+                style: TextStyle(fontSize: 24,color: Color(0xffff595e),),
               ),
             ),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Color(0xff9381ff),
+                  ),
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Dashboard(),
+                      ),
+                    );
+                  },
+                  child: Text('Back',style: TextStyle(color: Colors.white,fontSize: 18),),
+                ),
+                SizedBox(width: 32,),
+
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: Color(0xff9381ff),
+              ),
               onPressed: () async {
                 selectall1=false;
                 selectall2=false;
@@ -371,8 +452,10 @@ class _HomePageState extends State<HomePage> {
                 //   MaterialPageRoute(builder: (context) => BlankPage(selectedusers: selectedUsers)),
                 // );
               },
-              child: const Text('Block/Unblock'),
+              child: const Text('Block/Unblock',style: TextStyle(color: Colors.white,fontSize: 18),),
             )
+              ],
+            ),
 
           ],
         ),
