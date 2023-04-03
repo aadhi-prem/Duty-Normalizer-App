@@ -79,7 +79,7 @@ class LocalDB{
           'PhoneNo': a['PhoneNo'],
           'Email': a['Email'],
           'WorkHours': 0,
-          'Status': 'unblocked',
+          'Status': 'Unblocked',
         },
         conflictAlgorithm: ConflictAlgorithm.ignore,
       );
