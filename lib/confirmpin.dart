@@ -10,7 +10,7 @@ class PinEntryPage extends StatefulWidget {
 }
 
 class _PinEntryPageState extends State<PinEntryPage> {
-  String pin = '1234';
+  String pin = '';
 
   @override
 
