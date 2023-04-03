@@ -211,9 +211,9 @@ class _IndividualReportState extends State<IndividualReport> {
                             });
                           },
                         ),
-                        Text('ID: ${_foundUsers[index]["ID"]} '),
-                        Text('Name: ${_foundUsers[index]["Name"]} '),
-                        Text('Dept: ${_foundUsers[index]["DEPARTMENT"]} '),
+                        Text(' ${_foundUsers[index]["ID"]} '),
+                        Text(' ${_foundUsers[index]["Name"]} '),
+                        Text(' ${_foundUsers[index]["DEPARTMENT"]} '),
                       ],
                     ),
                   ),
