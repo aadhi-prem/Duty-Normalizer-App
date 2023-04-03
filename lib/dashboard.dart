@@ -2,6 +2,7 @@ import 'package:demoapp/BlockUnblock.dart';
 import 'package:demoapp/add_main.dart';
 // import 'package:demoapp/delete.dart';
 import 'package:flutter/material.dart';
+import 'assign.dart';
 import 'main.dart';
 import 'delete.dart';
 import 'confirmpin.dart';
@@ -102,7 +103,12 @@ class _DashboardState extends State<Dashboard> {
           mainAxisSpacing: 5.0,
           children: <Widget>[
             InkWell(
-              onTap: () => null,
+            onTap: () {
+                Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AssignPage()),
+                  );
+            },
               child: Container(
                 decoration: BoxDecoration(
                   //color: Colors.white,

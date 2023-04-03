@@ -41,7 +41,7 @@ class _AssignState extends State<assign> {
     List<Map<String,dynamic>>m=[];
     if(type=="MTech"){
       if(d==null) {
-          return false;
+        return false;
       }
       else{
         m = await LocalDB().readDB("select * from MTech where DEPARTMENT='$d' and Status='Unblocked'");
@@ -53,7 +53,7 @@ class _AssignState extends State<assign> {
     }
     else if(type=="PhD"){
       if(d==null) {
-          return false;
+        return false;
       }
       else{
         m = await LocalDB().readDB("select * from PhD where DEPARTMENT='$d' and Status='Unblocked'");
@@ -65,7 +65,7 @@ class _AssignState extends State<assign> {
     }
     else if(type=="Faculty"){
       if(d==null) {
-          return false;
+        return false;
       }
       else{
         m = await LocalDB().readDB("select * from Faculty where DEPARTMENT='$d' and Status='Unblocked'");
@@ -288,31 +288,31 @@ class _AssignState extends State<assign> {
             Visibility(
               visible: dept!=null,
               child: TextField(
-              controller: _facultyController,
-              decoration: const InputDecoration(
-                labelText: 'Faculty',
-                border: OutlineInputBorder(),
-              ),
-              keyboardType: TextInputType.number,
-              inputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.digitsOnly
-              ],
-              onChanged: (String value) async {
-                if(value=="") value="0";
-                if(await check_limit("Faculty", int.parse(value),dept!)){
-                  setState(() {
-                    f3=true;
-                    _warningTexta = '';
-                    faculty=int.parse(value);
-                  });
-                } else {
-                  setState(() {
-                    f3=false;
-                    _warningTexta = 'The input exceeds available limit';
-                  });
-                }
-              },
-            ),),
+                controller: _facultyController,
+                decoration: const InputDecoration(
+                  labelText: 'Faculty',
+                  border: OutlineInputBorder(),
+                ),
+                keyboardType: TextInputType.number,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.digitsOnly
+                ],
+                onChanged: (String value) async {
+                  if(value=="") value="0";
+                  if(await check_limit("Faculty", int.parse(value),dept!)){
+                    setState(() {
+                      f3=true;
+                      _warningTexta = '';
+                      faculty=int.parse(value);
+                    });
+                  } else {
+                    setState(() {
+                      f3=false;
+                      _warningTexta = 'The input exceeds available limit';
+                    });
+                  }
+                },
+              ),),
 
             const SizedBox(height: 16),
             if (_warningTexta.isNotEmpty) Container(
@@ -327,33 +327,50 @@ class _AssignState extends State<assign> {
             const SizedBox(height: 16),
             Visibility(visible: dept!=null,
               child: ElevatedButton(
-                onPressed:(){
-                  if(_warningTexta=="" && _warningTextm=="" && _warningTextn=="" && _warningTextp=="" && warningTexth=="") {
-                    debugPrint("fuckme");
-                    Navigator.push(context, MaterialPageRoute(
-                        builder: (context) =>
-                            Report(mtech, phd, faculty, dept, hours, name)),
-                    );
+                  onPressed:(){
+                    if(!(f1==false && f2==false && f3==false) && (_warningTexta=="" && _warningTextm=="" && _warningTextn=="" && _warningTextp=="" && warningTexth=="")) {
+                      debugPrint("ffffffffff$f1 $f2 $f3");
+                      Navigator.push(context, MaterialPageRoute(
+                          builder: (context) =>
+                              Report(mtech, phd, faculty, dept, hours, name)),
+                      );
+                    }
+                    else if(f1==false && f2==false && f3==false){
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Caution'),
+                            content: Text('Choose Atleast one member to assign duty'),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: Text('OK'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    }
+                    else{
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Caution'),
+                            content: Text('Please fix the errors before submitting.'),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: Text('OK'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    }
                   }
-                  else{
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text('Caution'),
-                          content: Text('Please fix the errors before submitting.'),
-                          actions: [
-                            TextButton(
-                              onPressed: () => Navigator.pop(context),
-                              child: Text('OK'),
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  }
-                }
-                , child: Text("Submit")),),
+                  , child: Text("Submit")),),
 
           ],
         ),
