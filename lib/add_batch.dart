@@ -4,11 +4,16 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/services.dart';
 import 'dart:io';
 import 'dart:convert' show utf8;
 import 'DB_HELPER.dart';
 import 'dart:core';
 import 'add_main.dart';
+import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share/share.dart';
 
 class Add_batch extends StatelessWidget {
   @override
@@ -50,6 +55,23 @@ class _ToggleButtonScreenState extends State<ToggleButtonScreen> {
         child: Column(
           children: [
             Padding(padding: EdgeInsets.all(16,),),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom( primary: Color(0xff9381ff),),
+              onPressed: () async { // Get the path to the application's document directory
+                final directory = await getApplicationDocumentsDirectory();
+                final path = directory.path;
+
+                // Create a File object for the CSV file
+                final file = File('$path/Template.csv');
+
+                // Copy the CSV file from assets to the File object
+                final data = await rootBundle.load('assets/Template.csv');
+                await file.writeAsBytes(data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
+
+                // Share the CSV file with the user
+                Share.shareFiles([file.path]);},
+              child: Text('Download Template',style: TextStyle(fontSize: 20),),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
