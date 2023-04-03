@@ -61,47 +61,50 @@ class MyCustomFormState extends State<MyCustomForm> {
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 2.0,vertical: 16),
-                  child: DropdownButtonFormField(
-                    decoration: InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Color.fromRGBO(143, 148, 251, 1), width: 3),
-                        // borderRadius: BorderRadius.circular(20),
-                        borderRadius: BorderRadius.circular(50.0),
+                  child: Container(
+                    width: 380,
+                    height: 60,
+                    child: DropdownButtonFormField(
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Color.fromRGBO(143, 148, 251, 1), width: 3),
+                          // borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(50.0),
+                        ),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(color: Color.fromRGBO(143, 148, 251, .6), width: 3),
+                          // borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(50.0),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white,//Color(0xff9381ff),
                       ),
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide(color: Color.fromRGBO(143, 148, 251, .6), width: 3),
-                        // borderRadius: BorderRadius.circular(20),
-                        borderRadius: BorderRadius.circular(50.0),
+                      dropdownColor: Color(0xff9381ff),
+                      hint: Text("Select Category "),
+                      icon: Icon(Icons.arrow_drop_down),
+                      iconSize: 30,
+                      style: TextStyle(
+                          color: Colors.deepPurple[900],
+                          fontSize: 16
                       ),
-                      filled: true,
-                      fillColor: Colors.white,//Color(0xff9381ff),
-                    ),
-                    dropdownColor: Color(0xff9381ff),
-                    hint: Text("Select Category "),
-                    icon: Icon(Icons.arrow_drop_down),
-                    iconSize: 30,
-                    style: TextStyle(
-                        color: Colors.deepPurple[900],
-                        fontSize: 16
-                    ),
 
-                   //Container(
-                  //   padding: EdgeInsets.only(left: 16, right: 16),
-                  //   decoration: BoxDecoration(
-                  //       border: Border.all(color: Color(0xff9381ff), width: 2),
-                  //       borderRadius: BorderRadius.circular(15)
-                  //   ),
-                  //   child: DropdownButton(
-                  //     dropdownColor: Color(0xff9381ff),
-                  //     hint: Text("Select Category: "),
-                  //     icon: Icon(Icons.arrow_drop_down),
-                  //     iconSize: 34,
-                  //     isExpanded: true,
-                  //     underline: SizedBox(),
-                  //     style: TextStyle(
-                  //         color: Colors.white,
-                  //         fontSize: 22
-                  //     ),
+                      //Container(
+                      //   padding: EdgeInsets.only(left: 16, right: 16),
+                      //   decoration: BoxDecoration(
+                      //       border: Border.all(color: Color(0xff9381ff), width: 2),
+                      //       borderRadius: BorderRadius.circular(15)
+                      //   ),
+                      //   child: DropdownButton(
+                      //     dropdownColor: Color(0xff9381ff),
+                      //     hint: Text("Select Category: "),
+                      //     icon: Icon(Icons.arrow_drop_down),
+                      //     iconSize: 34,
+                      //     isExpanded: true,
+                      //     underline: SizedBox(),
+                      //     style: TextStyle(
+                      //         color: Colors.white,
+                      //         fontSize: 22
+                      //     ),
                       value: batch,
                       onChanged: (newValue2) {
                         setState(() {
@@ -116,6 +119,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                       }).toList(),
                     ),
                   ),
+                ),
 
                 Padding(padding: EdgeInsets.all(2),),
                 TextFormField(
@@ -188,6 +192,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                   padding: const EdgeInsets.symmetric(horizontal: 2.0,vertical: 16),
                   child: Container(
                     width: 380,
+                    height: 60,
                     child: DropdownButtonFormField(
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
@@ -281,7 +286,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     children: [
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          primary: Color(0xff9381ff),
+                          primary: Color(0xffff595e),
                         ),
                         onPressed: () {
                           Navigator.pushReplacement(
@@ -295,7 +300,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                       ),
                       SizedBox(width: 32,),
                       ElevatedButton(
-                        style: ElevatedButton.styleFrom( primary: Color(0xff9381ff),), //violet color
+                        style: ElevatedButton.styleFrom( primary: Color(0xff06d6a0),), //green color
                         onPressed: () async {
                           _formKey.currentState?.save();
                           if (_formKey.currentState?.validate() == true) {
