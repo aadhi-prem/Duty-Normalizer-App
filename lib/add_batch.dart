@@ -65,8 +65,8 @@ class _ToggleButtonScreenState extends State<ToggleButtonScreen> {
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom( primary: Color(0xff9381ff),),
-                  onPressed: () => _toggleButton('Adhoc'),
-                  child: Text('Adhoc',style: TextStyle(fontSize: 20),),
+                  onPressed: () => _toggleButton('Faculty'),
+                  child: Text('Faculty',style: TextStyle(fontSize: 20),),
                 ),
                 ],),
 
@@ -100,7 +100,7 @@ class _ToggleButtonScreenState extends State<ToggleButtonScreen> {
                     SizedBox(height: 16.0),
                     Padding(
                       padding: const EdgeInsets.all(10.0),
-                      child: Text("*Enter files in .csv format. Files must contain fields: Roll no., Name. Department,Phone No., Email ID.",
+                      child: Text("*Enter files in .csv format. Files must contain fields: ID, Name, Department, Phone No.,Email ID.",
                         style: TextStyle(
                           fontSize: 16.0,
                           color: Colors.grey[400],
@@ -230,8 +230,9 @@ class _ToggleButtonScreenState extends State<ToggleButtonScreen> {
       mychar='A';
     }
     int count=0;
+    debugPrint('$rows');
     for (Map<String, dynamic> r in rows) {
-      if (r['Rollnumber'].startsWith(mychar)) {
+      if (r['ID'].startsWith(mychar)) {
         debugPrint("YES: starts with correct letter");
         i++;
       }

@@ -52,9 +52,9 @@ class _DeleteState extends State<Delete> {
   // You can use data fetched from a database or a server as well
   Future<void> runSqlQuery() async {
     if('$dept'=='null' && '$category'=='null' )
-      _allUsers = await LocalDB().readDB("SELECT * FROM Phd UNION select * from Mtech union select * from Adhoc  order by name ;");
+      _allUsers = await LocalDB().readDB("SELECT * FROM Phd UNION select * from Mtech union select * from Faculty ;");
     else if('$dept'!='null' && '$category'=='null')
-      _allUsers = await LocalDB().readDB("SELECT * FROM Phd where department='$dept' union SELECT * FROM Mtech where department='$dept' union SELECT * FROM Adhoc where department='$dept'");
+      _allUsers = await LocalDB().readDB("SELECT * FROM Phd where department='$dept' union SELECT * FROM Mtech where department='$dept' union SELECT * FROM Faculty where department='$dept'");
     else if('$dept'=='null' && '$category'!='null')
       _allUsers = await LocalDB().readDB("SELECT * FROM '$category';");
     else
@@ -81,7 +81,7 @@ class _DeleteState extends State<Delete> {
       _foundUsers = _allUsers;
 
       for(Map<String,dynamic>row in _allUsers){
-        _selected[row["RollNo"]]=false;
+        _selected[row["ID"]]=false;
       }
       // update the state with the fetched data
       setState(() {});
@@ -97,7 +97,7 @@ class _DeleteState extends State<Delete> {
     } else {
       results = _allUsers
           .where((user) =>
-      user["RollNo"].toLowerCase().contains(enteredKeyword.toLowerCase()) || user["Name"].toLowerCase().contains(enteredKeyword.toLowerCase()) )
+      user["ID"].toLowerCase().contains(enteredKeyword.toLowerCase()) || user["Name"].toLowerCase().contains(enteredKeyword.toLowerCase()) )
           .toList();
       // we use the toLowerCase() method to make it case-insensitive
     }
@@ -113,7 +113,7 @@ class _DeleteState extends State<Delete> {
     String statement;
     debugPrint('This is the list : $selectedusers');
     for (int i = 0; i < selectedusers.length; i++) {
-      String rollNo = selectedusers[i]["RollNo"];
+      String rollNo = selectedusers[i]["ID"];
       if(rollNo[0] == 'M'){
         table = 'Mtech';
       }
@@ -121,9 +121,9 @@ class _DeleteState extends State<Delete> {
         table = 'Phd';
       }
       else{
-        table = 'Adhoc';
+        table = 'Faculty';
       }
-      statement = "DELETE FROM $table where RollNo = '$rollNo';";
+      statement = "DELETE FROM $table where ID = '$rollNo';";
       debugPrint(statement);
       await LocalDB().executeDB(statement);
     }
@@ -209,7 +209,7 @@ class _DeleteState extends State<Delete> {
                           setState(() {
                             selectall = value!;
                             _foundUsers.forEach((user) {
-                              _selected[user["RollNo"]] = selectall;
+                              _selected[user["ID"]] = selectall;
                             });
                           });
                         },
@@ -257,16 +257,16 @@ class _DeleteState extends State<Delete> {
                         Checkbox(
                           activeColor: Color(0xfff28482),
                           checkColor: Colors.black,
-                          value: _selected[_foundUsers[index]["RollNo"]],
+                          value: _selected[_foundUsers[index]["ID"]],
                           onChanged: (value) {
                             setState(() {
-                              _selected[_foundUsers[index]["RollNo"]] = value!;
+                              _selected[_foundUsers[index]["ID"]] = value!;
                             });
                           },
                         ),
-                        Text('Roll No: ${_foundUsers[index]["RollNo"]} '),
-                        Text('Name: ${_foundUsers[index]["Name"]} '),
-                        Text('Dept: ${_foundUsers[index]["DEPARTMENT"]} '),
+                        Text(' ${_foundUsers[index]["ID"]} '),
+                        Text(' ${_foundUsers[index]["Name"]} '),
+                        Text(' ${_foundUsers[index]["DEPARTMENT"]} '),
                       ],
                     ),
                   ),
@@ -311,7 +311,7 @@ class _DeleteState extends State<Delete> {
                 selectall=false;
                 List<Map<String, dynamic>> selectedUsers = [];
                 for (Map<String,dynamic>r in _allUsers) {
-                  if (_selected[r["RollNo"]]!) {
+                  if (_selected[r["ID"]]!) {
                     selectedUsers.add(r);
                   }
                 }

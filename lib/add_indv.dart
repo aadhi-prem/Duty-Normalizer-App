@@ -36,21 +36,8 @@ class MyCustomFormState extends State<MyCustomForm> {
   int pop = -1;
   late String newValue;
   late String newValue2;
-  List _deptList = [
-    "CSE",
-    "CE",
-    "EEE",
-    "ECE",
-    "ME",
-    "CHE",
-    "EP",
-    "PE",
-    "MSE",
-    "BT",
-    "AR",
-    "MCA"
-  ];
-  List _catList = ["MTech", "PhD", "Adhoc"];
+  List _deptList = ["CSED","CED","EED","ECED","MED","CHED","EPD","PED","BTD","ARD"];
+  List _catList = ["MTech", "PhD", "Faculty"];
   String mychar = '';
 
   //String mychar1='';
@@ -78,22 +65,24 @@ class MyCustomFormState extends State<MyCustomForm> {
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Color.fromRGBO(143, 148, 251, 1), width: 3),
-                        borderRadius: BorderRadius.circular(20),
+                        // borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(50.0),
                       ),
                       border: OutlineInputBorder(
                         borderSide: BorderSide(color: Color.fromRGBO(143, 148, 251, .6), width: 3),
-                        borderRadius: BorderRadius.circular(20),
+                        // borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(50.0),
                       ),
                       filled: true,
                       fillColor: Colors.white,//Color(0xff9381ff),
                     ),
                     dropdownColor: Color(0xff9381ff),
-                    hint: Text("Select Category: "),
+                    hint: Text("Select Category "),
                     icon: Icon(Icons.arrow_drop_down),
                     iconSize: 30,
                     style: TextStyle(
                         color: Colors.deepPurple[900],
-                        fontSize: 20
+                        fontSize: 16
                     ),
 
                    //Container(
@@ -131,11 +120,11 @@ class MyCustomFormState extends State<MyCustomForm> {
                 Padding(padding: EdgeInsets.all(2),),
                 TextFormField(
                   decoration: InputDecoration(
-                    hintText: 'Enter your roll number',
+                    hintText: 'Enter your ID',
                     enabledBorder: OutlineInputBorder(
                       borderSide:
                       BorderSide(
-                        width: 4, //<-- SEE HERE
+                        width: 3, //<-- SEE HERE
                         color: Color.fromRGBO(143, 148, 251, 1),),
                       borderRadius: BorderRadius.circular(50.0),
                     ),
@@ -145,7 +134,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     //value=value?.toUpperCase();
                     if (value == null || value.isEmpty) {
                       //debugPrint("1");
-                      return 'Please enter your roll number';
+                      return 'Please enter your ID';
                     }
                     if (batch == 'MTech') {
                       mychar = 'M';
@@ -160,7 +149,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     }
                     if (value.toUpperCase().startsWith(mychar) == false) {
                       debugPrint("NO: starts with correct letter");
-                      return 'Invalid Roll number';
+                      return 'Invalid ID';
                     }
 
                     return null;
@@ -178,7 +167,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     enabledBorder: OutlineInputBorder(
                       borderSide:
                       BorderSide(
-                        width: 4, //<-- SEE HERE
+                        width: 3, //<-- SEE HERE
                         color: Color.fromRGBO(143, 148, 251, 1),),
                       borderRadius: BorderRadius.circular(50.0),
                     ),
@@ -194,7 +183,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     name = value;
                   },
                 ),
-                SizedBox(height: 15,),
+                SizedBox(height: 2,),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 2.0,vertical: 16),
                   child: Container(
@@ -203,22 +192,24 @@ class MyCustomFormState extends State<MyCustomForm> {
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: Color.fromRGBO(143, 148, 251, 1), width: 3),
-                          borderRadius: BorderRadius.circular(20),
+                          // borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(50.0),
                         ),
                         border: OutlineInputBorder(
                           borderSide: BorderSide(color: Color.fromRGBO(143, 148, 251, .6), width: 3),
-                          borderRadius: BorderRadius.circular(20),
+                          // borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(50.0),
                         ),
                         filled: true,
                         fillColor: Colors.white,//Color(0xff9381ff),
                       ),
                       dropdownColor: Color(0xff9381ff),
-                      hint: Text("Select Stream: "),
+                      hint: Text("Select Department "),
                       icon: Icon(Icons.arrow_drop_down),
                       iconSize: 30,
                       style: TextStyle(
                           color: Colors.deepPurple[900],
-                          fontSize: 20
+                          fontSize: 16
                       ),
                       value: dep,
                       onChanged: (newValue) {
@@ -241,7 +232,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     enabledBorder: OutlineInputBorder(
                       borderSide:
                       BorderSide(
-                        width: 4, //<-- SEE HERE
+                        width: 3, //<-- SEE HERE
                         color: Color.fromRGBO(143, 148, 251, 1),),
                       borderRadius: BorderRadius.circular(50.0),
                     ),
@@ -265,7 +256,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     enabledBorder: OutlineInputBorder(
                       borderSide:
                       BorderSide(
-                        width: 4, //<-- SEE HERE
+                        width: 3, //<-- SEE HERE
                         color: Color.fromRGBO(143, 148, 251, 1),),
                       borderRadius: BorderRadius.circular(50.0),
                     ),
@@ -320,7 +311,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                             debugPrint('Batch: $batch');
 
                             Map<String, dynamic> a = {
-                              'Rollnumber': rollno,
+                              'ID': rollno,
                               'Name': name,
                               'Department': dep,
                               'PhoneNo': phno,
@@ -330,7 +321,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                             // pop=check(rollno!) as int;
                             List<Map<String, dynamic>> _allUsers = [];
                             _allUsers = await LocalDB().readDB(
-                                "SELECT * FROM $batch where RollNo = '$rollno';") as List<
+                                "SELECT * FROM $batch where ID = '$rollno';") as List<
                                 Map<String, dynamic>>;
                             if (_allUsers.length == 0)
                               pop = 1;
@@ -445,8 +436,8 @@ class MyCustomFormState extends State<MyCustomForm> {
     if (B == 'PhD') {
       await LocalDB().writeDB(a, 'Phd');
     }
-    if (B == 'Adhoc') {
-      await LocalDB().writeDB(a, 'Adhoc');
+    if (B == 'Faculty') {
+      await LocalDB().writeDB(a, 'Faculty');
     }
   }
 

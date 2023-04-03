@@ -1,4 +1,4 @@
-import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
@@ -61,10 +61,11 @@ class LocalDB{
     Database db = await this.dataBase;
     await db.rawQuery(s);
   }
-  Future<Database>givedb() async{
-    Database db= await this.dataBase;
+  Future<Database> givedb() async {
+    Database db = await this.dataBase;
     return db;
   }
+
 
   Future<void> writeDB( Map<String, dynamic> a,String s) async {
     Database db = await this.dataBase;

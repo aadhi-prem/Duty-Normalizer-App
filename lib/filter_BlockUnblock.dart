@@ -23,8 +23,8 @@ class _FilterState_UB extends State<FilterPage_BlockUnblock>{
 
 
 
-  List _deptList=["CSE","CE","EEE","ECE","ME","CHE","EP","PE","MSE","BT","AR","MCA"];
-  List _catList=["MTech","PhD","Adhoc"];
+  List _deptList=["CSED","CED","EED","ECED","MED","CHED","EPD","PED","BTD","ARD"];
+  List _catList=["MTech","PhD","Faculty"];
   // String _year='';
   String? dept;
   String? category;
@@ -68,7 +68,10 @@ class _FilterState_UB extends State<FilterPage_BlockUnblock>{
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Padding(padding: EdgeInsets.all(16),
-                          child: Container(child: Text("Filter",style: TextStyle(fontSize: 28,fontFamily: 'Alkatra',color: Colors.deepPurple[900],),),),),
+                          child: Container(child: Text("Filter",style: TextStyle(fontSize: 28,fontFamily: 'Alkatra',color: Colors.deepPurple[900],),
+                          ),
+                          ),
+                        ),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 10),
                           child: Container(
@@ -88,7 +91,7 @@ class _FilterState_UB extends State<FilterPage_BlockUnblock>{
                                 fillColor: Colors.white,//Color(0xff9381ff),
                               ),
                               dropdownColor: Color(0xff9381ff),
-                              hint: Text("Select Stream: "),
+                              hint: Text("Select Department: "),
                               icon: Icon(Icons.arrow_drop_down),
                               iconSize: 30,
                               style: TextStyle(

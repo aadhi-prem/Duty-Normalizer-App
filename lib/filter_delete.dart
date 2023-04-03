@@ -23,8 +23,8 @@ class _FilterState extends State<FilterPage>{
 
 
 
-  List _deptList=["CSE","CE","EEE","ECE","ME","CHE","EP","PE","MSE","BT","AR","MCA"];
-  List _catList=["MTech","PhD","Adhoc"];
+  List _deptList=["CSED","CED","EED","ECED","MED","CHED","EPD","PED","BTD","ARD"];
+  List _catList=["MTech","PhD","Faculty"];
   // String _year='';
   String? dept;
   String? category;
@@ -88,7 +88,7 @@ class _FilterState extends State<FilterPage>{
                                   fillColor: Colors.white,//Color(0xff9381ff),
                                 ),
                                 dropdownColor: Color(0xff9381ff),
-                                hint: Text("Select Stream: "),
+                                hint: Text("Select Department: "),
                                 icon: Icon(Icons.arrow_drop_down),
                                 iconSize: 30,
                                 style: TextStyle(
@@ -181,7 +181,7 @@ class _FilterState extends State<FilterPage>{
                               Navigator.of(context).push(
                                 MaterialPageRoute(builder: (context) => DeletePage(dept: dept, category: category)),
                               );
-                              print("Department=$dept , Category=$category");
+                              // print("Department=$dept , Category=$category");
                             },
                             style: ElevatedButton.styleFrom(
                               primary: Color(0xff9381ff),

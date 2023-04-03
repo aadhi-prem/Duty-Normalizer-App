@@ -57,8 +57,8 @@ class _ToggleButtonScreenState extends State<ToggleButtonScreen> {
               child: Text('Phd'),
             ),
             ElevatedButton(
-              onPressed: () => _toggleButton('Adhoc'),
-              child: Text('Adhoc'),
+              onPressed: () => _toggleButton('Faculty'),
+              child: Text('Faculty'),
             ),
             SizedBox(height: 20),
             Text(
@@ -193,7 +193,7 @@ class _ToggleButtonScreenState extends State<ToggleButtonScreen> {
           builder: (ctx) =>
               AlertDialog(
                 title: const Text("Pop Up"),
-                content: const Text("File picked and added to DB sucessfully!"),
+                content: const Text("File picked and added sucessfully!"),
                 actions: <Widget>[
                   TextButton(
                     onPressed: () {
