@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'ReportGeneration.dart';
+import 'DutyReport_Individual2.dart';
 import 'filter_reportINDV.dart';
 
 class IndividualReport extends StatefulWidget {
@@ -211,9 +212,9 @@ class _IndividualReportState extends State<IndividualReport> {
                             });
                           },
                         ),
-                        Text(' ${_foundUsers[index]["ID"]} '),
-                        Text(' ${_foundUsers[index]["Name"]} '),
-                        Text(' ${_foundUsers[index]["DEPARTMENT"]} '),
+                        Text('ID: ${_foundUsers[index]["ID"]} '),
+                        Text('Name: ${_foundUsers[index]["Name"]} '),
+                        Text('Dept: ${_foundUsers[index]["DEPARTMENT"]} '),
                       ],
                     ),
                   ),
@@ -264,10 +265,10 @@ class _IndividualReportState extends State<IndividualReport> {
                     }
                     // _deletecandidate(selectedUsers);
 
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => BlankPage(selectedusers: selectedUsers)),
-                    // );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => IndividualReport2(selectedUsers: selectedUsers)),
+                    );
                   },
                   child: const Text('View Report(s)',style: TextStyle(fontSize: 17),),
                 )
