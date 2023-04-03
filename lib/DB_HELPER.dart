@@ -72,7 +72,7 @@ class LocalDB{
       await db.insert(
          s,
         {
-          'Rollno': a['Rollnumber'],
+          'ID': a['ID'],
           'Name': a['Name'],
           'DEPARTMENT': a['Department'],
           'PhoneNo': a['PhoneNo'],
