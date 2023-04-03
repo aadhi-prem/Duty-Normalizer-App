@@ -54,50 +54,70 @@ class _ToggleButtonScreenState extends State<ToggleButtonScreen> {
       body: Center(
         child: Column(
           children: [
-            Padding(padding: EdgeInsets.all(16,),),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom( primary: Color(0xff9381ff),),
-              onPressed: () async { // Get the path to the application's document directory
-                final directory = await getApplicationDocumentsDirectory();
-                final path = directory.path;
-
-                // Create a File object for the CSV file
-                final file = File('$path/Template.csv');
-
-                // Copy the CSV file from assets to the File object
-                final data = await rootBundle.load('assets/Template.csv');
-                await file.writeAsBytes(data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
-
-                // Share the CSV file with the user
-                Share.shareFiles([file.path]);},
-              child: Text('Download Template',style: TextStyle(fontSize: 20),),
+            Padding(
+              padding: EdgeInsets.all(
+                16,
+              ),
             ),
+            // ElevatedButton(
+            //   style: ElevatedButton.styleFrom( primary: Color(0xff9381ff),),
+            //   onPressed: () async { // Get the path to the application's document directory
+            //     final directory = await getApplicationDocumentsDirectory();
+            //     final path = directory.path;
+            //
+            //     // Create a File object for the CSV file
+            //     final file = File('$path/Template.csv');
+            //
+            //     // Copy the CSV file from assets to the File object
+            //     final data = await rootBundle.load('assets/Template.csv');
+            //     await file.writeAsBytes(data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
+            //
+            //     // Share the CSV file with the user
+            //     Share.shareFiles([file.path]);},
+            //   child: Text('Download CSV Template',style: TextStyle(fontSize: 20),),
+            // ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
-                  style: ElevatedButton.styleFrom( primary: Color(0xff9381ff),),
+                  style: ElevatedButton.styleFrom(
+                    primary: Color(0xff9381ff),
+                  ),
                   onPressed: () => _toggleButton('Mtech'),
-                  child: Text('Mtech',style: TextStyle(fontSize: 20),),
+                  child: Text(
+                    'Mtech',
+                    style: TextStyle(fontSize: 20),
+                  ),
                 ),
                 ElevatedButton(
-                  style: ElevatedButton.styleFrom( primary: Color(0xff9381ff),),
+                  style: ElevatedButton.styleFrom(
+                    primary: Color(0xff9381ff),
+                  ),
                   onPressed: () => _toggleButton('Phd'),
-                  child: Text('Phd',style: TextStyle(fontSize: 20),),
+                  child: Text(
+                    'Phd',
+                    style: TextStyle(fontSize: 20),
+                  ),
                 ),
                 ElevatedButton(
-                  style: ElevatedButton.styleFrom( primary: Color(0xff9381ff),),
+                  style: ElevatedButton.styleFrom(
+                    primary: Color(0xff9381ff),
+                  ),
                   onPressed: () => _toggleButton('Faculty'),
-                  child: Text('Faculty',style: TextStyle(fontSize: 20),),
+                  child: Text(
+                    'Faculty',
+                    style: TextStyle(fontSize: 20),
+                  ),
                 ),
-                ],),
+              ],
+            ),
 
             SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(
                 _buttonValue ?? 'No category selected',
-                style: TextStyle(fontSize: 26,fontFamily: 'Alkatra'),
+                style: TextStyle(fontSize: 26, fontFamily: 'Alkatra'),
               ),
             ),
             SizedBox(height: 10),
@@ -122,48 +142,50 @@ class _ToggleButtonScreenState extends State<ToggleButtonScreen> {
                     SizedBox(height: 16.0),
                     Padding(
                       padding: const EdgeInsets.all(10.0),
-                      child: Text("*Enter files in .csv format. Files must contain fields: ID, Name, Department, Phone No.,Email ID. Download the template and Do not remove the given header",
+                      child: Text(
+                        "*Enter files in .csv format. Files must contain fields: ID, Name, Department, Phone No.,Email ID. Download the template and Do not remove the given header",
                         style: TextStyle(
                           fontSize: 16.0,
                           color: Colors.grey[400],
                         ),
                       ),
                     ),
-
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         ElevatedButton(
-                          style: ElevatedButton.styleFrom( primary: Color(0xff9381ff),),
+                          style: ElevatedButton.styleFrom(
+                            primary: Color(0xff9381ff),
+                          ),
                           onPressed: () async {
-                            final result = await FilePicker.platform.pickFiles();
+                            final result =
+                                await FilePicker.platform.pickFiles();
                             if (result == null) {
                               print("No file selected");
 
                               showDialog(
                                 context: context,
-                                builder: (ctx) =>
-                                    AlertDialog(
-                                      title: const Text("Alert Dialog Box"),
-                                      content: const Text("No file picked!"),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.of(ctx).pop();
-                                          },
-                                          child: Container(
-                                            color: Color(0xff9381ff),
-                                            padding: const EdgeInsets.all(14),
-                                            child: const Text("ok"),
-                                          ),
-                                        ),
-                                      ],
+                                builder: (ctx) => AlertDialog(
+                                  title: const Text("Alert Dialog Box"),
+                                  content: const Text("No file picked!"),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(ctx).pop();
+                                      },
+                                      child: Container(
+                                        color: Color(0xff9381ff),
+                                        padding: const EdgeInsets.all(14),
+                                        child: const Text("ok"),
+                                      ),
                                     ),
+                                  ],
+                                ),
                               );
                             } else {
                               final file = result.files.first;
 
-                              openFile(file,_buttonValue!);
+                              openFile(file, _buttonValue!);
 
                               // showDialog(
                               //   context: context,
@@ -196,13 +218,42 @@ class _ToggleButtonScreenState extends State<ToggleButtonScreen> {
               ),
             ),
 
-
             SizedBox(height: 20),
             // Invisible button that receives the selected value
 
-            const SizedBox(height: 20), // Added SizedBox for spacing
-
+            const SizedBox(height: 20),
+            // Added SizedBox for spacing
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: Color(0xff4cc9f0),//Color(0xff4cc9f0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+              onPressed: () async {
+                // Get the path to the application's document directory
+                final directory = await getApplicationDocumentsDirectory();
+                final path = directory.path;
+
+                // Create a File object for the CSV file
+                final file = File('$path/Template.csv');
+
+                // Copy the CSV file from assets to the File object
+                final data = await rootBundle.load('assets/Template.csv');
+                await file.writeAsBytes(data.buffer
+                    .asUint8List(data.offsetInBytes, data.lengthInBytes));
+
+                // Share the CSV file with the user
+                Share.shareFiles([file.path]);
+              },
+              child: Text(
+                'Download CSV Template',
+                style: TextStyle(fontSize: 20),
+              ),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton.icon(
+              icon: Icon(Icons.arrow_back),
               style: ElevatedButton.styleFrom(
                 primary: Color(0xff9381ff),
               ),
@@ -214,14 +265,15 @@ class _ToggleButtonScreenState extends State<ToggleButtonScreen> {
                   ),
                 );
               },
-              child: Text('Back'),
+              label: Text('Back'),
             ),
           ],
         ),
       ),
     );
   }
-  Future<void> openFile(PlatformFile file,String _buttonvalue) async {
+
+  Future<void> openFile(PlatformFile file, String _buttonvalue) async {
     final input = File(file.path!).openRead();
     final fields = await input
         .transform(utf8.decoder)
@@ -243,91 +295,81 @@ class _ToggleButtonScreenState extends State<ToggleButtonScreen> {
     int flag = 0;
     String mychar = '';
 
-
-    if(_buttonValue=='Mtech') {
-      mychar='M';
-    } else if(_buttonValue=='PhD') {
-      mychar='P';
+    if (_buttonValue == 'Mtech') {
+      mychar = 'M';
+    } else if (_buttonValue == 'PhD') {
+      mychar = 'P';
     } else {
-      mychar='A';
+      mychar = 'A';
     }
-    int count=0;
+    int count = 0;
     debugPrint('$rows');
     for (Map<String, dynamic> r in rows) {
       if (r['ID'].startsWith(mychar)) {
         debugPrint("YES: starts with correct letter");
         i++;
-      }
-      else {
+      } else {
         debugPrint("NO: doesnt start with correct letter");
         flag = 1;
       }
-      if(validateEmail(r['Email'])) {
+      if (validateEmail(r['Email'])) {
         debugPrint("Valid Email");
-
-      } else{
+      } else {
         debugPrint("Invalid Email");
-        flag=1;
+        flag = 1;
       }
-      if(flag==1) count++;
-
+      if (flag == 1) count++;
     }
-
-
 
     if (flag == 0) {
       for (Map<String, dynamic> a in rows) {
         debugPrint("FLAG IS TRUE");
         await LocalDB().writeDB(a, _buttonvalue);
       }
-        // await LocalDB().writeD
-        showDialog(
-          context: context,
-          builder: (ctx) =>
-              AlertDialog(
-                title: const Text("Added Successfully"),
-                content: const Text("File picked and added sucessfully!"),
-                actions: <Widget>[
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(ctx).pop();
-                    },
-                    child: Container(
-                      color: Color(0xff9381ff),
-                      padding: const EdgeInsets.all(14),
-                      child: const Text("OK",style: TextStyle(color: Colors.white),),
-                    ),
-                  ),
-                ],
-              ),
-        );
-
-
-    }
-    else
-    {
-
+      // await LocalDB().writeD
       showDialog(
         context: context,
-        builder: (ctx) =>
-            AlertDialog(
-              title: const Text("Pop Up"),
-              content: Text("Invalid Data in $count row in CSV File. Upload the correct CSV file!"),
-              actions: <Widget>[
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(ctx).pop();
-                  },
-                  child: Container(
-                    color: Colors.blueAccent,
-                    padding: const EdgeInsets.all(14),
-                    child: const Text("ok"),
-                  ),
+        builder: (ctx) => AlertDialog(
+          title: const Text("Added Successfully"),
+          content: const Text("File picked and added sucessfully!"),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(ctx).pop();
+              },
+              child: Container(
+                color: Color(0xff9381ff),
+                padding: const EdgeInsets.all(14),
+                child: const Text(
+                  "OK",
+                  style: TextStyle(color: Colors.white),
                 ),
-              ],
+              ),
             ),
+          ],
+        ),
       );
-
+    } else {
+      showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: const Text("Pop Up"),
+          content: Text(
+              "Invalid Data in $count row in CSV File. Upload the correct CSV file!"),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(ctx).pop();
+              },
+              child: Container(
+                color: Colors.blueAccent,
+                padding: const EdgeInsets.all(14),
+                child: const Text("ok"),
+              ),
+            ),
+          ],
+        ),
+      );
     }
   }
 
@@ -338,7 +380,4 @@ class _ToggleButtonScreenState extends State<ToggleButtonScreen> {
     }
     return emailRegex.hasMatch(email);
   }
-
-
-
 }
