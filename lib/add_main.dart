@@ -208,7 +208,8 @@ class _AddPageState extends State<AddPage> {
                     SizedBox(
                       height: 20,
                     ),
-                    ElevatedButton(
+                    ElevatedButton.icon(
+                      icon: Icon(Icons.arrow_back),
                       style: ElevatedButton.styleFrom(
                         primary: Color(0xff9381ff),
                       ),
@@ -220,7 +221,7 @@ class _AddPageState extends State<AddPage> {
                           ),
                         );
                       },
-                      child: Text('Back'),
+                      label: Text('Back'),
                     ),
 
                     // ElevatedButton(
