@@ -123,6 +123,7 @@ class _DeleteState extends State<Delete> {
       else{
         table = 'Faculty';
       }
+      await LocalDB().executeDB("DELETE FROM DutyDetails where ID = '$rollNo'");
       statement = "DELETE FROM $table where ID = '$rollNo';";
       debugPrint(statement);
       await LocalDB().executeDB(statement);
