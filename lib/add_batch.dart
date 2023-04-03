@@ -122,7 +122,7 @@ class _ToggleButtonScreenState extends State<ToggleButtonScreen> {
                     SizedBox(height: 16.0),
                     Padding(
                       padding: const EdgeInsets.all(10.0),
-                      child: Text("*Enter files in .csv format. Files must contain fields: ID, Name, Department, Phone No.,Email ID.",
+                      child: Text("*Enter files in .csv format. Files must contain fields: ID, Name, Department, Phone No.,Email ID. Download the template and Do not remove the given header",
                         style: TextStyle(
                           fontSize: 16.0,
                           color: Colors.grey[400],
