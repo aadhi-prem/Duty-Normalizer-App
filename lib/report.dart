@@ -131,6 +131,8 @@ class ReportState extends State<Report> {
                         Text('${results[index]["ID"]} '),
                         Text(' ${results[index]["Name"]} '),
                         Text(' ${results[index]["DEPARTMENT"]} '),
+                        Text(' ${results[index]["PhoneNo"]} '),
+                        Text(' ${results[index]["Email"]} '),
                         Text(' ${results[index]["WorkHours"]+hours} '),
                       ],
                     ),
