@@ -53,12 +53,12 @@ class _HomePageState extends State<HomePage> {
   // This holds a list of fiction users
   // You can use data fetched from a database or a server as well
   Future<void> runSqlQuery() async {
-    // _allUsers = await LocalDB().readDB("SELECT * FROM Phd UNION select * from Mtech union select * from Faculty  order by name ;");
+    // _allUsers = await LocalDB().readDB("SELECT * FROM Phd UNION select * from Mtech union select * from Adhoc  order by name ;");
 
     if('$dept'=='null' && '$category'=='null' )
-      _allUsers = await LocalDB().readDB("SELECT * FROM Phd UNION select * from Mtech union select * from Faculty;");
+      _allUsers = await LocalDB().readDB("SELECT * FROM Phd UNION select * from Mtech union select * from Adhoc;");
     else if('$dept'!='null' && '$category'=='null')
-      _allUsers = await LocalDB().readDB("SELECT * FROM Phd where department='$dept' union SELECT * FROM Mtech where department='$dept' union SELECT * FROM Faculty where department='$dept'");
+      _allUsers = await LocalDB().readDB("SELECT * FROM Phd where department='$dept' union SELECT * FROM Mtech where department='$dept' union SELECT * FROM Adhoc where department='$dept'");
     else if('$dept'=='null' && '$category'!='null')
       _allUsers = await LocalDB().readDB("SELECT * FROM '$category';");
     else
@@ -67,12 +67,12 @@ class _HomePageState extends State<HomePage> {
 
 
 
-    // blockedusers = await LocalDB().readDB("SELECT * FROM Phd where Status = 'Blocked' UNION select * from Mtech where Status = 'Blocked' union select * from Faculty where Status = 'Blocked';");
+    // blockedusers = await LocalDB().readDB("SELECT * FROM Phd where Status = 'Blocked' UNION select * from Mtech where Status = 'Blocked' union select * from Adhoc where Status = 'Blocked';");
 
     if('$dept'=='null' && '$category'=='null' )
-      blockedusers = await LocalDB().readDB("SELECT * FROM Phd where Status = 'Blocked' UNION select * from Mtech where Status = 'Blocked' union select * from Faculty where Status = 'Blocked';");
+      blockedusers = await LocalDB().readDB("SELECT * FROM Phd where Status = 'Blocked' UNION select * from Mtech where Status = 'Blocked' union select * from Adhoc where Status = 'Blocked';");
     else if('$dept'!='null' && '$category'=='null')
-      blockedusers = await LocalDB().readDB("SELECT * FROM Phd where department='$dept' and Status = 'Blocked' union SELECT * FROM Mtech where department='$dept'  and Status = 'Blocked'  union SELECT * FROM Faculty where department='$dept'  and Status = 'Blocked' ");
+      blockedusers = await LocalDB().readDB("SELECT * FROM Phd where department='$dept' and Status = 'Blocked' union SELECT * FROM Mtech where department='$dept'  and Status = 'Blocked'  union SELECT * FROM Adhoc where department='$dept'  and Status = 'Blocked' ");
     else if('$dept'=='null' && '$category'!='null')
       blockedusers = await LocalDB().readDB("SELECT * FROM '$category' where Status = 'Blocked';");
     else
@@ -80,12 +80,12 @@ class _HomePageState extends State<HomePage> {
 
 
 
-    // unblockedusers = await LocalDB().readDB("SELECT * FROM Phd where Status = 'Unblocked' UNION select * from Mtech where Status = 'Unblocked' union select * from Faculty where Status = 'UnBlocked';");
+    // unblockedusers = await LocalDB().readDB("SELECT * FROM Phd where Status = 'Unblocked' UNION select * from Mtech where Status = 'Unblocked' union select * from Adhoc where Status = 'UnBlocked';");
 
     if('$dept'=='null' && '$category'=='null' )
-      unblockedusers = await LocalDB().readDB("SELECT * FROM Phd where Status = 'Unblocked' UNION select * from Mtech where Status = 'Unblocked' union select * from Faculty where Status = 'Unblocked';");
+      unblockedusers = await LocalDB().readDB("SELECT * FROM Phd where Status = 'Unblocked' UNION select * from Mtech where Status = 'Unblocked' union select * from Adhoc where Status = 'Unblocked';");
     else if('$dept'!='null' && '$category'=='null')
-      unblockedusers = await LocalDB().readDB("SELECT * FROM Phd where department='$dept' and Status = 'Unblocked' union SELECT * FROM Mtech where department='$dept'  and Status = 'Unblocked'  union SELECT * FROM Faculty where department='$dept'  and Status = 'Unblocked' ");
+      unblockedusers = await LocalDB().readDB("SELECT * FROM Phd where department='$dept' and Status = 'Unblocked' union SELECT * FROM Mtech where department='$dept'  and Status = 'Unblocked'  union SELECT * FROM Adhoc where department='$dept'  and Status = 'Unblocked' ");
     else if('$dept'=='null' && '$category'!='null')
       unblockedusers = await LocalDB().readDB("SELECT * FROM '$category' where Status = 'Unblocked';");
     else
@@ -118,7 +118,7 @@ class _HomePageState extends State<HomePage> {
       _foundUsers = _allUsers;
 
       for(Map<String,dynamic>row in _allUsers){
-        _selected[row["ID"]]=false;
+        _selected[row["RollNo"]]=false;
       }
       // update the state with the fetched data
       setState(() {});
@@ -135,7 +135,7 @@ class _HomePageState extends State<HomePage> {
     } else {
       results = _allUsers
           .where((user) =>
-      user["ID"].toLowerCase().contains(enteredKeyword.toLowerCase()) || user["Name"].toLowerCase().contains(enteredKeyword.toLowerCase()) )
+      user["RollNo"].toLowerCase().contains(enteredKeyword.toLowerCase()) || user["Name"].toLowerCase().contains(enteredKeyword.toLowerCase()) )
           .toList();
       // we use the toLowerCase() method to make it case-insensitive
     }
@@ -159,7 +159,7 @@ class _HomePageState extends State<HomePage> {
 
     debugPrint('This is the initial list : $selectedusers');
     for (int i = 0; i < selectedusers.length; i++) {
-      String rollNo = selectedusers[i]["ID"];
+      String rollNo = selectedusers[i]["RollNo"];
       if (rollNo[0] == 'M') {
         table = 'Mtech';
       }
@@ -167,10 +167,10 @@ class _HomePageState extends State<HomePage> {
         table = 'Phd';
       }
       else {
-        table = 'Faculty';
+        table = 'Adhoc';
       }
       if (selectedusers[i]["Status"] == 'Unblocked') {
-        await LocalDB().executeDB("Update $table set Status = 'Blocked' where ID = '$rollNo';");
+        await LocalDB().executeDB("Update $table set Status = 'Blocked' where RollNo = '$rollNo';");
         Fluttertoast.showToast(
             msg: "Status Updated",
             toastLength: Toast.LENGTH_SHORT,
@@ -182,7 +182,7 @@ class _HomePageState extends State<HomePage> {
         );
       }
       else {
-        await LocalDB().executeDB("Update $table set Status = 'Unblocked' where ID = '$rollNo';");
+        await LocalDB().executeDB("Update $table set Status = 'Unblocked' where RollNo = '$rollNo';");
         Fluttertoast.showToast(
             msg: "Status Updated",
             toastLength: Toast.LENGTH_SHORT,
@@ -199,7 +199,7 @@ class _HomePageState extends State<HomePage> {
       _runFilter(searchWord);
     });
 
-    // blockedusers = await LocalDB().readDB("SELECT * FROM Phd where Status = 'Blocked' UNION select * from Mtech where Status = 'Blocked' union select * from Faculty where Status = 'Blocked';");
+    // blockedusers = await LocalDB().readDB("SELECT * FROM Phd where Status = 'Blocked' UNION select * from Mtech where Status = 'Blocked' union select * from Adhoc where Status = 'Blocked';");
     //debugPrint('$blockedusers');
   }
 
@@ -276,7 +276,7 @@ class _HomePageState extends State<HomePage> {
                           setState(() {
                             selectall1 = value!;
                             blockedusers.forEach((user) {
-                              _selected[user["ID"]] = selectall1;
+                              _selected[user["RollNo"]] = selectall1;
                             });
                           });
                         },
@@ -323,16 +323,16 @@ class _HomePageState extends State<HomePage> {
                         Checkbox(
                           activeColor:  Color(0xff06d6a0),
                           checkColor: Colors.black,
-                          value: _selected[blockedusers[index]["ID"]],
+                          value: _selected[blockedusers[index]["RollNo"]],
                           onChanged: (value) {
                             setState(() {
-                              _selected[blockedusers[index]["ID"]] = value!;
+                              _selected[blockedusers[index]["RollNo"]] = value!;
                             });
                           },
                         ),
-                        Text(' ${blockedusers[index]["ID"]} '),
-                        Text(' ${blockedusers[index]["Name"]} '),
-                        Text(' ${blockedusers[index]["DEPARTMENT"]} '),
+                        Text('Roll No: ${blockedusers[index]["RollNo"]} '),
+                        Text('Name: ${blockedusers[index]["Name"]} '),
+                        Text('Dept: ${blockedusers[index]["DEPARTMENT"]} '),
                       ],
                     ),
                   ),
@@ -355,7 +355,7 @@ class _HomePageState extends State<HomePage> {
                       setState(() {
                         selectall2 = value!;
                         unblockedusers.forEach((user) {
-                          _selected[user["ID"]] = selectall2;
+                          _selected[user["RollNo"]] = selectall2;
                         });
                       });
                     },
@@ -385,16 +385,16 @@ class _HomePageState extends State<HomePage> {
                         Checkbox(
                           activeColor: Color(0xfff28482),
                           checkColor: Colors.black,
-                          value: _selected[unblockedusers[index]["ID"]],
+                          value: _selected[unblockedusers[index]["RollNo"]],
                           onChanged: (value) {
                             setState(() {
-                              _selected[unblockedusers[index]["ID"]] = value!;
+                              _selected[unblockedusers[index]["RollNo"]] = value!;
                             });
                           },
                         ),
-                        Text(' ${unblockedusers[index]["ID"]} '),
-                        Text(' ${unblockedusers[index]["Name"]} '),
-                        Text(' ${unblockedusers[index]["DEPARTMENT"]} '),
+                        Text('Roll No: ${unblockedusers[index]["RollNo"]} '),
+                        Text('Name: ${unblockedusers[index]["Name"]} '),
+                        Text('Dept: ${unblockedusers[index]["DEPARTMENT"]} '),
                       ],
                     ),
                   ),
@@ -409,7 +409,8 @@ class _HomePageState extends State<HomePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ElevatedButton(
+                ElevatedButton.icon(
+                icon: Icon(Icons.arrow_back),
                   style: ElevatedButton.styleFrom(
                     primary: Color(0xff9381ff),
                   ),
@@ -421,7 +422,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     );
                   },
-                  child: Text('Back',style: TextStyle(color: Colors.white,fontSize: 18),),
+                  label: Text('Back',style: TextStyle(color: Colors.white,fontSize: 18),),
                 ),
                 SizedBox(width: 32,),
 
@@ -434,7 +435,7 @@ class _HomePageState extends State<HomePage> {
                 selectall2=false;
                 List<Map<String, dynamic>> selectedUsers = [];
                 for (Map<String,dynamic>r in _allUsers) {
-                  if (_selected[r["ID"]]!) {
+                  if (_selected[r["RollNo"]]!) {
                     selectedUsers.add(r);
                   }
                 }
@@ -443,7 +444,7 @@ class _HomePageState extends State<HomePage> {
                 // await runSqlQuery();
                 setState(() {
                   for(Map<String,dynamic>row in _allUsers){
-                    _selected[row["ID"]]=false;
+                    _selected[row["RollNo"]]=false;
                   }
                 });
 
