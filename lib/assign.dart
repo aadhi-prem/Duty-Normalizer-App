@@ -143,7 +143,7 @@ class _AssignState extends State<assign> {
                   },
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 6),
               if (_warningTextn.isNotEmpty) Container(
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
@@ -153,11 +153,11 @@ class _AssignState extends State<assign> {
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 2.0,vertical: 0),
                 child: Container(
-                  width: 380,height: 90,
+                  width: 380,height: 60,
                   child: DropdownButtonFormField(
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
@@ -196,7 +196,7 @@ class _AssignState extends State<assign> {
                   ),
                 ),
               ),
-              SizedBox(height: 10,),
+              SizedBox(height: 15,),
               Container(
                 width: 380,
                 child: TextField(
@@ -231,7 +231,7 @@ class _AssignState extends State<assign> {
                   },
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 6),
               if (warningTexth.isNotEmpty) Container(
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
@@ -241,7 +241,7 @@ class _AssignState extends State<assign> {
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 10),
               Visibility(
                 visible: dept != null,
                 child: Container(
@@ -281,7 +281,7 @@ class _AssignState extends State<assign> {
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 6),
               if (_warningTextm.isNotEmpty) Container(
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
@@ -291,7 +291,7 @@ class _AssignState extends State<assign> {
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 10),
               Visibility(
                 visible: dept!=null,
                 child:Container(
@@ -331,7 +331,7 @@ class _AssignState extends State<assign> {
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 6),
               if (_warningTextp.isNotEmpty) Container(
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
@@ -341,7 +341,7 @@ class _AssignState extends State<assign> {
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 10),
               Visibility(
                 visible: dept!=null,
                 child: Container(
@@ -381,7 +381,7 @@ class _AssignState extends State<assign> {
                   ),
                 ),),
 
-              const SizedBox(height: 16),
+              const SizedBox(height: 14),
               if (_warningTexta.isNotEmpty) Container(
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
@@ -393,54 +393,59 @@ class _AssignState extends State<assign> {
               ),
               const SizedBox(height: 16),
               Visibility(visible: dept!=null,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: Color(0xff0077b6),
+                child: Container(
+                  width: 90,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Color(0xff0077b6),
+                    ),
+                      onPressed:(){
+                        if(!(f1==false && f2==false && f3==false) && (_warningTexta=="" && _warningTextm=="" && _warningTextn=="" && _warningTextp=="" && warningTexth=="")) {
+                          debugPrint("ffffffffff$f1 $f2 $f3");
+                          Navigator.push(context, MaterialPageRoute(
+                              builder: (context) =>
+                                  Report(mtech, phd, faculty, dept, hours, name)),
+                          );
+                        }
+                        else if(f1==false && f2==false && f3==false){
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('Caution'),
+                                content: Text('Choose Atleast one member to assign duty'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: Text('OK'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        }
+                        else{
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('Caution'),
+                                content: Text('Please fix the errors before submitting.'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: Text('OK'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        }
+                      }
+                      , child: Text("Submit")
                   ),
-                    onPressed:(){
-                      if(!(f1==false && f2==false && f3==false) && (_warningTexta=="" && _warningTextm=="" && _warningTextn=="" && _warningTextp=="" && warningTexth=="")) {
-                        debugPrint("ffffffffff$f1 $f2 $f3");
-                        Navigator.push(context, MaterialPageRoute(
-                            builder: (context) =>
-                                Report(mtech, phd, faculty, dept, hours, name)),
-                        );
-                      }
-                      else if(f1==false && f2==false && f3==false){
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text('Caution'),
-                              content: Text('Choose Atleast one member to assign duty'),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: Text('OK'),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      }
-                      else{
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text('Caution'),
-                              content: Text('Please fix the errors before submitting.'),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: Text('OK'),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      }
-                    }
-                    , child: Text("Submit")),),
+                ),
+              ),
                 SizedBox(height:5),
               ElevatedButton.icon(
                 icon: Icon(Icons.arrow_back),
