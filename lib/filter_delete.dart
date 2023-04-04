@@ -162,7 +162,7 @@ class _FilterState extends State<FilterPage>{
                             children: [
                               ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                  primary: Color(0xff9381ff),
+                                  primary: Color(0xffff595e),
                                 ),
                                 onPressed: () {
                                   Navigator.pushReplacement(

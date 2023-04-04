@@ -161,7 +161,7 @@ class _Filter_IndvState extends State<Filter_Indv> {
                           children: [
                             ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                primary: Color(0xff9381ff),
+                                primary: Color(0xffff595e),
                               ),
                               onPressed: () {
                                 Navigator.pushReplacement(

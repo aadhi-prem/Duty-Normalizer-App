@@ -165,7 +165,7 @@ class _FilterState_UB extends State<FilterPage_BlockUnblock>{
                           children: [
                             ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                primary: Color(0xff9381ff),
+                                primary: Color(0xffff595e),
                               ),
                               onPressed: () {
                                 Navigator.pushReplacement(
