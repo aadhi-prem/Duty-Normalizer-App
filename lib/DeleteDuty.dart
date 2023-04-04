@@ -237,12 +237,12 @@ class _DeleteDutyState extends State<DeleteDuty> {
                     primary: Color(0xff9381ff),
                   ),
                   onPressed: () {
-                    // Navigator.pushReplacement(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) => Dashboard(),
-                    //   ),
-                    // );
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Dashboard(),
+                      ),
+                    );
                   },
                   child: Text('Cancel',style: TextStyle(fontSize: 17),),
                 ),
