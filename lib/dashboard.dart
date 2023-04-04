@@ -223,10 +223,10 @@ class _DashboardState extends State<Dashboard> {
                         height: 165,
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: 12,right: 12,),
+                        padding: EdgeInsets.all(12,),
                         child: Center(
                           child: Text(
-                            'Duty Report\nGeneration',
+                            'Report Generation',
                             style: TextStyle(
                                 fontSize: 21,
                                 fontFamily: 'Alkatra',
