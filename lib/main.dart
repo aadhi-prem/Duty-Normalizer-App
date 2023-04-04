@@ -1,5 +1,3 @@
-import 'package:demoapp/login.dart';
-import 'olddashboard.dart';
 import 'package:flutter/material.dart';
 import 'dashboard.dart';
 
