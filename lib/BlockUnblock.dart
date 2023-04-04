@@ -158,8 +158,10 @@ class _HomePageState extends State<HomePage> {
     String table;
 
     debugPrint('This is the initial list : $selectedusers');
+    int flag=0;
     for (int i = 0; i < selectedusers.length; i++) {
       String rollNo = selectedusers[i]["ID"];
+
       if (rollNo[0] == 'M') {
         table = 'Mtech';
       }
@@ -171,29 +173,42 @@ class _HomePageState extends State<HomePage> {
       }
       if (selectedusers[i]["Status"] == 'Unblocked') {
         await LocalDB().executeDB("Update $table set Status = 'Blocked' where ID = '$rollNo';");
-        Fluttertoast.showToast(
-            msg: "Status Updated",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.grey[600],
-            textColor: Colors.white,
-            fontSize: 16.0
-        );
+        // Fluttertoast.showToast(
+        //     msg: "Status Updated",
+        //     toastLength: Toast.LENGTH_SHORT,
+        //     gravity: ToastGravity.BOTTOM,
+        //     timeInSecForIosWeb: 1,
+        //     backgroundColor: Colors.grey[600],
+        //     textColor: Colors.white,
+        //     fontSize: 16.0
+        // );
+        flag = 1;
       }
       else {
         await LocalDB().executeDB("Update $table set Status = 'Unblocked' where ID = '$rollNo';");
-        Fluttertoast.showToast(
-            msg: "Status Updated",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.grey[600],
-            textColor: Colors.white,
-            fontSize: 16.0
-        );
+        // Fluttertoast.showToast(
+        //     msg: "Status Updated",
+        //     toastLength: Toast.LENGTH_SHORT,
+        //     gravity: ToastGravity.BOTTOM,
+        //     timeInSecForIosWeb: 1,
+        //     backgroundColor: Colors.grey[600],
+        //     textColor: Colors.white,
+        //     fontSize: 16.0
+        // );
+        flag = 1;
       }
+
     }
+    if(flag==1)
+    Fluttertoast.showToast(
+        msg: "Status Updated",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.grey[600],
+        textColor: Colors.white,
+        fontSize: 16.0
+    );
     await runSqlQuery();
     setState(() {
       _runFilter(searchWord);
