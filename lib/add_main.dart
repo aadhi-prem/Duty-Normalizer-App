@@ -214,13 +214,13 @@ class _AddPageState extends State<AddPage> {
                         primary: Color(0xff9381ff),
                       ),
                       onPressed: () {
-                        Navigator.of(context, rootNavigator: true).pop();
-                        // Navigator.pushReplacement(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => Dashboard(),
-                        //   ),
-                        // );
+                        //Navigator.of(context, rootNavigator: true).pop();
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Dashboard(),
+                          ),
+                        );
                       },
                       label: Text('Back'),
                     ),
