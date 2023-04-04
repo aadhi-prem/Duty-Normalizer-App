@@ -80,8 +80,8 @@ class _DeleteDutyState extends State<DeleteDuty> {
     String statement;
     debugPrint('This is the list : $selectedDuties');
     for (int i = 0; i < selectedDuties.length; i++) {
-      await LocalDB().executeDB("DELETE FROM DutyDetails where DUTY_NAME = ${selectedDuties[i]["DUTY_NAME"]};");
-      await LocalDB().executeDB("DELETE FROM Duty where DUTY_NAME = ${selectedDuties[i]["DUTY_NAME"]};");
+      await LocalDB().executeDB("DELETE FROM DutyDetails where DUTY_NAME = '${selectedDuties[i]["DUTY_NAME"]}';");
+      await LocalDB().executeDB("DELETE FROM Duty where DUTY_NAME = '${selectedDuties[i]["DUTY_NAME"]}';");
     }
     debugPrint("delete completed");
     // Refresh the UI
