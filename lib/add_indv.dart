@@ -300,7 +300,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                       ),
                       SizedBox(width: 32,),
                       ElevatedButton(
-                        style: ElevatedButton.styleFrom( primary: Color(0xff06d6a0),), //green color
+                        style: ElevatedButton.styleFrom( primary: Color(0xff0077b6),), //darkblue color
                         onPressed: () async {
                           _formKey.currentState?.save();
                           if (_formKey.currentState?.validate() == true) {
