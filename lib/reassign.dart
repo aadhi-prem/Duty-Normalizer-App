@@ -1,9 +1,7 @@
 import 'reassign_finalpage.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sqflite/sqflite.dart';
-import 'assign.dart';
 import 'DB_HELPER.dart';
 import 'dashboard.dart';
 
@@ -84,19 +82,19 @@ class ReassignState extends State<Reassign> {
     List<Map<String,dynamic>>m=[];
     if(type=="MTech"){
         m = await LocalDB().readDB("select * from Mtech where DEPARTMENT='$d' and Status='Unblocked'");
-        if ( m.isEmpty ||(m.isNotEmpty && m.length < entered)) {
+        if ( (m.isEmpty && entered!=0) ||(m.isNotEmpty && m.length < entered)) {
           return false;
         }
     }
     else if(type=="PhD"){
         m = await LocalDB().readDB("select * from PhD where DEPARTMENT='$d' and Status='Unblocked'");
-        if (m.isEmpty ||(m.isNotEmpty && m.length < entered)) {
+        if ((m.isEmpty && entered!=0) ||(m.isNotEmpty && m.length < entered)) {
           return false;
         }
     }
     else if(type=="Faculty"){
         m = await LocalDB().readDB("select * from Faculty where DEPARTMENT='$d' and Status='Unblocked'");
-        if (m.isEmpty ||(m.isNotEmpty && m.length < entered)) {
+        if ((m.isEmpty && entered!=0) ||(m.isNotEmpty && m.length < entered)) {
           return false;
         }
     }
@@ -124,30 +122,37 @@ class ReassignState extends State<Reassign> {
 
   Future<void> reass(List<Map<String, dynamic>> selectedusers) async {
     Database db=await LocalDB().givedb();
+    List<Map<String,dynamic>>temp_blocked=[];
     List<Map<String,dynamic>>k=await db.rawQuery("select * from DUTY where DUTY_NAME='$name';");
-    int hours=k[0]["WorkHours"];
-    for(Map<String,dynamic>row in _allUsers){
-      String t=await check_table(row["ID"]);
-      await LocalDB().executeDB("Update $t set Status = 'Blocked' where ID = '${row["ID"]}';");
-
+    int hours=k[0]["WorkHours"]; // to get work hours corresponding to the duty
+    for(Map<String,dynamic>row in _allUsers){// block everyone in the current duty list
+      if(row["Status"]=="Unblocked") {
+        String t=await check_table(row["ID"]);//get which table each person belongs to
+        await LocalDB().executeDB(
+            "Update $t set Status = 'Blocked' where ID = '${row["ID"]}';");
+        temp_blocked.add(row);
+      }
     }
     int mtech=0,phd=0,fac=0;
-    String dept=selectedusers[0]["DEPARTMENT"];
-    for(Map<String,dynamic>row in selectedusers){
+    String dept=selectedusers[0]["DEPARTMENT"];// assign department since its same for everyone
+    for(Map<String,dynamic>row in selectedusers){// in all selected individuals the number belonging to each table is extracted
      String table=await check_table(row["ID"]);
      switch(table){
        case "Mtech":mtech++;break;
        case "Phd":phd++;break;
        case "Faculty":fac++;break;
      }
-     int new_work=row["WorkHours"]-hours;
-     await LocalDB().executeDB("Update $table set WorkHours = $new_work where ID = '${row["ID"]}';");
     }
     if(await check_limit("MTech",mtech,dept) && await check_limit("PhD",phd,dept) && await check_limit("Faculty",fac,dept)){
       setState(() {
         possible=true;
       });
-      List<Map<String, dynamic>> results = [];
+      for(Map<String,dynamic>row in selectedusers){
+        String table=await check_table(row["ID"]);
+        int new_work=row["WorkHours"]-hours;
+        await LocalDB().executeDB("Update $table set WorkHours = $new_work where ID = '${row["ID"]}';");//subtract work hours of selected users
+        await LocalDB().executeDB("Delete from DutyDetails where ID='${row["ID"]}' and DUTY_NAME='$name'");
+      }
       List<Map<String, dynamic>> randomValues3 = [];
       List<Map<String, dynamic>> randomValues2 = [];
       List<Map<String, dynamic>> randomValues = [];
@@ -186,14 +191,7 @@ class ReassignState extends State<Reassign> {
         await LocalDB().executeDB(
             "INSERT into DutyDetails values ('$r','$name');");
       }
-      //results = [...randomValues, ...randomValues2, ...randomValues3];
-      for(Map<String,dynamic>row in selectedusers) {
-        String t=await check_table(row["ID"]);
-        debugPrint("$row");
-        //await LocalDB().executeDB("Delete from $t where ID='${row["ID"]}'");
-        await LocalDB().executeDB("Delete from DutyDetails where ID='${row["ID"]}' and DUTY_NAME='$name'");
-      }
-      for(Map<String,dynamic>row in _allUsers){
+      for(Map<String,dynamic>row in temp_blocked){
         String t=await check_table(row["ID"]);
         await LocalDB().executeDB("Update $t set Status = 'Unblocked' where ID = '${row["ID"]}';");
       }
@@ -343,7 +341,7 @@ class ReassignState extends State<Reassign> {
               children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: Color(0xff9381ff),
+                    backgroundColor: Color(0xff9381ff),
                   ),
                   onPressed: () {
                     Navigator.pushReplacement(
@@ -358,7 +356,7 @@ class ReassignState extends State<Reassign> {
 
                 SizedBox(width: 32,),
                 ElevatedButton(
-                  style: ElevatedButton.styleFrom( primary: Color(0xffff595e),),
+                  style: ElevatedButton.styleFrom( backgroundColor: Color(0xffff595e),),
                   onPressed: () async {
 
 
@@ -407,7 +405,7 @@ class ReassignState extends State<Reassign> {
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: Color(0xff9381ff),
+                    backgroundColor: Color(0xff9381ff),
                   ),
                   onPressed: () {
                     Navigator.push(
