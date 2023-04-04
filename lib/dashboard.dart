@@ -294,19 +294,14 @@ class _DashboardState extends State<Dashboard> {
         backgroundColor: Color(0xff9381ff),
         //Color.fromRGBO(143, 148, 251, 1),
         items: const <BottomNavigationBarItem>[
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.home),
-          //   label: "Home",
-          //   // backgroundColor: Colors.yellow
-          // ),
           BottomNavigationBarItem(
             icon: Icon(Icons.add),
-            label: "Add",
+            label: "Add Members",
             // backgroundColor: Colors.green
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.delete),
-            label: "Delete",
+            label: "Delete Member",
             // backgroundColor: Colors.yellow
           ),
           BottomNavigationBarItem(
@@ -322,9 +317,9 @@ class _DashboardState extends State<Dashboard> {
           ),
         ],
         type: BottomNavigationBarType.fixed,
-        fixedColor: Colors.deepPurple[900],
-        // selectedItemColor: Colors.deepPurple[900],
-        // unselectedItemColor: Colors.black45,
+        //fixedColor: Colors.deepPurple[900],
+        selectedItemColor: Colors.black54,
+        unselectedItemColor: Colors.black54,
         iconSize: 40,
         elevation: 5,
         onTap: (int index) {
@@ -333,7 +328,7 @@ class _DashboardState extends State<Dashboard> {
           });
           switch (index) {
             case 0:
-              Navigator.pushReplacement(
+              Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => Add(),
