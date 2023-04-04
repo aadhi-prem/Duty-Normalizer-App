@@ -69,7 +69,7 @@ class _DutyReportState1 extends State<DutyReport1> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text('Reallocate Duty'),
+        title: Text('Reallocate Duty'),
         elevation: .1,
         backgroundColor: Color(0xff9381ff),
       ),
@@ -181,8 +181,7 @@ class _DutyReportState1 extends State<DutyReport1> {
                   },
                   child: Text('Cancel',style: TextStyle(fontSize: 17),),
                 ),
-
-                SizedBox(width: 32,),
+                
               ],
             ),
           ],
@@ -191,4 +190,3 @@ class _DutyReportState1 extends State<DutyReport1> {
     );
   }
 }
-
