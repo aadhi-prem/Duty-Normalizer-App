@@ -226,7 +226,7 @@ class _DashboardState extends State<Dashboard> {
                         padding: EdgeInsets.all(12,),
                         child: Center(
                           child: Text(
-                            'Report Generation',
+                            'Generate Report',
                             style: TextStyle(
                                 fontSize: 21,
                                 fontFamily: 'Alkatra',
