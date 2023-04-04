@@ -1,5 +1,4 @@
-
-
+import 'reassign_finalpage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -130,8 +129,7 @@ class ReassignState extends State<Reassign> {
     for(Map<String,dynamic>row in _allUsers){
       String t=await check_table(row["ID"]);
       await LocalDB().executeDB("Update $t set Status = 'Blocked' where ID = '${row["ID"]}';");
-      int new_work=row["WorkHours"]-hours;
-      await LocalDB().executeDB("Update $t set WorkHours = $new_work where ID = '${row["ID"]}';");
+
     }
     int mtech=0,phd=0,fac=0;
     String dept=selectedusers[0]["DEPARTMENT"];
@@ -142,6 +140,8 @@ class ReassignState extends State<Reassign> {
        case "Phd":phd++;break;
        case "Faculty":fac++;break;
      }
+     int new_work=row["WorkHours"]-hours;
+     await LocalDB().executeDB("Update $table set WorkHours = $new_work where ID = '${row["ID"]}';");
     }
     if(await check_limit("MTech",mtech,dept) && await check_limit("PhD",phd,dept) && await check_limit("Faculty",fac,dept)){
       setState(() {
@@ -404,7 +404,19 @@ class ReassignState extends State<Reassign> {
                     // );
                   },
                   child: const Text('Reassign',style: TextStyle(fontSize: 17),),
-                )
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Color(0xff9381ff),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                         context,
+                         MaterialPageRoute(builder: (context) => finalpage(m: _foundUsers, duty_name: name,)),
+                        );
+                  },
+                  child: Text('Done',style: TextStyle(fontSize: 17),),
+                ),
               ],
             ),
           ],
