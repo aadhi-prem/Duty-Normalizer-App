@@ -45,6 +45,7 @@ dependencies:
   pdf: ^3.10.1
   share: ^2.0.4
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -86,11 +87,10 @@ flutter:
   fonts:
     - family: Alkatra
       fonts:
+#        - asset: assets/fonts/Alkatra-Bold.ttf
+#        - asset: assets/fonts/Alkatra-Medium.ttf
         - asset: assets/fonts/Alkatra-Regular.ttf
-    - family: Rubic
-      fonts:
-        - asset: assets/fonts/Rubik-Regular.ttf
-  #        - asset: assets/fonts/Alkatra-SemiBold.ttf
+#        - asset: assets/fonts/Alkatra-SemiBold.ttf
 #        - asset: assets/fonts/Alkatra-VariableFont_wght.ttf
   #         style: italic
   #   - family: Trajan Pro
