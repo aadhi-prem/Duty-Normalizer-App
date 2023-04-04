@@ -306,7 +306,7 @@ class _DashboardState extends State<Dashboard> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.refresh),
-            label: "Reset",
+            label: "Reset Hours",
             // backgroundColor: Colors.yellow
           ),
           BottomNavigationBarItem(
