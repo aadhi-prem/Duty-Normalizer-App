@@ -40,8 +40,8 @@ class finalreass extends StatefulWidget {
 
 class finalState extends State<finalreass> {
 
-    List<Map<String,dynamic>>m=[];
-    String? duty_name;
+  List<Map<String,dynamic>>m=[];
+  String? duty_name;
   finalState(this.m,this.duty_name);
 // Open the database and store the reference.
   @override
@@ -49,7 +49,7 @@ class finalState extends State<finalreass> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xff9381ff),
-        title: const Text('Reassign Student/Faculty'),
+        title: const Text('Reallocate Student/Faculty'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10),
@@ -62,20 +62,23 @@ class finalState extends State<finalreass> {
               child: m.isNotEmpty
                   ? ListView.builder(
                 itemCount: m.length,
-                itemBuilder: (context, index) => Card(
-                  key: ValueKey(m[index]["ID"]),
-                  color: Color(0xff9381ff),
-                  elevation: 4,
-                  margin: const EdgeInsets.symmetric(vertical: 10),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Text(' ${m[index]["ID"]} '),
-                        Text(' ${m[index]["Name"]} '),
-                        Text(' ${m[index]["DEPARTMENT"]} '),
-                      ],
+                itemBuilder: (context, index) => Container(
+                  height: 60,
+                  child: Card(
+                    key: ValueKey(m[index]["ID"]),
+                    color: Color(0xff9381ff),
+                    elevation: 4,
+                    margin: const EdgeInsets.symmetric(vertical: 10),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text('  ${m[index]["ID"]} '),
+                          Text(' ${m[index]["Name"]} '),
+                          Text(' ${m[index]["DEPARTMENT"]} '),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -86,9 +89,20 @@ class finalState extends State<finalreass> {
               ),
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                SizedBox(width: 32,),
+                // SizedBox(width: 32,),
+                ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                    primary: Color(0xff457b9d),
+                  ),
+                  onPressed: () async {
+                    await download(m,duty_name!);
+                  },
+                  label: Text('Print',style: TextStyle(fontSize: 17),),
+                  icon: Icon(Icons.print),
+                ),
+                // SizedBox(width: 50,),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     primary: Color(0xff9381ff),
@@ -100,15 +114,6 @@ class finalState extends State<finalreass> {
                     );
                   },
                   child: Text('Done',style: TextStyle(fontSize: 17),),
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: Color(0xff9381ff),
-                  ),
-                  onPressed: () async {
-                    await download(m,duty_name!);
-                  },
-                  child: Text('Download',style: TextStyle(fontSize: 17),),
                 ),
               ],
             ),

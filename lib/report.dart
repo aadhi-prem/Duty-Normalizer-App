@@ -51,7 +51,7 @@ class ReportState extends State<Report> {
   List<Map<String,dynamic>>results=[];
   void initState(){
     super.initState();
-   start();
+    start();
 
   }
   Future<void> start() async {
@@ -125,16 +125,18 @@ class ReportState extends State<Report> {
                   margin: const EdgeInsets.symmetric(vertical: 10),
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Text('${results[index]["ID"]} '),
-                        Text(' ${results[index]["Name"]} '),
-                        Text(' ${results[index]["DEPARTMENT"]} '),
-                        Text(' ${results[index]["PhoneNo"]} '),
-                        Text(' ${results[index]["Email"]} '),
-                        Text(' ${results[index]["WorkHours"]+hours} '),
-                      ],
+                    child: Container(
+                      height: 50,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text('  ${results[index]["ID"]} '),
+                          Text(' ${results[index]["Name"]} '),
+                          Text(' ${results[index]["PhoneNo"]} '),
+                          Text(' ${results[index]["Email"]} '),
+                          Text(' ${results[index]["WorkHours"] +hours}  '),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -145,21 +147,28 @@ class ReportState extends State<Report> {
               ),
             ),
 
-            ElevatedButton(
-              style: ElevatedButton.styleFrom( primary: Color(0xffff595e),),
-              onPressed: () async {
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom( primary: Color(0xffff595e),),
+                  onPressed: () async {
 
-                await download(results,name!,mtech,phd,faculty,dept!);
-              },
-              child: const Text('Print',style: TextStyle(fontSize: 17),),
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom( primary: Color(0xffff595e),),
-              onPressed: () {
-                Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => Dashboard()),
-              ); },
-              child: const Text('Done',style: TextStyle(fontSize: 17),),
+                    await download(results,name!,mtech,phd,faculty,dept!);
+                  },
+                  label: const Text('Print',style: TextStyle(fontSize: 17),),
+                  icon: Icon(Icons.print),
+                ),
+                SizedBox(width: 40,),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom( primary: Color(0xff0077b6),),
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => Dashboard()),
+                    ); },
+                  child: const Text('Done',style: TextStyle(fontSize: 17),),
+                ),
+              ],
             )
           ],
         ),
@@ -175,7 +184,7 @@ class ReportState extends State<Report> {
       List<String> a=[];
       a.add(r["ID"]);
       a.add(r["Name"]);
-     // a.add(r["DEPARTMENT"]);
+      // a.add(r["DEPARTMENT"]);
       a.add(r["PhoneNo"]);
       a.add(r["Email"]);
       l.add(a);
@@ -191,12 +200,12 @@ class ReportState extends State<Report> {
     final tableHeaders = ['ID', 'Name', 'PhoneNo', 'Email'];
 
     var tableData=data;
-        // pdf.addPage(pw.Page(
-        // build: (context) => pw.Table.fromTextArray(
-        // headers: tableHeaders,
-        // data: tableData,
-        // ),
-        // ));
+    // pdf.addPage(pw.Page(
+    // build: (context) => pw.Table.fromTextArray(
+    // headers: tableHeaders,
+    // data: tableData,
+    // ),
+    // ));
 
     // // Split the data into chunks of 10 rows each
     // const chunkSize = 15;

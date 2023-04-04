@@ -32,9 +32,9 @@ class ReassignState extends State<Reassign> {
   String? name;
   ReassignState(this.name);
   Future<void> runSqlQuery() async {
-    
+
     _allUsers=await LocalDB().readDB("SELECT * FROM Mtech where ID IN (SELECT ID FROM DutyDetails where DUTY_NAME='$name') union SELECT * FROM Phd where ID IN (SELECT ID FROM DutyDetails where DUTY_NAME='$name') union SELECT * FROM Faculty where ID IN (SELECT ID FROM DutyDetails where DUTY_NAME='$name');");
-      //debugPrint("$_allUsers");
+    //debugPrint("$_allUsers");
     setState(() {
       _allUsers=_allUsers;
     });
@@ -81,22 +81,22 @@ class ReassignState extends State<Reassign> {
 
     List<Map<String,dynamic>>m=[];
     if(type=="MTech"){
-        m = await LocalDB().readDB("select * from Mtech where DEPARTMENT='$d' and Status='Unblocked'");
-        if ( (m.isEmpty && entered!=0) ||(m.isNotEmpty && m.length < entered)) {
-          return false;
-        }
+      m = await LocalDB().readDB("select * from Mtech where DEPARTMENT='$d' and Status='Unblocked'");
+      if ( (m.isEmpty && entered!=0) ||(m.isNotEmpty && m.length < entered)) {
+        return false;
+      }
     }
     else if(type=="PhD"){
-        m = await LocalDB().readDB("select * from PhD where DEPARTMENT='$d' and Status='Unblocked'");
-        if ((m.isEmpty && entered!=0) ||(m.isNotEmpty && m.length < entered)) {
-          return false;
-        }
+      m = await LocalDB().readDB("select * from PhD where DEPARTMENT='$d' and Status='Unblocked'");
+      if ((m.isEmpty && entered!=0) ||(m.isNotEmpty && m.length < entered)) {
+        return false;
+      }
     }
     else if(type=="Faculty"){
-        m = await LocalDB().readDB("select * from Faculty where DEPARTMENT='$d' and Status='Unblocked'");
-        if ((m.isEmpty && entered!=0) ||(m.isNotEmpty && m.length < entered)) {
-          return false;
-        }
+      m = await LocalDB().readDB("select * from Faculty where DEPARTMENT='$d' and Status='Unblocked'");
+      if ((m.isEmpty && entered!=0) ||(m.isNotEmpty && m.length < entered)) {
+        return false;
+      }
     }
     return true;
   }
@@ -136,12 +136,12 @@ class ReassignState extends State<Reassign> {
     int mtech=0,phd=0,fac=0;
     String dept=selectedusers[0]["DEPARTMENT"];// assign department since its same for everyone
     for(Map<String,dynamic>row in selectedusers){// in all selected individuals the number belonging to each table is extracted
-     String table=await check_table(row["ID"]);
-     switch(table){
-       case "Mtech":mtech++;break;
-       case "Phd":phd++;break;
-       case "Faculty":fac++;break;
-     }
+      String table=await check_table(row["ID"]);
+      switch(table){
+        case "Mtech":mtech++;break;
+        case "Phd":phd++;break;
+        case "Faculty":fac++;break;
+      }
     }
     if(await check_limit("MTech",mtech,dept) && await check_limit("PhD",phd,dept) && await check_limit("Faculty",fac,dept)){
       setState(() {
@@ -216,7 +216,7 @@ class ReassignState extends State<Reassign> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xff9381ff),
-        title: const Text('Reassign Student/Faculty'),
+        title: const Text('Reallocate Student/Faculty'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10),
@@ -269,7 +269,6 @@ class ReassignState extends State<Reassign> {
               height: 5,
             ),
             Row(
-
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
@@ -279,7 +278,6 @@ class ReassignState extends State<Reassign> {
                       child: CheckboxListTile(
                         activeColor: Color(0xfff28482),
                         checkColor: Colors.black,
-                        // title: Text('Select All'),
                         value: selectall,
                         onChanged: (value) {
                           setState(() {
@@ -289,15 +287,30 @@ class ReassignState extends State<Reassign> {
                             });
                           });
                         },
-
                         controlAffinity: ListTileControlAffinity.leading,
                       ),
                     ),
                     Text("  Select All",style: TextStyle(color: Colors.black87),),
                   ],
                 ),
-              ],
 
+                //SizedBox(width: 190,),
+                ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xff0077b6),shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => finalpage(m: _foundUsers, duty_name: name,)),
+                    );
+                  },
+                  label: Text('Download',style: TextStyle(fontSize: 17),),
+                  icon: Icon(Icons.download_sharp),
+                ),
+              ],
             ),
 
             Expanded(
@@ -342,7 +355,7 @@ class ReassignState extends State<Reassign> {
               children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff9381ff),
+                    backgroundColor: Color(0xffff595e), //0xff9381ff
                   ),
                   onPressed: () {
                     Navigator.pushReplacement(
@@ -357,24 +370,24 @@ class ReassignState extends State<Reassign> {
 
                 SizedBox(width: 32,),
                 ElevatedButton(
-                  style: ElevatedButton.styleFrom( backgroundColor: Color(0xffff595e),),
+                  style: ElevatedButton.styleFrom( backgroundColor: Color(0xff9381ff),),
                   onPressed: () async {
 
 
-                      selectall = false;
-                      List<Map<String, dynamic>> selectedUsers = [];
-                      for (Map<String, dynamic>r in _allUsers) {
-                        if (_selected[r["ID"]]!) {
-                          selectedUsers.add(r);
-                        }
+                    selectall = false;
+                    List<Map<String, dynamic>> selectedUsers = [];
+                    for (Map<String, dynamic>r in _allUsers) {
+                      if (_selected[r["ID"]]!) {
+                        selectedUsers.add(r);
                       }
-                      await reass(selectedUsers);
+                    }
+                    await reass(selectedUsers);
                     if(!possible){
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            title: Text('Ooops!'),
+                            title: Text('Alert'),
                             content: Text('There arent enough people in respective categories to reassign'),
                             actions: [
                               TextButton(
@@ -403,18 +416,6 @@ class ReassignState extends State<Reassign> {
                     // );
                   },
                   child: const Text('Reassign',style: TextStyle(fontSize: 17),),
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff9381ff),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                         context,
-                         MaterialPageRoute(builder: (context) => finalpage(m: _foundUsers, duty_name: name,)),
-                        );
-                  },
-                  child: Text('Done',style: TextStyle(fontSize: 17),),
                 ),
               ],
             ),

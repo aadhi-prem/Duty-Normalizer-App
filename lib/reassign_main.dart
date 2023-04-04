@@ -69,7 +69,9 @@ class _DutyReportState1 extends State<DutyReport1> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text('Reassign Duty')
+          title: Text('Reallocate Duty'),
+        elevation: .1,
+        backgroundColor: Color(0xff9381ff),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10),
@@ -136,12 +138,23 @@ class _DutyReportState1 extends State<DutyReport1> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        ElevatedButton(
-                          onPressed: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => Reassign(_foundDuties[index]["DUTY_NAME"])),
-                            );
-                          },
-                          child: Text('${_foundDuties[index]["DUTY_NAME"]} '),),
+                        //${_foundDuties[index]["DUTY_NAME"]}
+                        Container(
+                          width: 392,height: 40,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: Color(0xff9381ff),
+                            ),
+                            onPressed: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => Reassign(_foundDuties[index]["DUTY_NAME"])),
+                              );
+                            },
+                            child: Text('${_foundDuties[index]["DUTY_NAME"]} ',
+                              style: TextStyle(fontSize: 15, color: Colors.black.withOpacity(0.8)),
+                            ),
+
+                          ),
+                        ),
 
                       ],
                     ),
@@ -156,7 +169,7 @@ class _DutyReportState1 extends State<DutyReport1> {
               children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: Color(0xff9381ff),
+                    primary: Color(0xffff595e),
                   ),
                   onPressed: () {
                     Navigator.pushReplacement(
@@ -178,5 +191,4 @@ class _DutyReportState1 extends State<DutyReport1> {
     );
   }
 }
-
 
