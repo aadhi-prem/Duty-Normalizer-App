@@ -3,8 +3,7 @@ import 'BlockUnblock.dart';
 import 'ReportGeneration.dart';
 import 'add_main.dart';
 import 'reassign.dart';
-// import 'reassign_main.dart';
-// import 'package:demoapp/delete.dart';
+import 'DeleteDuty.dart';
 import 'package:flutter/material.dart';
 import 'DutyReport_Duty.dart';
 import 'assign.dart';
@@ -40,7 +39,7 @@ class _DashboardState extends State<Dashboard> {
     var size = MediaQuery.of(context).size;
 
     /*24 is for notification bar on Android*/
-    final double itemHeight = (size.height - kToolbarHeight - 200) / 2;
+    final double itemHeight = (size.height - kToolbarHeight - 220) / 2;
     final double itemWidth = size.width / 2;
 
 
@@ -108,12 +107,12 @@ class _DashboardState extends State<Dashboard> {
           mainAxisSpacing: 5.0,
           children: <Widget>[
             InkWell(
-            onTap: () {
+              onTap: () {
                 Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => AssignPage()),
-                  );
-            },
+                  context,
+                  MaterialPageRoute(builder: (context) => AssignPage()),
+                );
+              },
               child: Container(
                 decoration: BoxDecoration(
                   //color: Colors.white,
@@ -131,14 +130,15 @@ class _DashboardState extends State<Dashboard> {
                   child: Card(
                     child: Column(
                       children: <Widget>[
+                        SizedBox(height: 15,),
                         Image.asset(
-                          'assets/Assign_duty.png',
+                          'assets/assigndemo.png',
                           height: 165,
                         ),
                         Padding(
                           padding: EdgeInsets.all(12),
                           child: Text(
-                            'Allocate Duty',
+                            'Assign Duty',
                             style: TextStyle(
                                 fontSize: 21,
                                 fontFamily: 'Alkatra',
@@ -155,7 +155,7 @@ class _DashboardState extends State<Dashboard> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) =>DutyReport1()),
+                  MaterialPageRoute(builder: (context) => DutyReport1()),
                 );
               },
               child: Container(
@@ -174,8 +174,9 @@ class _DashboardState extends State<Dashboard> {
                 child: Card(
                   child: Column(
                     children: <Widget>[
+                      SizedBox(height: 15,),
                       Image.asset(
-                        'assets/Reallocate_duty.png',
+                        'assets/reallocatedemo.png',
                         height: 165,
                       ),
                       Padding(
@@ -216,18 +217,21 @@ class _DashboardState extends State<Dashboard> {
                 child: Card(
                   child: Column(
                     children: <Widget>[
+                      SizedBox(height: 15,),
                       Image.asset(
-                        'assets/Duty_report_generation.png',
+                        'assets/reportdemo.png',
                         height: 165,
                       ),
                       Padding(
                         padding: EdgeInsets.all(12),
-                        child: Text(
-                          'Duty Report',
-                          style: TextStyle(
-                              fontSize: 21,
-                              fontFamily: 'Alkatra',
-                              color: Colors.deepPurple[900]),
+                        child: Center(
+                          child: Text(
+                            'Duty Report\nGeneration',
+                            style: TextStyle(
+                                fontSize: 21,
+                                fontFamily: 'Alkatra',
+                                color: Colors.deepPurple[900]),
+                          ),
                         ),
                       ),
                     ],
@@ -236,7 +240,12 @@ class _DashboardState extends State<Dashboard> {
               ),
             ),
             InkWell(
-              onTap: () => null,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) =>DeleteDutyPage()),
+                );
+              },
               child: Container(
                 decoration: BoxDecoration(
                   //color: Colors.white,
@@ -253,8 +262,9 @@ class _DashboardState extends State<Dashboard> {
                 child: Card(
                   child: Column(
                     children: <Widget>[
+                      SizedBox(height: 15,),
                       Image.asset(
-                        'assets/delete_duty.png',
+                        'assets/deletedemo.png',
                         height: 165,
                       ),
                       Padding(
