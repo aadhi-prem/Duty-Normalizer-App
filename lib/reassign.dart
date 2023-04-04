@@ -191,10 +191,6 @@ class ReassignState extends State<Reassign> {
         await LocalDB().executeDB(
             "INSERT into DutyDetails values ('$r','$name');");
       }
-      for(Map<String,dynamic>row in temp_blocked){
-        String t=await check_table(row["ID"]);
-        await LocalDB().executeDB("Update $t set Status = 'Unblocked' where ID = '${row["ID"]}';");
-      }
       await runSqlQuery();
       setState(() {
         _runFilter(searchWord);
@@ -207,6 +203,11 @@ class ReassignState extends State<Reassign> {
       setState(() {
         possible=false;
       });
+    }
+    for(Map<String,dynamic>row in temp_blocked){
+      String t=await check_table(row["ID"]);
+      debugPrint("${row["Name"]}  ");
+      await LocalDB().executeDB("Update $t set Status = 'Unblocked' where ID = '${row["ID"]}';");
     }
   }
 
