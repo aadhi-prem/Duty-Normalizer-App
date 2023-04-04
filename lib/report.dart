@@ -94,11 +94,12 @@ class ReportState extends State<Report> {
         await LocalDB().executeDB(
             "INSERT into DutyDetails values ('$r','$name');");
       }
+
       results = [...randomValues, ...randomValues2, ...randomValues3];
       setState(() {
         results = results;
       });
-      debugPrint("$results");
+      // debugPrint("$results");
     }
   }
 
