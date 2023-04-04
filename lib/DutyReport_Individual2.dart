@@ -37,6 +37,16 @@ class _IndividualReport2State extends State<IndividualReport2> {
     String s = "Select* from Duty where DUTY_NAME in (Select DUTY_NAME from DutyDetails where ID = '${item['ID']}')";
     List<Map<String, dynamic>> Duties = await LocalDB().readDB(s);
 
+    if(Duties.isEmpty){
+      DutyCards.add(
+        Text(
+          "${item['Name']} has not been assigned any duties",
+          style: TextStyle(
+            color: Colors.red
+          ),
+        )
+      );
+    }
     for (var i in Duties) {
       DutyCards.add(Card(
           color: Color(0xff9381ff),
