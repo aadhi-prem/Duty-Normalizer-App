@@ -159,7 +159,7 @@ class _ToggleButtonScreenState extends State<ToggleButtonScreen> {
                           ),
                           onPressed: () async {
                             final result =
-                                await FilePicker.platform.pickFiles();
+                            await FilePicker.platform.pickFiles();
                             if (result == null) {
                               print("No file selected");
 
@@ -225,7 +225,7 @@ class _ToggleButtonScreenState extends State<ToggleButtonScreen> {
             // Added SizedBox for spacing
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: Color(0xff4cc9f0),//Color(0xff4cc9f0),
+                primary: Color(0xff0077b6),//Color(0xff4cc9f0),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
@@ -258,6 +258,7 @@ class _ToggleButtonScreenState extends State<ToggleButtonScreen> {
                 primary: Color(0xff9381ff),
               ),
               onPressed: () {
+                //Navigator.of(context, rootNavigator: true).pop();
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(

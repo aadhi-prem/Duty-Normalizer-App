@@ -289,6 +289,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                           primary: Color(0xffff595e),
                         ),
                         onPressed: () {
+                          //Navigator.of(context, rootNavigator: true).pop();
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
