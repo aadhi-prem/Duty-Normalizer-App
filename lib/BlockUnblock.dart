@@ -56,9 +56,9 @@ class _HomePageState extends State<HomePage> {
     // _allUsers = await LocalDB().readDB("SELECT * FROM Phd UNION select * from Mtech union select * from Adhoc  order by name ;");
 
     if('$dept'=='null' && '$category'=='null' )
-      _allUsers = await LocalDB().readDB("SELECT * FROM Phd UNION select * from Mtech union select * from Adhoc;");
+      _allUsers = await LocalDB().readDB("SELECT * FROM Phd UNION select * from Mtech union select * from Faculty;");
     else if('$dept'!='null' && '$category'=='null')
-      _allUsers = await LocalDB().readDB("SELECT * FROM Phd where department='$dept' union SELECT * FROM Mtech where department='$dept' union SELECT * FROM Adhoc where department='$dept'");
+      _allUsers = await LocalDB().readDB("SELECT * FROM Phd where department='$dept' union SELECT * FROM Mtech where department='$dept' union SELECT * FROM Faculty where department='$dept'");
     else if('$dept'=='null' && '$category'!='null')
       _allUsers = await LocalDB().readDB("SELECT * FROM '$category';");
     else
@@ -70,9 +70,9 @@ class _HomePageState extends State<HomePage> {
     // blockedusers = await LocalDB().readDB("SELECT * FROM Phd where Status = 'Blocked' UNION select * from Mtech where Status = 'Blocked' union select * from Adhoc where Status = 'Blocked';");
 
     if('$dept'=='null' && '$category'=='null' )
-      blockedusers = await LocalDB().readDB("SELECT * FROM Phd where Status = 'Blocked' UNION select * from Mtech where Status = 'Blocked' union select * from Adhoc where Status = 'Blocked';");
+      blockedusers = await LocalDB().readDB("SELECT * FROM Phd where Status = 'Blocked' UNION select * from Mtech where Status = 'Blocked' union select * from Faculty where Status = 'Blocked';");
     else if('$dept'!='null' && '$category'=='null')
-      blockedusers = await LocalDB().readDB("SELECT * FROM Phd where department='$dept' and Status = 'Blocked' union SELECT * FROM Mtech where department='$dept'  and Status = 'Blocked'  union SELECT * FROM Adhoc where department='$dept'  and Status = 'Blocked' ");
+      blockedusers = await LocalDB().readDB("SELECT * FROM Phd where department='$dept' and Status = 'Blocked' union SELECT * FROM Mtech where department='$dept'  and Status = 'Blocked'  union SELECT * FROM Faculty where department='$dept'  and Status = 'Blocked' ");
     else if('$dept'=='null' && '$category'!='null')
       blockedusers = await LocalDB().readDB("SELECT * FROM '$category' where Status = 'Blocked';");
     else
@@ -83,9 +83,9 @@ class _HomePageState extends State<HomePage> {
     // unblockedusers = await LocalDB().readDB("SELECT * FROM Phd where Status = 'Unblocked' UNION select * from Mtech where Status = 'Unblocked' union select * from Adhoc where Status = 'UnBlocked';");
 
     if('$dept'=='null' && '$category'=='null' )
-      unblockedusers = await LocalDB().readDB("SELECT * FROM Phd where Status = 'Unblocked' UNION select * from Mtech where Status = 'Unblocked' union select * from Adhoc where Status = 'Unblocked';");
+      unblockedusers = await LocalDB().readDB("SELECT * FROM Phd where Status = 'Unblocked' UNION select * from Mtech where Status = 'Unblocked' union select * from Faculty where Status = 'Unblocked';");
     else if('$dept'!='null' && '$category'=='null')
-      unblockedusers = await LocalDB().readDB("SELECT * FROM Phd where department='$dept' and Status = 'Unblocked' union SELECT * FROM Mtech where department='$dept'  and Status = 'Unblocked'  union SELECT * FROM Adhoc where department='$dept'  and Status = 'Unblocked' ");
+      unblockedusers = await LocalDB().readDB("SELECT * FROM Phd where department='$dept' and Status = 'Unblocked' union SELECT * FROM Mtech where department='$dept'  and Status = 'Unblocked'  union SELECT * FROM Faculty where department='$dept'  and Status = 'Unblocked' ");
     else if('$dept'=='null' && '$category'!='null')
       unblockedusers = await LocalDB().readDB("SELECT * FROM '$category' where Status = 'Unblocked';");
     else
@@ -118,7 +118,7 @@ class _HomePageState extends State<HomePage> {
       _foundUsers = _allUsers;
 
       for(Map<String,dynamic>row in _allUsers){
-        _selected[row["RollNo"]]=false;
+        _selected[row["ID"]]=false;
       }
       // update the state with the fetched data
       setState(() {});
@@ -135,7 +135,7 @@ class _HomePageState extends State<HomePage> {
     } else {
       results = _allUsers
           .where((user) =>
-      user["RollNo"].toLowerCase().contains(enteredKeyword.toLowerCase()) || user["Name"].toLowerCase().contains(enteredKeyword.toLowerCase()) )
+      user["ID"].toLowerCase().contains(enteredKeyword.toLowerCase()) || user["Name"].toLowerCase().contains(enteredKeyword.toLowerCase()) )
           .toList();
       // we use the toLowerCase() method to make it case-insensitive
     }
@@ -159,7 +159,7 @@ class _HomePageState extends State<HomePage> {
 
     debugPrint('This is the initial list : $selectedusers');
     for (int i = 0; i < selectedusers.length; i++) {
-      String rollNo = selectedusers[i]["RollNo"];
+      String rollNo = selectedusers[i]["ID"];
       if (rollNo[0] == 'M') {
         table = 'Mtech';
       }
@@ -167,10 +167,10 @@ class _HomePageState extends State<HomePage> {
         table = 'Phd';
       }
       else {
-        table = 'Adhoc';
+        table = 'Faculty';
       }
       if (selectedusers[i]["Status"] == 'Unblocked') {
-        await LocalDB().executeDB("Update $table set Status = 'Blocked' where RollNo = '$rollNo';");
+        await LocalDB().executeDB("Update $table set Status = 'Blocked' where ID = '$rollNo';");
         Fluttertoast.showToast(
             msg: "Status Updated",
             toastLength: Toast.LENGTH_SHORT,
@@ -182,7 +182,7 @@ class _HomePageState extends State<HomePage> {
         );
       }
       else {
-        await LocalDB().executeDB("Update $table set Status = 'Unblocked' where RollNo = '$rollNo';");
+        await LocalDB().executeDB("Update $table set Status = 'Unblocked' where ID = '$rollNo';");
         Fluttertoast.showToast(
             msg: "Status Updated",
             toastLength: Toast.LENGTH_SHORT,
@@ -276,7 +276,7 @@ class _HomePageState extends State<HomePage> {
                           setState(() {
                             selectall1 = value!;
                             blockedusers.forEach((user) {
-                              _selected[user["RollNo"]] = selectall1;
+                              _selected[user["ID"]] = selectall1;
                             });
                           });
                         },
@@ -323,16 +323,16 @@ class _HomePageState extends State<HomePage> {
                         Checkbox(
                           activeColor:  Color(0xff06d6a0),
                           checkColor: Colors.black,
-                          value: _selected[blockedusers[index]["RollNo"]],
+                          value: _selected[blockedusers[index]["ID"]],
                           onChanged: (value) {
                             setState(() {
-                              _selected[blockedusers[index]["RollNo"]] = value!;
+                              _selected[blockedusers[index]["ID"]] = value!;
                             });
                           },
                         ),
-                        Text('Roll No: ${blockedusers[index]["RollNo"]} '),
-                        Text('Name: ${blockedusers[index]["Name"]} '),
-                        Text('Dept: ${blockedusers[index]["DEPARTMENT"]} '),
+                        Text('${blockedusers[index]["ID"]} '),
+                        Text('${blockedusers[index]["Name"]} '),
+                        Text('${blockedusers[index]["DEPARTMENT"]} '),
                       ],
                     ),
                   ),
@@ -355,7 +355,7 @@ class _HomePageState extends State<HomePage> {
                       setState(() {
                         selectall2 = value!;
                         unblockedusers.forEach((user) {
-                          _selected[user["RollNo"]] = selectall2;
+                          _selected[user["ID"]] = selectall2;
                         });
                       });
                     },
@@ -385,16 +385,16 @@ class _HomePageState extends State<HomePage> {
                         Checkbox(
                           activeColor: Color(0xfff28482),
                           checkColor: Colors.black,
-                          value: _selected[unblockedusers[index]["RollNo"]],
+                          value: _selected[unblockedusers[index]["ID"]],
                           onChanged: (value) {
                             setState(() {
-                              _selected[unblockedusers[index]["RollNo"]] = value!;
+                              _selected[unblockedusers[index]["ID"]] = value!;
                             });
                           },
                         ),
-                        Text('Roll No: ${unblockedusers[index]["RollNo"]} '),
-                        Text('Name: ${unblockedusers[index]["Name"]} '),
-                        Text('Dept: ${unblockedusers[index]["DEPARTMENT"]} '),
+                        Text('${unblockedusers[index]["ID"]} '),
+                        Text('${unblockedusers[index]["Name"]} '),
+                        Text('${unblockedusers[index]["DEPARTMENT"]} '),
                       ],
                     ),
                   ),
@@ -410,7 +410,7 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton.icon(
-                icon: Icon(Icons.arrow_back),
+                  icon: Icon(Icons.arrow_back),
                   style: ElevatedButton.styleFrom(
                     primary: Color(0xff9381ff),
                   ),
@@ -426,35 +426,35 @@ class _HomePageState extends State<HomePage> {
                 ),
                 SizedBox(width: 32,),
 
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: Color(0xff9381ff),
-              ),
-              onPressed: () async {
-                selectall1=false;
-                selectall2=false;
-                List<Map<String, dynamic>> selectedUsers = [];
-                for (Map<String,dynamic>r in _allUsers) {
-                  if (_selected[r["RollNo"]]!) {
-                    selectedUsers.add(r);
-                  }
-                }
-                // debugPrint('$selectedUsers');
-                await _statuschange(selectedUsers);
-                // await runSqlQuery();
-                setState(() {
-                  for(Map<String,dynamic>row in _allUsers){
-                    _selected[row["RollNo"]]=false;
-                  }
-                });
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Color(0xff9381ff),
+                  ),
+                  onPressed: () async {
+                    selectall1=false;
+                    selectall2=false;
+                    List<Map<String, dynamic>> selectedUsers = [];
+                    for (Map<String,dynamic>r in _allUsers) {
+                      if (_selected[r["ID"]]!) {
+                        selectedUsers.add(r);
+                      }
+                    }
+                    // debugPrint('$selectedUsers');
+                    await _statuschange(selectedUsers);
+                    // await runSqlQuery();
+                    setState(() {
+                      for(Map<String,dynamic>row in _allUsers){
+                        _selected[row["ID"]]=false;
+                      }
+                    });
 
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(builder: (context) => BlankPage(selectedusers: selectedUsers)),
-                // );
-              },
-              child: const Text('Block/Unblock',style: TextStyle(color: Colors.white,fontSize: 18),),
-            )
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(builder: (context) => BlankPage(selectedusers: selectedUsers)),
+                    // );
+                  },
+                  child: const Text('Block/Unblock',style: TextStyle(color: Colors.white,fontSize: 18),),
+                )
               ],
             ),
 
