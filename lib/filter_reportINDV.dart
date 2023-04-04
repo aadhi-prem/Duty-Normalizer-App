@@ -22,7 +22,7 @@ class _Filter_IndvState extends State<Filter_Indv> {
 
 
 
-  List _deptList=["CSE","CE","EEE","ECE","ME","CHE","EP","PE","MSE","BT","AR","MCA"];
+  List _deptList=["CSED","CED","EED","ECED","MED","CHED","EPD","PED","BTD","ARD"];
   List _catList=["MTech","PhD","Faculty"];
   // String _year='';
   String? dept;
