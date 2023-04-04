@@ -4,8 +4,8 @@ import 'DB_HELPER.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-import 'ReportGeneration.dart';
 import 'DutyReport_Individual2.dart';
+import 'ReportGeneration.dart';
 import 'filter_reportINDV.dart';
 
 class IndividualReport extends StatefulWidget {
@@ -212,9 +212,9 @@ class _IndividualReportState extends State<IndividualReport> {
                             });
                           },
                         ),
-                        Text('ID: ${_foundUsers[index]["ID"]} '),
-                        Text('Name: ${_foundUsers[index]["Name"]} '),
-                        Text('Dept: ${_foundUsers[index]["DEPARTMENT"]} '),
+                        Text(' ${_foundUsers[index]["ID"]} '),
+                        Text(' ${_foundUsers[index]["Name"]} '),
+                        Text(' ${_foundUsers[index]["DEPARTMENT"]} '),
                       ],
                     ),
                   ),
