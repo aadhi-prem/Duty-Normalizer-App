@@ -55,7 +55,7 @@ class _DutyReportState extends State<DutyReport> {
     } else {
       results = _allDuties
           .where((duty) =>
-      duty["DUTY_NAME"].toLowerCase().contains(enteredKeyword.toLowerCase()))
+          duty["DUTY_NAME"].toLowerCase().contains(enteredKeyword.toLowerCase()))
           .toList();
       // we use the toLowerCase() method to make it case-insensitive
     }
@@ -70,7 +70,9 @@ class _DutyReportState extends State<DutyReport> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Report Generation on Duty')
+          title: Text('Report Generation on Duty'),
+        elevation: .1,
+        backgroundColor: Color(0xff9381ff),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10),
@@ -210,7 +212,7 @@ class _DutyReportState extends State<DutyReport> {
               children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: Color(0xff9381ff),
+                    primary: Color(0xffff595e), //0xff9381ff
                   ),
                   onPressed: () {
                     Navigator.pushReplacement(
@@ -225,7 +227,7 @@ class _DutyReportState extends State<DutyReport> {
 
                 SizedBox(width: 32,),
                 ElevatedButton(
-                  style: ElevatedButton.styleFrom( primary: Color(0xffff595e),),
+                  style: ElevatedButton.styleFrom( primary: Color(0xff9381ff),),
                   onPressed: () {
                     // Fluttertoast.showToast(
                     //     msg: "Deleted Successfully",
@@ -260,5 +262,4 @@ class _DutyReportState extends State<DutyReport> {
     );
   }
 }
-
 

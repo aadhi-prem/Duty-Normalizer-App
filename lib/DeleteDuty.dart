@@ -95,7 +95,9 @@ class _DeleteDutyState extends State<DeleteDuty> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text('Delete Duty')
+          title: Text('Delete Duty'),
+        elevation: .1,
+        backgroundColor: Color(0xff9381ff),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10),

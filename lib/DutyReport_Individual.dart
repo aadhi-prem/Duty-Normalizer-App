@@ -230,7 +230,7 @@ class _IndividualReportState extends State<IndividualReport> {
               children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: Color(0xff9381ff),
+                    primary: Color(0xffff595e), //0xff9381ff
                   ),
                   onPressed: () {
                     Navigator.pushReplacement(
@@ -245,7 +245,7 @@ class _IndividualReportState extends State<IndividualReport> {
 
                 SizedBox(width: 32,),
                 ElevatedButton(
-                  style: ElevatedButton.styleFrom( primary: Color(0xffff595e),),
+                  style: ElevatedButton.styleFrom( primary: Color(0xff9381ff),),
                   onPressed: () {
                     // Fluttertoast.showToast(
                     //     msg: "Deleted Successfully",

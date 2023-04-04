@@ -39,26 +39,35 @@ class _IndividualReport2State extends State<IndividualReport2> {
 
     if(Duties.isEmpty){
       DutyCards.add(
-        Text(
-          "${item['Name']} has not been assigned any duties",
-          style: TextStyle(
-            color: Colors.red
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Container(
+            height: 40,width: 380,
+            child: Text(
+              "${item['Name']} has not been assigned any duties",
+              style: TextStyle(
+                color: Colors.red
+              ),
+            ),
           ),
         )
       );
     }
     for (var i in Duties) {
       DutyCards.add(Card(
-          color: Color(0xff9381ff),
+          color: Color(0xffb8b8ff),
           elevation: 4,
           margin: const EdgeInsets.symmetric(vertical: 10),
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
+          child: Container(
+            height: 30, width: 200,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Text('${i["DUTY_NAME"]} '),
-                Text('${i["WorkHours"]} '),
+                Text('  ${i["DUTY_NAME"]}  Duty Hours:${i["WorkHours"]} ',
+                  style: TextStyle(fontSize: 15, color: Colors.black.withOpacity(0.8)
+                  ),
+                ),
+                SizedBox(height: 100,),
               ],
             ),
           )
@@ -76,7 +85,9 @@ class _IndividualReport2State extends State<IndividualReport2> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text('Duty Reports')
+          title: Text('Duty Reports'),
+        elevation: .1,
+        backgroundColor: Color(0xff9381ff),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10),
@@ -95,9 +106,25 @@ class _IndividualReport2State extends State<IndividualReport2> {
                       builder: (context, snapshot){
                         if(snapshot.hasData) {
                           return ExpansionTile(
-                            title: Card(
-                              child: Text(
-                                  '${selectedUsers[index]["ID"]} ${selectedUsers[index]['Name']} ${selectedUsers[index]['DEPARTMENT']}'
+                            title: Container(
+                              height: 60,
+                              child: Card(
+                                color: Color(0xff9381ff),
+                                elevation: 4,
+                                margin: const EdgeInsets.symmetric(vertical: 10),
+                                child: SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        ' ${selectedUsers[index]["ID"]} ${selectedUsers[index]['Name']} ${selectedUsers[index]['DEPARTMENT']} ',
+                                        style: TextStyle(fontSize: 17, color: Colors.black.withOpacity(0.8)
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ),
                             ),
                             children: snapshot.data!,
@@ -122,7 +149,7 @@ class _IndividualReport2State extends State<IndividualReport2> {
               children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: Color(0xff9381ff),
+                    primary: Color(0xffff595e), //0xff9381ff
                   ),
                   onPressed: () {
                     Navigator.pushReplacement(
@@ -136,8 +163,8 @@ class _IndividualReport2State extends State<IndividualReport2> {
                 ),
 
                 SizedBox(width: 32,),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom( primary: Color(0xffff595e),),
+                ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom( primary: Color(0xff9381ff),),
                   onPressed: () async {
                     final pdf = pw.Document();
                     final tableHeaders = ['Duty Name', 'Work Hours'];
@@ -236,7 +263,8 @@ class _IndividualReport2State extends State<IndividualReport2> {
                     await downloadPdf(pdfBytes);
                     debugPrint("DOWNLOAD");
                   },
-                  child: const Text('Download',style: TextStyle(fontSize: 17),),
+                  label: const Text('Download',style: TextStyle(fontSize: 17),),
+                  icon: Icon(Icons.download_sharp),
                 )
               ],
             ),

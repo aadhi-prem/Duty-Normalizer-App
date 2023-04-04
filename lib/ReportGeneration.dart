@@ -6,6 +6,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'DutyReport_Duty.dart';
 import 'DutyReport_Individual.dart';
+import 'dashboard.dart';
 
 void main() => runApp(ReportGenerationPage());
 
@@ -35,9 +36,12 @@ class _ReportGenerationState extends State<ReportGeneration> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Report Generation'),
+        elevation: .1,
+        backgroundColor: Color(0xff9381ff),
       ),
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             ElevatedButton(
                 onPressed: () {
@@ -59,12 +63,27 @@ class _ReportGenerationState extends State<ReportGeneration> {
                 child: Text(
                     'Generate Report on Individual'
                 )),
+
+            ElevatedButton.icon(
+              icon: Icon(Icons.arrow_back),
+              style: ElevatedButton.styleFrom(
+                primary: Color(0xff9381ff),
+              ),
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Dashboard(),
+                  ),
+                );
+              },
+              label: Text('Back',style: TextStyle(color: Colors.white,fontSize: 18),),
+            ),
           ],
         ),
       ),
     );
   }
 }
-
 
 
