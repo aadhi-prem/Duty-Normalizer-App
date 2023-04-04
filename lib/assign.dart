@@ -38,6 +38,7 @@ class _AssignState extends State<assign> {
   final TextEditingController _dutyNameController = TextEditingController();
   final TextEditingController _hoursController = TextEditingController();
   Future<bool> check_limit(String type,int entered,String? d)async {
+  //  if(entered=="0") return true;
     List<Map<String,dynamic>>m=[];
     if(type=="MTech"){
       if(d==null) {
@@ -46,7 +47,7 @@ class _AssignState extends State<assign> {
       else{
         m = await LocalDB().readDB("select * from MTech where DEPARTMENT='$d' and Status='Unblocked'");
         m ??= [];
-        if ( m.isEmpty ||(m.isNotEmpty && m.length < entered)) {
+        if ( (m.isEmpty && entered!=0) ||(m.isNotEmpty && m.length < entered)) {
           return false;
         }
       }
@@ -58,7 +59,7 @@ class _AssignState extends State<assign> {
       else{
         m = await LocalDB().readDB("select * from PhD where DEPARTMENT='$d' and Status='Unblocked'");
         m ??= [];
-        if (m.isEmpty ||(m.isNotEmpty && m.length < entered)) {
+        if ((m.isEmpty && entered!=0) ||(m.isNotEmpty && m.length < entered)) {
           return false;
         }
       }
@@ -70,7 +71,7 @@ class _AssignState extends State<assign> {
       else{
         m = await LocalDB().readDB("select * from Faculty where DEPARTMENT='$d' and Status='Unblocked'");
         m ??= [];
-        if (m.isEmpty ||(m.isNotEmpty && m.length < entered)) {
+        if ((m.isEmpty && entered!=0) ||(m.isNotEmpty && m.length < entered)) {
           return false;
         }
       }
@@ -217,10 +218,14 @@ class _AssignState extends State<assign> {
                   FilteringTextInputFormatter.digitsOnly
                 ],
                 onChanged: (String value) async {
-                  if(value=="") value="0";
+                  if(value==""){ value="0";debugPrint("yessssssssssssssssssssssssssssssssssssssssssssss");}
                   if (await check_limit("MTech", int.parse(value), dept!)) {
                     setState(() {
-                      f1=true;
+                      if(value!="0") {
+                        f1=true;
+                      } else {
+                        f1=false;
+                      }
                       _warningTextm = '';
                       mtech = int.parse(value);
                     });
@@ -261,7 +266,11 @@ class _AssignState extends State<assign> {
                   if(value=="") value="0";
                   if(await check_limit("PhD", int.parse(value),dept!)){
                     setState(() {
-                      f2=true;
+                      if(value!="0") {
+                        f2=true;
+                      } else {
+                        f2=false;
+                      }
                       _warningTextp = '';
                       phd=int.parse(value);
                     });
@@ -301,7 +310,11 @@ class _AssignState extends State<assign> {
                   if(value=="") value="0";
                   if(await check_limit("Faculty", int.parse(value),dept!)){
                     setState(() {
-                      f3=true;
+                      if(value!="0") {
+                        f3=true;
+                      } else {
+                        f3=false;
+                      }
                       _warningTexta = '';
                       faculty=int.parse(value);
                     });
@@ -332,6 +345,7 @@ class _AssignState extends State<assign> {
                       debugPrint("ffffffffff$f1 $f2 $f3");
                       Navigator.push(context, MaterialPageRoute(
                           builder: (context) =>
+
                               Report(mtech, phd, faculty, dept, hours, name)),
                       );
                     }
