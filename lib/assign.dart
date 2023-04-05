@@ -47,7 +47,7 @@ class _AssignState extends State<assign> {
       else{
         m = await LocalDB().readDB("select * from MTech where DEPARTMENT='$d' and Status='Unblocked'");
         m ??= [];
-        if ( m.isEmpty ||(m.isNotEmpty && m.length < entered)) {
+        if ((m.isEmpty && entered!=0) ||(m.isNotEmpty && m.length < entered)) {
           return false;
         }
       }
@@ -59,7 +59,7 @@ class _AssignState extends State<assign> {
       else{
         m = await LocalDB().readDB("select * from PhD where DEPARTMENT='$d' and Status='Unblocked'");
         m ??= [];
-        if (m.isEmpty ||(m.isNotEmpty && m.length < entered)) {
+        if ((m.isEmpty && entered!=0) ||(m.isNotEmpty && m.length < entered)) {
           return false;
         }
       }
@@ -71,7 +71,7 @@ class _AssignState extends State<assign> {
       else{
         m = await LocalDB().readDB("select * from Faculty where DEPARTMENT='$d' and Status='Unblocked'");
         m ??= [];
-        if (m.isEmpty ||(m.isNotEmpty && m.length < entered)) {
+        if ((m.isEmpty && entered!=0) ||(m.isNotEmpty && m.length < entered)) {
           return false;
         }
       }
