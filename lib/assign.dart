@@ -267,7 +267,11 @@ class _AssignState extends State<assign> {
                       if(value=="") value="0";
                       if (await check_limit("MTech", int.parse(value), dept!)) {
                         setState(() {
-                          f1=true;
+                          if(value!="0") {
+                        f1=true;
+                      } else {
+                        f1=false;
+                      }
                           _warningTextm = '';
                           mtech = int.parse(value);
                         });
@@ -317,7 +321,11 @@ class _AssignState extends State<assign> {
                       if(value=="") value="0";
                       if(await check_limit("PhD", int.parse(value),dept!)){
                         setState(() {
-                          f2=true;
+                          if(value!="0") {
+                        f2=true;
+                      } else {
+                        f2=false;
+                      }
                           _warningTextp = '';
                           phd=int.parse(value);
                         });
@@ -367,7 +375,11 @@ class _AssignState extends State<assign> {
                       if(value=="") value="0";
                       if(await check_limit("Faculty", int.parse(value),dept!)){
                         setState(() {
-                          f3=true;
+                          if(value!="0") {
+                        f3=true;
+                      } else {
+                        f3=false;
+                      }
                           _warningTexta = '';
                           faculty=int.parse(value);
                         });
