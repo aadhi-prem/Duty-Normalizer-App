@@ -17,7 +17,7 @@ class _PinEntryPageState extends State<PinEntryPage> {
   Future<void> _reset() async {
     await LocalDB().executeDB("Update Mtech set WorkHours = 0;");
     await LocalDB().executeDB("Update Phd set WorkHours = 0;");
-    await LocalDB().executeDB("Update Adhoc set WorkHours = 0;");
+    await LocalDB().executeDB("Update Faculty set WorkHours = 0;");
   }
 
   Widget build(BuildContext context) {
