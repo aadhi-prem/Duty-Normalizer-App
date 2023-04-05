@@ -1,17 +1,16 @@
 import 'DB_HELPER.dart';
 import 'report.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sqflite/sqflite.dart';
 import 'dashboard.dart';
 
 class AssignPage extends StatelessWidget {
-  AssignPage({Key? key}) : super(key: key);
+  const AssignPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Search',
       home: assign(),
@@ -20,18 +19,17 @@ class AssignPage extends StatelessWidget {
 }
 
 class assign extends StatefulWidget {
-  assign();
+  const assign({super.key});
 
   @override
   State<assign> createState() => _AssignState();
 }
 
 class _AssignState extends State<assign> {
-  List _deptList=["CSED","CED","EED","ECED","MED","CHE","PED","MSE","BT","AR","MCA"];
+  final List _deptList=["CSED","CED","EED","ECED","MED","CHE","PED","MSE","BT","AR","MCA"];
   String? dept,name;
   bool f1=false,f2=false,f3=false;
   int mtech=0,phd=0,faculty=0,hours=0;
-  String _selectedDepartment="";
   String _warningTextm = '',_warningTextp = '',_warningTexta = '',_warningTextn = 'Please Enter a Name',warningTexth='Please choose the work hours';
   final TextEditingController _mtechController = TextEditingController(text: '0');
   final TextEditingController _phdController = TextEditingController(text: '0');
@@ -46,7 +44,6 @@ class _AssignState extends State<assign> {
       }
       else{
         m = await LocalDB().readDB("select * from MTech where DEPARTMENT='$d' and Status='Unblocked'");
-        m ??= [];
         if ((m.isEmpty && entered!=0) ||(m.isNotEmpty && m.length < entered)) {
           return false;
         }
@@ -58,7 +55,6 @@ class _AssignState extends State<assign> {
       }
       else{
         m = await LocalDB().readDB("select * from PhD where DEPARTMENT='$d' and Status='Unblocked'");
-        m ??= [];
         if ((m.isEmpty && entered!=0) ||(m.isNotEmpty && m.length < entered)) {
           return false;
         }
@@ -70,7 +66,6 @@ class _AssignState extends State<assign> {
       }
       else{
         m = await LocalDB().readDB("select * from Faculty where DEPARTMENT='$d' and Status='Unblocked'");
-        m ??= [];
         if ((m.isEmpty && entered!=0) ||(m.isNotEmpty && m.length < entered)) {
           return false;
         }
@@ -80,16 +75,27 @@ class _AssignState extends State<assign> {
   }
   bool isValid(String name) {
     // A valid username contains only letters, numbers, and underscores
-    final RegExp regex = RegExp(r'^[a-zA-Z0-9_]+$');
+    final RegExp regex = RegExp(r'^[\w\s]+$');
     return name!="" && regex.hasMatch(name);
+  }
+  String trimName(String name) {
+
+    // Remove any extra spaces at the beginning or end
+    name = name.trim();
+
+    // Replace any multiple spaces in the middle with a single space
+    name = name.replaceAll(RegExp('\\s+'), ' ');
+
+    return name;
   }
 
 
   Future<bool> check_name(String s)async{
     Database db= await LocalDB().givedb();
     List<Map<String,dynamic>> m= await db.rawQuery("select * from Duty where DUTY_NAME='$s';");
-    if(m.length!=0)
+    if(m.isNotEmpty) {
       return false;
+    }
     return true;
   }
   _AssignState();
@@ -99,22 +105,22 @@ class _AssignState extends State<assign> {
       appBar: AppBar(
         title: const Text('Assign Duty'),
         elevation: .1,
-        backgroundColor: Color(0xff9381ff),
+        backgroundColor: const Color(0xff9381ff),
       ),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(height: 30,),
-              Container(
+              const SizedBox(height: 30,),
+              SizedBox(
                 width: 380,
                 child: TextField(
                   controller: _dutyNameController,
                   decoration: InputDecoration(
                     labelText: 'Duty Name',
                     enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
+                      borderSide: const BorderSide(
                         width: 3, //<-- SEE HERE
                         color: Color.fromRGBO(143, 148, 251, 1),
                       ),
@@ -123,7 +129,7 @@ class _AssignState extends State<assign> {
                   ),
                   onChanged: (String value) async {
                     if(isValid(value)) {
-                      debugPrint("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa$value");
+                      value=trimName(value);
                       if (await check_name(value)) {
                         setState(() {
                           name=value;
@@ -145,7 +151,7 @@ class _AssignState extends State<assign> {
               ),
               const SizedBox(height: 6),
               if (_warningTextn.isNotEmpty) Container(
-                padding: EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
                   _warningTextn,
                   style: const TextStyle(
@@ -156,26 +162,26 @@ class _AssignState extends State<assign> {
               const SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 2.0,vertical: 0),
-                child: Container(
+                child: SizedBox(
                   width: 380,height: 60,
                   child: DropdownButtonFormField(
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Color.fromRGBO(143, 148, 251, 1), width: 3),
+                        borderSide: const BorderSide(color: Color.fromRGBO(143, 148, 251, 1), width: 3),
                         // borderRadius: BorderRadius.circular(20),
                         borderRadius: BorderRadius.circular(50.0),
                       ),
                       border: OutlineInputBorder(
-                        borderSide: BorderSide(color: Color.fromRGBO(143, 148, 251, .6), width: 3),
+                        borderSide: const BorderSide(color: Color.fromRGBO(143, 148, 251, .6), width: 3),
                         // borderRadius: BorderRadius.circular(20),
                         borderRadius: BorderRadius.circular(50.0),
                       ),
                       filled: true,
                       fillColor: Colors.white70,//Color(0xff9381ff),
                     ),
-                    dropdownColor: Color(0xff9381ff),
-                    hint: Text("Select Department "),
-                    icon: Icon(Icons.arrow_drop_down),
+                    dropdownColor: const Color(0xff9381ff),
+                    hint: const Text("Select Department "),
+                    icon: const Icon(Icons.arrow_drop_down),
                     iconSize: 30,
                     style: TextStyle(
                         color: Colors.deepPurple[900],
@@ -196,15 +202,15 @@ class _AssignState extends State<assign> {
                   ),
                 ),
               ),
-              SizedBox(height: 15,),
-              Container(
+              const SizedBox(height: 15,),
+              SizedBox(
                 width: 380,
                 child: TextField(
                   controller: _hoursController,
                   decoration: InputDecoration(
                     labelText: 'Work Hours',
                     enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
+                      borderSide: const BorderSide(
                         width: 3, //<-- SEE HERE
                         color: Color.fromRGBO(143, 148, 251, 1),
                       ),
@@ -216,7 +222,7 @@ class _AssignState extends State<assign> {
                     FilteringTextInputFormatter.digitsOnly
                   ],
                   onChanged: (String value) async {
-                    if(value==""){
+                    if(value=="" || value=="0"){
                       setState(() {
                         warningTexth="Enter a valid number of hours";
                       });
@@ -233,7 +239,7 @@ class _AssignState extends State<assign> {
               ),
               const SizedBox(height: 6),
               if (warningTexth.isNotEmpty) Container(
-                padding: EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
                   warningTexth,
                   style: const TextStyle(
@@ -244,7 +250,7 @@ class _AssignState extends State<assign> {
               const SizedBox(height: 10),
               Visibility(
                 visible: dept != null,
-                child: Container(
+                child: SizedBox(
                   width: 380,
                   child: TextField(
                     controller: _mtechController,
@@ -252,7 +258,7 @@ class _AssignState extends State<assign> {
                       labelText: 'MTech',
                       enabledBorder: OutlineInputBorder(
                         borderSide:
-                        BorderSide(
+                        const BorderSide(
                           width: 3, //<-- SEE HERE
                           color: Color.fromRGBO(143, 148, 251, 1),
                         ),
@@ -287,7 +293,7 @@ class _AssignState extends State<assign> {
               ),
               const SizedBox(height: 6),
               if (_warningTextm.isNotEmpty) Container(
-                padding: EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
                   _warningTextm,
                   style: const TextStyle(
@@ -298,7 +304,7 @@ class _AssignState extends State<assign> {
               const SizedBox(height: 10),
               Visibility(
                 visible: dept!=null,
-                child:Container(
+                child:SizedBox(
                   width: 380,
                   child: TextField(
                     controller: _phdController,
@@ -306,7 +312,7 @@ class _AssignState extends State<assign> {
                       labelText: 'Phd',
                       enabledBorder: OutlineInputBorder(
                         borderSide:
-                        BorderSide(
+                        const BorderSide(
                           width: 3, //<-- SEE HERE
                           color: Color.fromRGBO(143, 148, 251, 1),
                         ),
@@ -341,7 +347,7 @@ class _AssignState extends State<assign> {
               ),
               const SizedBox(height: 6),
               if (_warningTextp.isNotEmpty) Container(
-                padding: EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
                   _warningTextp,
                   style: const TextStyle(
@@ -352,7 +358,7 @@ class _AssignState extends State<assign> {
               const SizedBox(height: 10),
               Visibility(
                 visible: dept!=null,
-                child: Container(
+                child: SizedBox(
                   width: 380,
                   child: TextField(
                     controller: _facultyController,
@@ -360,7 +366,7 @@ class _AssignState extends State<assign> {
                       labelText: 'Faculty',
                       enabledBorder: OutlineInputBorder(
                         borderSide:
-                        BorderSide(
+                        const BorderSide(
                           width: 3, //<-- SEE HERE
                           color: Color.fromRGBO(143, 148, 251, 1),
                         ),
@@ -395,7 +401,7 @@ class _AssignState extends State<assign> {
 
               const SizedBox(height: 14),
               if (_warningTexta.isNotEmpty) Container(
-                padding: EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
                   _warningTexta,
                   style: const TextStyle(
@@ -405,15 +411,14 @@ class _AssignState extends State<assign> {
               ),
               const SizedBox(height: 16),
               Visibility(visible: dept!=null,
-                child: Container(
+                child: SizedBox(
                   width: 90,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      primary: Color(0xff0077b6),
+                      backgroundColor: const Color(0xff0077b6),
                     ),
                       onPressed:(){
                         if(!(f1==false && f2==false && f3==false) && (_warningTexta=="" && _warningTextm=="" && _warningTextn=="" && _warningTextp=="" && warningTexth=="")) {
-                          debugPrint("ffffffffff$f1 $f2 $f3");
                           Navigator.push(context, MaterialPageRoute(
                               builder: (context) =>
                                   Report(mtech, phd, faculty, dept, hours, name)),
@@ -424,12 +429,12 @@ class _AssignState extends State<assign> {
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
-                                title: Text('Caution'),
-                                content: Text('Choose Atleast one member to assign duty'),
+                                title: const Text('Caution'),
+                                content: const Text('Choose Atleast one member to assign duty'),
                                 actions: [
                                   TextButton(
                                     onPressed: () => Navigator.pop(context),
-                                    child: Text('OK'),
+                                    child: const Text('OK'),
                                   ),
                                 ],
                               );
@@ -441,12 +446,12 @@ class _AssignState extends State<assign> {
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
-                                title: Text('Caution'),
-                                content: Text('Please fix the errors before submitting.'),
+                                title: const Text('Caution'),
+                                content: const Text('Please fix the errors before submitting.'),
                                 actions: [
                                   TextButton(
                                     onPressed: () => Navigator.pop(context),
-                                    child: Text('OK'),
+                                    child: const Text('OK'),
                                   ),
                                 ],
                               );
@@ -454,15 +459,15 @@ class _AssignState extends State<assign> {
                           );
                         }
                       }
-                      , child: Text("Submit")
+                      , child: const Text("Submit")
                   ),
                 ),
               ),
-                SizedBox(height:5),
+                const SizedBox(height:5),
               ElevatedButton.icon(
-                icon: Icon(Icons.arrow_back),
+                icon: const Icon(Icons.arrow_back),
                 style: ElevatedButton.styleFrom(
-                  primary: Color(0xff9381ff),
+                  backgroundColor: const Color(0xff9381ff),
                 ),
                 onPressed: () {
                   Navigator.pushReplacement(
@@ -472,7 +477,7 @@ class _AssignState extends State<assign> {
                     ),
                   );
                 },
-                label: Text('Back'),
+                label: const Text('Back'),
               ),
 
 
