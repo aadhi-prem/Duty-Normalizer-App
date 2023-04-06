@@ -94,26 +94,29 @@ class finalState extends State<finalreass> {
                 // SizedBox(width: 32,),
                 ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(
-                    primary: Color(0xff457b9d),
+                    primary: Color(0xff0077b6),//0xff0077b6
                   ),
                   onPressed: () async {
                     await download(m,duty_name!);
                   },
-                  label: Text('Print',style: TextStyle(fontSize: 17),),
-                  icon: Icon(Icons.print),
+                  label: Text('Download',style: TextStyle(fontSize: 17),),
+                  icon: Icon(Icons.download_sharp),
                 ),
                 // SizedBox(width: 50,),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: Color(0xff9381ff),
+                Container(
+                  width: 140,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Color(0xff9381ff),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) =>Dashboard()),
+                      );
+                    },
+                    child: Text('Done',style: TextStyle(fontSize: 17),),
                   ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) =>Dashboard()),
-                    );
-                  },
-                  child: Text('Done',style: TextStyle(fontSize: 17),),
                 ),
               ],
             ),

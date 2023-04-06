@@ -294,22 +294,22 @@ class ReassignState extends State<Reassign> {
                   ],
                 ),
 
-                //SizedBox(width: 190,),
-                ElevatedButton.icon(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff0077b6),shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.0),
-                  ),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => finalpage(m: _foundUsers, duty_name: name,)),
-                    );
-                  },
-                  label: Text('Download',style: TextStyle(fontSize: 17),),
-                  icon: Icon(Icons.download_sharp),
-                ),
+                // //SizedBox(width: 190,),
+                // ElevatedButton.icon(
+                //   style: ElevatedButton.styleFrom(
+                //     backgroundColor: Color(0xff0077b6),shape: RoundedRectangleBorder(
+                //     borderRadius: BorderRadius.circular(20.0),
+                //   ),
+                //   ),
+                //   onPressed: () {
+                //     Navigator.push(
+                //       context,
+                //       MaterialPageRoute(builder: (context) => finalpage(m: _foundUsers, duty_name: name,)),
+                //     );
+                //   },
+                //   label: Text('Download',style: TextStyle(fontSize: 17),),
+                //   icon: Icon(Icons.download_sharp),
+                // ),
               ],
             ),
 
@@ -351,24 +351,23 @@ class ReassignState extends State<Reassign> {
               ),
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xffff595e), //0xff9381ff
+                Container(
+                  width: 100,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xff0077b6), //0xff9381ff
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => finalpage(m: _foundUsers, duty_name: name,)),
+                      );
+                    },
+                    child: Text('Done',style: TextStyle(fontSize: 17),),
                   ),
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Dashboard(),
-                      ),
-                    );
-                  },
-                  child: Text('Cancel',style: TextStyle(fontSize: 17),),
                 ),
-
-                SizedBox(width: 32,),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom( backgroundColor: Color(0xff9381ff),),
                   onPressed: () async {
