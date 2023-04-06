@@ -34,7 +34,6 @@ class _AssignState extends State<assign> {
   final TextEditingController _mtechController = TextEditingController(text: '0');
   final TextEditingController _phdController = TextEditingController(text: '0');
   final TextEditingController _facultyController = TextEditingController(text: '0');
-  final TextEditingController _dutyNameController = TextEditingController();
   final TextEditingController _hoursController = TextEditingController();
   Future<bool> check_limit(String type,int entered,String? d)async {
     List<Map<String,dynamic>>m=[];
@@ -115,40 +114,89 @@ class _AssignState extends State<assign> {
               const SizedBox(height: 30,),
               SizedBox(
                 width: 380,
-                child: TextField(
-                  controller: _dutyNameController,
-                  decoration: InputDecoration(
-                    labelText: 'Duty Name',
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(
-                        width: 3, //<-- SEE HERE
-                        color: Color.fromRGBO(143, 148, 251, 1),
-                      ),
-                      borderRadius: BorderRadius.circular(50.0),
-                    ),
-                  ),
-                  onChanged: (String value) async {
-                    if(isValid(value)) {
-                      value=trimName(value);
-                      if (await check_name(value)) {
-                        setState(() {
-                          name=value;
-                          _warningTextn = '';
-                        });
-                      } else {
-                        setState(() {
-                          _warningTextn = 'Duty Name already exists';
-                        });
-                      }
+                child: Autocomplete<String>(
+                  optionsBuilder: (TextEditingValue textEditingValue) async {
+                    if (textEditingValue.text.isEmpty) {
+                      return const Iterable<String>.empty();
                     }
-                    else{
+                    List<Map<String,dynamic>>j=await LocalDB().readDB("select * from Duty");
+                    List<String> nameList = [];
+                    for(Map<String,dynamic>row in j) {
+                      nameList.add(row["DUTY_NAME"]);
+                    }
+                    return nameList.where((String option) {
+                      return option.contains(textEditingValue.text.toLowerCase());
+                    });
+                  },
+                  onSelected: (String selection) async {
+                    if (await check_name(selection)) {
                       setState(() {
-                        _warningTextn = 'Please enter a valid duty name';
+                        name = selection;
+                        _warningTextn = '';
+                      });
+                    } else {
+                      setState(() {
+                        _warningTextn = 'Duty Name already exists';
                       });
                     }
                   },
+                  fieldViewBuilder: (BuildContext context, TextEditingController textEditingController, FocusNode focusNode, VoidCallback onFieldSubmitted) {
+                    return TextField(
+                      controller: textEditingController,
+                      focusNode: focusNode,
+                      onChanged: (String value) {
+                        if (isValid(value)) {
+                          value = trimName(value);
+                          setState(() {
+                            name = value;
+                            _warningTextn = '';
+                          });
+                        } else {
+                          setState(() {
+                            _warningTextn = 'Please enter a valid duty name';
+                          });
+                        }
+                      },
+                      decoration: InputDecoration(
+                        labelText: 'Duty Name',
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            width: 3,
+                            color: Color.fromRGBO(143, 148, 251, 1),
+                          ),
+                          borderRadius: BorderRadius.circular(50.0),
+                        ),
+                      ),
+                    );
+                  },
+                  optionsViewBuilder: (BuildContext context, AutocompleteOnSelected<String> onSelected, Iterable<String> options) {
+                    return Align(
+                      alignment: Alignment.topLeft,
+                      child: Material(
+                        elevation: 4.0,
+                        child: SizedBox(
+                          height: 200.0,
+                          child: ListView.builder(
+                            itemCount: options.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              final String option = options.elementAt(index);
+                              const Text("The following names are already chosen:");
+                              return
+                                ListTile(
+                                title: Text(option),
+                                onTap: () {
+                                  onSelected(option);
+                                },
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
+
               const SizedBox(height: 6),
               if (_warningTextn.isNotEmpty) Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
