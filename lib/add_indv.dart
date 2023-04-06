@@ -147,13 +147,12 @@ class MyCustomFormState extends State<MyCustomForm> {
                     else if (batch == 'PhD') {
                       mychar = 'P';
                       //mychar1='p';
-                    } else {
-                      mychar = 'A';
-                      // mychar1='a';
                     }
-                    if (value.toUpperCase().startsWith(mychar) == false) {
-                      debugPrint("NO: starts with correct letter");
-                      return 'Invalid ID';
+                    if(batch=='MTech' || batch=='Phd') {
+                      if (value.toUpperCase().startsWith(mychar) == false) {
+                        debugPrint("NO: starts with correct letter");
+                        return 'Invalid ID';
+                      }
                     }
 
                     return null;
@@ -181,10 +180,13 @@ class MyCustomFormState extends State<MyCustomForm> {
                       //debugPrint("2");
                       return 'Please enter your name';
                     }
+                    if(validateName(value)==false){
+                      return 'Enter a valid name';
+                    }
                     return null;
                   },
                   onSaved: (value) {
-                    name = value;
+                    name = value?.trim();
                   },
                 ),
                 SizedBox(height: 2,),
@@ -247,6 +249,9 @@ class MyCustomFormState extends State<MyCustomForm> {
                       //debugPrint("3");
                       return 'Please enter your Phone number';
                     }
+                    if(validatephonenumber(value)== false){
+                      return 'Phone number must be 10 digits with digits only';
+                    }
                     return null;
                   },
                   onSaved: (value) {
@@ -271,8 +276,9 @@ class MyCustomFormState extends State<MyCustomForm> {
                       // debugPrint("4");
                       return 'Please enter your email';
                     }
-                    if (validateEmail(value) == false)
+                    if (validateEmail(value) == false) {
                       return 'Invalid Email';
+                    }
                     return null;
                   },
                   onSaved: (value) {
@@ -454,4 +460,21 @@ class MyCustomFormState extends State<MyCustomForm> {
     }
     return emailRegex.hasMatch(email);
   }
+
+  bool validatephonenumber(String phno) {
+    final phoneRegex = RegExp(r'^\d{10}$'); // regex for 10 digit phone number
+    if (phno.isEmpty) {
+      return false;
+    }
+    return phoneRegex.hasMatch(phno.trim());
+  }
+
+  bool validateName(String name) {
+    final nameRegex = RegExp(r'^[a-zA-Z ]+$'); // regex for alphabets and spaces
+    if (name.isEmpty) {
+      return false;
+    }
+    return nameRegex.hasMatch(name.trim());
+  }
+
 }
