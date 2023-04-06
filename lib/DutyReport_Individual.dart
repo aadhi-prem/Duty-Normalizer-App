@@ -146,28 +146,28 @@ class _IndividualReportState extends State<IndividualReport> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
-                  children: [
-                    Container(
-                      width: 25,
-                      child: CheckboxListTile(
-                        activeColor: Color(0xfff28482),
-                        checkColor: Colors.black,
-                        // title: Text('Select All'),
-                        value: selectall,
-                        onChanged: (value) {
-                          setState(() {
-                            selectall = value!;
-                            _foundUsers.forEach((user) {
-                              _selected[user["ID"]] = selectall;
-                            });
-                          });
-                        },
-
-                        controlAffinity: ListTileControlAffinity.leading,
-                      ),
-                    ),
-                    Text("  Select All",style: TextStyle(color: Colors.black87),),
-                  ],
+                  // children: [
+                  //   Container(
+                  //     width: 25,
+                  //     child: CheckboxListTile(
+                  //       activeColor: Color(0xfff28482),
+                  //       checkColor: Colors.black,
+                  //       // title: Text('Select All'),
+                  //       value: selectall,
+                  //       onChanged: (value) {
+                  //         setState(() {
+                  //           selectall = value!;
+                  //           _foundUsers.forEach((user) {
+                  //             _selected[user["ID"]] = selectall;
+                  //           });
+                  //         });
+                  //       },
+                  //
+                  //       controlAffinity: ListTileControlAffinity.leading,
+                  //     ),
+                  //   ),
+                  //   Text("  Select All",style: TextStyle(color: Colors.black87),),
+                  // ],
                 ),
 
                 ElevatedButton.icon(
