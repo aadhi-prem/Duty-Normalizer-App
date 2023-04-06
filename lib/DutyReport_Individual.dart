@@ -43,6 +43,7 @@ class _IndividualReportState extends State<IndividualReport> {
   Map<String,bool> _selected={};//selected students list
   // This list holds the data for the list view
   bool selectall=false;
+  List<Map<String, dynamic>> selectedUsers = [];
   List<Map<String, dynamic>> _foundUsers = [];
   List<Map<String, dynamic>> _allUsers = [];
   late String searchWord = "";
@@ -55,9 +56,9 @@ class _IndividualReportState extends State<IndividualReport> {
       // at the beginning, all users are shown
       _foundUsers = _allUsers;
 
-      for(Map<String,dynamic>row in _allUsers){
-        _selected[row["ID"]]=false;
-      }
+      // for(Map<String,dynamic>row in _allUsers){
+      //   _selected[row["ID"]]=false;
+      // }
       // update the state with the fetched data
       setState(() {});
     });
@@ -202,19 +203,24 @@ class _IndividualReportState extends State<IndividualReport> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Checkbox(
-                          activeColor: Color(0xfff28482),
-                          checkColor: Colors.black,
-                          value: _selected[_foundUsers[index]["ID"]],
-                          onChanged: (value) {
-                            setState(() {
-                              _selected[_foundUsers[index]["ID"]] = value!;
-                            });
-                          },
+                        Container(
+                          width: 392,height: 40,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: Color(0xff9381ff),
+                            ),
+                            onPressed: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => IndividualReport2(selectedUser: _foundUsers[index],),
+                                )
+                              );
+                              // selectedUsers.clear();
+                            },
+                            child: Text('${_foundUsers[index]["ID"]} ${_foundUsers[index]["Name"]} ${_foundUsers[index]["DEPARTMENT"]} ',
+                              style: TextStyle(fontSize: 15, color: Colors.black.withOpacity(0.8)),
+                            ),
+
+                          ),
                         ),
-                        Text(' ${_foundUsers[index]["ID"]} '),
-                        Text(' ${_foundUsers[index]["Name"]} '),
-                        Text(' ${_foundUsers[index]["DEPARTMENT"]} '),
                       ],
                     ),
                   ),
@@ -243,35 +249,35 @@ class _IndividualReportState extends State<IndividualReport> {
                   child: Text('Cancel',style: TextStyle(fontSize: 17),),
                 ),
 
-                SizedBox(width: 32,),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom( primary: Color(0xff9381ff),),
-                  onPressed: () {
-                    // Fluttertoast.showToast(
-                    //     msg: "Deleted Successfully",
-                    //     toastLength: Toast.LENGTH_SHORT,
-                    //     gravity: ToastGravity.BOTTOM,
-                    //     timeInSecForIosWeb: 1,
-                    //     backgroundColor: Colors.grey[600],
-                    //     textColor: Colors.white,
-                    //     fontSize: 16.0
-                    // );
-                    selectall=false;
-                    List<Map<String, dynamic>> selectedUsers = [];
-                    for (Map<String,dynamic>r in _allUsers) {
-                      if (_selected[r["ID"]]!) {
-                        selectedUsers.add(r);
-                      }
-                    }
-                    // _deletecandidate(selectedUsers);
-
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => IndividualReport2(selectedUsers: selectedUsers)),
-                    );
-                  },
-                  child: const Text('View Report(s)',style: TextStyle(fontSize: 17),),
-                )
+                // SizedBox(width: 32,),
+                // ElevatedButton(
+                //   style: ElevatedButton.styleFrom( primary: Color(0xff9381ff),),
+                //   onPressed: () {
+                //     // Fluttertoast.showToast(
+                //     //     msg: "Deleted Successfully",
+                //     //     toastLength: Toast.LENGTH_SHORT,
+                //     //     gravity: ToastGravity.BOTTOM,
+                //     //     timeInSecForIosWeb: 1,
+                //     //     backgroundColor: Colors.grey[600],
+                //     //     textColor: Colors.white,
+                //     //     fontSize: 16.0
+                //     // );
+                //     selectall=false;
+                //     List<Map<String, dynamic>> selectedUsers = [];
+                //     for (Map<String,dynamic>r in _allUsers) {
+                //       if (_selected[r["ID"]]!) {
+                //         selectedUsers.add(r);
+                //       }
+                //     }
+                //     // _deletecandidate(selectedUsers);
+                //
+                //     Navigator.push(
+                //       context,
+                //       MaterialPageRoute(builder: (context) => IndividualReport2(selectedUsers: selectedUsers)),
+                //     );
+                //   },
+                //   child: const Text('View Report(s)',style: TextStyle(fontSize: 17),),
+                // )
               ],
             ),
           ],

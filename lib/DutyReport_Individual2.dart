@@ -20,17 +20,17 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 class IndividualReport2 extends StatefulWidget {
-  List<Map<String, dynamic>> selectedUsers;
-  IndividualReport2({required this.selectedUsers});
+  Map<String, dynamic> selectedUser;
+  IndividualReport2({required this.selectedUser});
 
   @override
-  State<IndividualReport2> createState() => _IndividualReport2State(selectedUsers);
+  State<IndividualReport2> createState() => _IndividualReport2State(selectedUser);
 }
 
 class _IndividualReport2State extends State<IndividualReport2> {
 
-  List<Map<String, dynamic>> selectedUsers;
-  _IndividualReport2State(this.selectedUsers);
+  Map<String, dynamic> selectedUser;
+  _IndividualReport2State(this.selectedUser);
 
   Future<List<Widget>> _Duties(Map<String, dynamic> item) async{
     List<Widget> DutyCards = [];
@@ -98,11 +98,11 @@ class _IndividualReport2State extends State<IndividualReport2> {
             ),
 
             Expanded(
-              child: selectedUsers.isNotEmpty
+              child: selectedUser.isNotEmpty
                   ? ListView.builder  (
-                  itemCount: selectedUsers.length,
+                  itemCount: 1,
                   itemBuilder: (context, index) => FutureBuilder<List<Widget>>(
-                      future: _Duties(selectedUsers[index]),
+                      future: _Duties(selectedUser),
                       builder: (context, snapshot){
                         if(snapshot.hasData) {
                           return ExpansionTile(
@@ -118,7 +118,7 @@ class _IndividualReport2State extends State<IndividualReport2> {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Text(
-                                        ' ${selectedUsers[index]["ID"]} ${selectedUsers[index]['Name']} ${selectedUsers[index]['DEPARTMENT']} ',
+                                        ' ${selectedUser["ID"]} ${selectedUser['Name']} ${selectedUser['DEPARTMENT']} ',
                                         style: TextStyle(fontSize: 17, color: Colors.black.withOpacity(0.8)
                                         ),
                                       ),
@@ -169,14 +169,13 @@ class _IndividualReport2State extends State<IndividualReport2> {
                     final pdf = pw.Document();
                     final tableHeaders = ['Duty Name', 'Work Hours'];
 
-                    for(Map<String,dynamic> d in selectedUsers){
-                      selectedUsers1=await dutyassigned(d);
+                      selectedUsers1=await dutyassigned(selectedUser);
                       if(selectedUsers1.length==0) {
                         debugPrint("NO DUTIES HAVE BEEN ASSIGNED");
                         flag=1;
                       }
                       if(flag==0) {
-                        var tableData = await download(selectedUsers1, d);
+                        var tableData = await download(selectedUsers1, selectedUser);
                         const chunkSize = 15;
                         final chunks = <List<List<String>>>[];
                         for (var i = 0; i < tableData.length; i += chunkSize) {
@@ -197,13 +196,13 @@ class _IndividualReport2State extends State<IndividualReport2> {
                                       textAlign: pw.TextAlign.center,
                                     ),
                                     pw.SizedBox(height: 15),
-                                    pw.Text("ID OF THE INDIVIDUAL: ${d['ID']}",
+                                    pw.Text("ID OF THE INDIVIDUAL: ${selectedUser['ID']}",
                                         style: pw.TextStyle(fontSize: 10,
                                             fontWeight: pw.FontWeight.bold)
                                     ),
                                     pw.SizedBox(height: 15),
                                     pw.Text(
-                                        "NAME OF THE INDIVIDUAL: ${d['Name']}",
+                                        "NAME OF THE INDIVIDUAL: ${selectedUser['Name']}",
                                         style: pw.TextStyle(fontSize: 10,
                                             fontWeight: pw.FontWeight.bold)
                                     ),
@@ -236,13 +235,13 @@ class _IndividualReport2State extends State<IndividualReport2> {
                                     textAlign: pw.TextAlign.center,
                                   ),
                                   pw.SizedBox(height: 15),
-                                  pw.Text("ID OF THE INDIVIDUAL: ${d['ID']}",
+                                  pw.Text("ID OF THE INDIVIDUAL: ${selectedUser['ID']}",
                                       style: pw.TextStyle(fontSize: 10,
                                           fontWeight: pw.FontWeight.bold)
                                   ),
                                   pw.SizedBox(height: 15),
                                   pw.Text(
-                                      "NAME OF THE INDIVIDUAL: ${d['Name']}",
+                                      "NAME OF THE INDIVIDUAL: ${selectedUser['Name']}",
                                       style: pw.TextStyle(fontSize: 10,
                                           fontWeight: pw.FontWeight.bold)
                                   ),
@@ -258,7 +257,6 @@ class _IndividualReport2State extends State<IndividualReport2> {
                         flag=0;
                       }
                       // ll.addAll(await download(selectedDuties1, d));
-                    }
                     final Uint8List pdfBytes = await pdf.save();
                     await downloadPdf(pdfBytes);
                     debugPrint("DOWNLOAD");
