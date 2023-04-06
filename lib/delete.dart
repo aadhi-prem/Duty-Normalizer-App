@@ -112,16 +112,21 @@ class _DeleteState extends State<Delete> {
     String table;
     String statement;
     debugPrint('This is the list : $selectedusers');
+    List<Map<String, dynamic>> retrieved = [];
     for (int i = 0; i < selectedusers.length; i++) {
       String rollNo = selectedusers[i]["ID"];
-      if(rollNo[0] == 'M'){
+      retrieved = await LocalDB().readDB("select * from Mtech where ID='$rollNo';");
+      if(retrieved.length != 0){
         table = 'Mtech';
       }
-      else if(rollNo[0] == 'P'){
-        table = 'Phd';
-      }
       else{
-        table = 'Faculty';
+        retrieved = await LocalDB().readDB("select * from Phd where ID='$rollNo';");
+        if(retrieved.length != 0){
+          table = 'Phd';
+        }
+        else{
+          table = 'Faculty';
+        }
       }
       await LocalDB().executeDB("DELETE FROM DutyDetails where ID = '$rollNo'");
       statement = "DELETE FROM $table where ID = '$rollNo';";
