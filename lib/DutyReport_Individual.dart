@@ -216,7 +216,7 @@ class _IndividualReportState extends State<IndividualReport> {
                               // selectedUsers.clear();
                             },
                             child: Text('${_foundUsers[index]["ID"]} ${_foundUsers[index]["Name"]} ${_foundUsers[index]["DEPARTMENT"]} ',
-                              style: TextStyle(fontSize: 15, color: Colors.black.withOpacity(0.8)),
+                              style: TextStyle(fontSize: 14, color: Colors.black.withOpacity(0.8)),
                             ),
 
                           ),
