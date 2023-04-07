@@ -223,7 +223,7 @@ class _ToggleButtonScreenState extends State<ToggleButtonScreen> {
 
             const SizedBox(height: 20),
             // Added SizedBox for spacing
-            ElevatedButton(
+            ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
                 primary: Color(0xff0077b6),//Color(0xff4cc9f0),
                 shape: RoundedRectangleBorder(
@@ -246,7 +246,8 @@ class _ToggleButtonScreenState extends State<ToggleButtonScreen> {
                 // Share the CSV file with the user
                 Share.shareFiles([file.path]);
               },
-              child: Text(
+              icon: Icon(Icons.download_sharp),
+              label: Text(
                 'Download CSV Template',
                 style: TextStyle(fontSize: 20),
               ),
