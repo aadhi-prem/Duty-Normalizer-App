@@ -118,7 +118,7 @@ class _IndividualReport2State extends State<IndividualReport2> {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Text(
-                                        ' ${selectedUser["ID"]} ${selectedUser['Name']} ${selectedUser['DEPARTMENT']} ',
+                                        ' ${selectedUser["ID"]} ${selectedUser['Name']} ${selectedUser['DEPARTMENT']} WorkHours:${selectedUser['WorkHours']}',
                                         style: TextStyle(fontSize: 17, color: Colors.black.withOpacity(0.8)
                                         ),
                                       ),
