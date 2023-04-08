@@ -30,8 +30,10 @@ class DeleteDuty extends StatefulWidget {
 class _DeleteDutyState extends State<DeleteDuty> {
   List<Map<String, dynamic>> _foundDuties = [];
   List<Map<String, dynamic>> _allDuties = [];
+  Map<String,List<String>> ppl_in_duties = {};
   late String searchWord = "";
   Map<String,bool> _selected = {};
+  Map<String,Map<String,bool>> _selected_from_duties = {};
   bool selectall = false;
 
   Future<void> runSqlQuery() async {
@@ -42,15 +44,23 @@ class _DeleteDutyState extends State<DeleteDuty> {
   }
 
   @override
-  void initState() {
+  void initState () {
     super.initState();
     // wait for the database to be opened before setting the state
-    runSqlQuery().then((_) {
+    runSqlQuery().then((_) async {
       // at the beginning, all users are shown
       _foundDuties = _allDuties;
 
       for(Map<String,dynamic>row in _allDuties){
         _selected[row["DUTY_NAME"]]=false;
+        ppl_in_duties[row["DUTY_NAME"]]=[];
+        _selected_from_duties[row["DUTY_NAME"]] = {};
+        String s = "Select* from (Select* from Mtech union Select* from Phd union Select* from Faculty) where ID in (Select ID from DutyDetails where DUTY_NAME = '${row['DUTY_NAME']}')";
+        List<Map<String, dynamic>> Candidates = await LocalDB().readDB(s);
+        for(var i in Candidates){
+          _selected_from_duties[row["DUTY_NAME"]]![i["ID"]] = false;
+          ppl_in_duties[row["DUTY_NAME"]]!.add(i["ID"]);
+        }
       }
       // update the state with the fetched data
       setState(() {});
@@ -76,15 +86,90 @@ class _DeleteDutyState extends State<DeleteDuty> {
     });
   }
 
-  Future<void> _deleteDuty(List<Map<String, dynamic>> selectedDuties) async {
+  Future<List<Widget>> _Candidates(Map<String, dynamic> item) async{
+    List<Widget> CandidateCards = [];
+    String s = "Select* from (Select* from Mtech union Select* from Phd union Select* from Faculty) where ID in (Select ID from DutyDetails where DUTY_NAME = '${item['DUTY_NAME']}')";
+    List<Map<String, dynamic>> Candidates = await LocalDB().readDB(s);
+
+    for (var i in Candidates) {
+      CandidateCards.add(Card(
+          color: Color(0xffb8b8ff),
+          elevation: 4,
+          margin: const EdgeInsets.symmetric(vertical: 10),
+          child: Container(
+            height: 30,width: 350,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Checkbox(
+                    activeColor: Color(0xfff28482),
+                    checkColor: Colors.black,
+                    value: _selected_from_duties[item["DUTY_NAME"]]![i["ID"]],
+                    onChanged: (value) {
+                      setState(() {
+                        _selected_from_duties[item["DUTY_NAME"]]![i["ID"]] = value!;
+                      });
+                    },
+                  ),
+                  Text('  ${i["ID"]}  ${i["Name"]}  ${i["DEPARTMENT"]} ',
+                    style: TextStyle(fontSize: 15, color: Colors.black.withOpacity(0.9)),
+                  ),
+
+                ],
+              ),
+            ),
+          )
+      )
+      );
+    }
+
+    return CandidateCards;
+  }
+
+  Future<String>check_table(String s)async{
+    List<Map<String, dynamic>>l=[];
+    l=await LocalDB().readDB("select * from Mtech where ID='$s';");
+    if(l.length!=0){
+      return "Mtech";
+    }
+    else{
+      l=await LocalDB().readDB("select * from Phd where ID='$s';");
+      if(l.length!=0)
+        return "Phd";
+      else
+        return "Faculty";
+    }
+  }
+
+  Future<void> _deleteDuty(Map<String, dynamic> selectedDuty) async {
     String statement;
-    debugPrint('This is the list : $selectedDuties');
-    for (int i = 0; i < selectedDuties.length; i++) {
-      await LocalDB().executeDB("DELETE FROM DutyDetails where DUTY_NAME = '${selectedDuties[i]["DUTY_NAME"]}';");
-      await LocalDB().executeDB("DELETE FROM Duty where DUTY_NAME = '${selectedDuties[i]["DUTY_NAME"]}';");
+    debugPrint('This is the list : $selectedDuty');
+    await LocalDB().executeDB("DELETE FROM DutyDetails where DUTY_NAME = '${selectedDuty["DUTY_NAME"]}';");
+    await LocalDB().executeDB("DELETE FROM Duty where DUTY_NAME = '${selectedDuty["DUTY_NAME"]}';");
+    int hours = selectedDuty["WorkHours"];
+    for(String ID in ppl_in_duties[selectedDuty["DUTY_NAME"]]!){
+      String table = await check_table(ID);
+      List<Map<String, dynamic>> person = await LocalDB().readDB("Select* from $table where ID = '$ID'");
+      int new_work = person[0]["WorkHours"] - hours;
+      await LocalDB().executeDB("Update $table set WorkHours = $new_work where ID = '$ID'");
     }
     debugPrint("delete completed");
     // Refresh the UI
+    await runSqlQuery();
+    setState(() {
+      _runFilter(searchWord);
+    });
+  }
+
+  Future<void> _deleteCandidateFromDuty(Map<String, dynamic> Duty,String ID) async{
+    await LocalDB().executeDB("DELETE FROM DutyDetails where DUTY_NAME = '${Duty["DUTY_NAME"]}' and ID = '$ID';");
+    int hours = Duty["WorkHours"];
+    String table = await check_table(ID);
+    List<Map<String, dynamic>> person = await LocalDB().readDB("Select* from $table where ID = '$ID'");
+    int new_work = person[0]["WorkHours"] - hours;
+    await LocalDB().executeDB("Update $table set WorkHours = $new_work where ID = '$ID'");
     await runSqlQuery();
     setState(() {
       _runFilter(searchWord);
@@ -201,30 +286,48 @@ class _DeleteDutyState extends State<DeleteDuty> {
               child: _foundDuties.isNotEmpty
                   ? ListView.builder(
                 itemCount: _foundDuties.length,
-                itemBuilder: (context, index) => Card(
-                  key: ValueKey(_foundDuties[index]["id"]),
-                  color: Color(0xff9381ff),
-                  elevation: 4,
-                  margin: const EdgeInsets.symmetric(vertical: 10),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Checkbox(
-                          activeColor: Color(0xfff28482),
-                          checkColor: Colors.black,
-                          value: _selected[_foundDuties[index]["DUTY_NAME"]],
-                          onChanged: (value) {
-                            setState(() {
-                              _selected[_foundDuties[index]["DUTY_NAME"]] = value!;
-                            });
-                          },
+                itemBuilder: (context, index) => FutureBuilder<List<Widget>>(
+                  future: _Candidates(_foundDuties[index]),
+                  builder: (context,snapshot){
+                    if(snapshot.hasData){
+                      return ExpansionTile(
+                        title: Container(
+                          height: 60,
+                          child: Card(
+                            color: Color(0xff9381ff),
+                            elevation: 4,
+                            margin: const EdgeInsets.symmetric(vertical: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Checkbox(
+                                  activeColor: Color(0xfff28482),
+                                  checkColor: Colors.black,
+                                  value: _selected[_foundDuties[index]["DUTY_NAME"]],
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _selected[_foundDuties[index]["DUTY_NAME"]] = value!;
+                                    });
+                                  },
+                                ),
+                                Text(
+                                  '   ${_foundDuties[index]["DUTY_NAME"]}    Duty Hours: ${_foundDuties[index]['WorkHours']}',
+                                  style: TextStyle(fontSize: 17, color: Colors.black.withOpacity(0.8)),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
-                        Text('${_foundDuties[index]["DUTY_NAME"]} '),
-                      ],
-                    ),
-                  ),
+                        children: snapshot.data!,
+                      );
+                    }
+                    else if(snapshot.hasError){
+                      return Text("Error: ${snapshot.error}");
+                    }
+                    else{
+                      return CircularProgressIndicator();
+                    }
+                  }
                 ),
               )
                   : const Text(
@@ -264,13 +367,20 @@ class _DeleteDutyState extends State<DeleteDuty> {
                     //     fontSize: 16.0
                     // );
                     selectall=false;
-                    List<Map<String, dynamic>> selectedDuties = [];
+                    // List<Map<String, dynamic>> selectedDuties = [];
                     for (Map<String,dynamic>r in _allDuties) {
                       if (_selected[r["DUTY_NAME"]]!) {
-                        selectedDuties.add(r);
+                        _deleteDuty(r);
+                      }
+                      else{
+                        for(String ID in ppl_in_duties[r["DUTY_NAME"]]!){
+                          if(_selected_from_duties[r["DUTY_NAME"]]![ID]!){
+                            _deleteCandidateFromDuty(r,ID);
+                          }
+                        }
                       }
                     }
-                    _deleteDuty(selectedDuties);
+                    // _deleteDuty(selectedDuties);
 
                     // Navigator.push(
                     //   context,
