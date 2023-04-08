@@ -250,7 +250,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                       return 'Please enter your Phone number';
                     }
                     if(validatephonenumber(value)== false){
-                      return 'Phone number must be 10 digits with digits only';
+                      return 'Phone number must be digits only with plus(+) optionally';
                     }
                     return null;
                   },
@@ -462,7 +462,7 @@ class MyCustomFormState extends State<MyCustomForm> {
   }
 
   bool validatephonenumber(String phno) {
-    final phoneRegex = RegExp(r'^\d{10}$'); // regex for 10 digit phone number
+    final phoneRegex = RegExp(r'^\+?[0-9]+$'); // regex for 10 digit phone number
     if (phno.isEmpty) {
       return false;
     }

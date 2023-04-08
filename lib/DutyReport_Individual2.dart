@@ -207,6 +207,12 @@ class _IndividualReport2State extends State<IndividualReport2> {
                                             fontWeight: pw.FontWeight.bold)
                                     ),
                                     pw.SizedBox(height: 15),
+                                    pw.Text(
+                                        "TOTAL WORK HOURS OF THE INDIVDUAL: ${selectedUser['WorkHours']}",
+                                        style: pw.TextStyle(fontSize: 10,
+                                            fontWeight: pw.FontWeight.bold)
+                                    ),
+                                    pw.SizedBox(height: 15),
                                     pw.Table.fromTextArray(
                                       headers: tableHeaders,
                                       data: chunk,
@@ -294,49 +300,49 @@ class _IndividualReport2State extends State<IndividualReport2> {
     return l;
   }
 
-  Future<Uint8List> createPdf(List<List<String>> data) async{
-    final pdf = pw.Document();
-    final tableHeaders = ['ID', 'Name', 'PhoneNo', 'Email'];
-    var tableData=data;
-    // Create a table for each chunk of data
-    const chunkSize = 15;
-    final chunks = <List<List<String>>>[];
-    for (var i = 0; i < data.length; i += chunkSize) {
-      final end = (i + chunkSize < data.length) ? i + chunkSize : data.length;
-      chunks.add(data.sublist(i, end));
-    }
-    for (var chunk in chunks) {
-      pdf.addPage(pw.Page(
-        build: (context) => pw.Column(
-          crossAxisAlignment: pw.CrossAxisAlignment.start,
-          children: [
-            pw.Text('DUTY REPORT', style: pw.TextStyle(fontSize: 10, fontWeight: pw.FontWeight.bold) ,textAlign: pw.TextAlign.center,
-            ),
-            pw.SizedBox(height: 15),
-
-
-            // pw.Text('DUTY NAME: $name', style: pw.TextStyle(fontSize: 10, fontWeight: pw.FontWeight.bold)
-            // ),
-            // pw.SizedBox(height: 15),
-            //
-            // pw.Text('DEPARTMENT: $dept', style: pw.TextStyle(fontSize: 10, fontWeight: pw.FontWeight.bold)
-            // ),
-            // pw.SizedBox(height: 15),
-            pw.Table.fromTextArray(
-              headers: tableHeaders,
-              data: chunk,
-              cellAlignment: pw.Alignment.centerLeft,
-              cellStyle: const pw.TextStyle(fontSize: 10),
-              cellHeight: 15,
-              // cellDecoration: cellDecoration,
-            ),
-          ],
-        ),
-      ));
-    }
-
-    return pdf.save();
-  }
+  // Future<Uint8List> createPdf(List<List<String>> data) async{
+  //   final pdf = pw.Document();
+  //   final tableHeaders = ['ID', 'Name', 'PhoneNo', 'Email'];
+  //   var tableData=data;
+  //   // Create a table for each chunk of data
+  //   const chunkSize = 15;
+  //   final chunks = <List<List<String>>>[];
+  //   for (var i = 0; i < data.length; i += chunkSize) {
+  //     final end = (i + chunkSize < data.length) ? i + chunkSize : data.length;
+  //     chunks.add(data.sublist(i, end));
+  //   }
+  //   for (var chunk in chunks) {
+  //     pdf.addPage(pw.Page(
+  //       build: (context) => pw.Column(
+  //         crossAxisAlignment: pw.CrossAxisAlignment.start,
+  //         children: [
+  //           pw.Text('DUTY REPORT', style: pw.TextStyle(fontSize: 10, fontWeight: pw.FontWeight.bold) ,textAlign: pw.TextAlign.center,
+  //           ),
+  //           pw.SizedBox(height: 15),
+  //
+  //
+  //           // pw.Text('DUTY NAME: $name', style: pw.TextStyle(fontSize: 10, fontWeight: pw.FontWeight.bold)
+  //           // ),
+  //           // pw.SizedBox(height: 15),
+  //           //
+  //           // pw.Text('DEPARTMENT: $dept', style: pw.TextStyle(fontSize: 10, fontWeight: pw.FontWeight.bold)
+  //           // ),
+  //           // pw.SizedBox(height: 15),
+  //           pw.Table.fromTextArray(
+  //             headers: tableHeaders,
+  //             data: chunk,
+  //             cellAlignment: pw.Alignment.centerLeft,
+  //             cellStyle: const pw.TextStyle(fontSize: 10),
+  //             cellHeight: 15,
+  //             // cellDecoration: cellDecoration,
+  //           ),
+  //         ],
+  //       ),
+  //     ));
+  //   }
+  //
+  //   return pdf.save();
+  // }
 
   Future<void> downloadPdf(Uint8List pdf) async {
     // Save the PDF file to the local file system

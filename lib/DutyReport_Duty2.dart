@@ -181,6 +181,9 @@ class _DutyReport2State extends State<DutyReport2> {
                                pw.Text("DUTY NAME: ${d['DUTY_NAME']}", style: pw.TextStyle(fontSize: 10, fontWeight: pw.FontWeight.bold)
                                ),
                                pw.SizedBox(height: 15),
+                               pw.Text("DUTY HOURS: ${d['WorkHours']}", style: pw.TextStyle(fontSize: 10, fontWeight: pw.FontWeight.bold)
+                               ),
+                               pw.SizedBox(height: 15),
                                pw.Table.fromTextArray(
                                  headers: tableHeaders,
                                  data: chunk,
@@ -235,6 +238,7 @@ class _DutyReport2State extends State<DutyReport2> {
       // a.add(r["DEPARTMENT"]);
       a.add(r["PhoneNo"]);
       a.add(r["Email"]);
+      //a.add(r["WorkHours"]);
       l.add(a);
     }
     //Uint8List pdf= await createPdf(l) as Uint8List;
@@ -244,7 +248,7 @@ class _DutyReport2State extends State<DutyReport2> {
 
   Future<Uint8List> createPdf(List<List<String>> data) async{
     final pdf = pw.Document();
-    final tableHeaders = ['ID', 'Name', 'PhoneNo', 'Email'];
+    final tableHeaders = ['ID', 'Name', 'PhoneNo', 'Email', 'WorkHours'];
     var tableData=data;
     // Create a table for each chunk of data
     const chunkSize = 15;
