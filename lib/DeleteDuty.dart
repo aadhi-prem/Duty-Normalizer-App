@@ -79,7 +79,7 @@ class _DeleteDutyState extends State<DeleteDuty> {
       //     ppl_in_duties[row["DUTY_NAME"]]!.add(i["ID"]);
       //   }
       // }
-      setvariables();
+      await setvariables();
       // update the state with the fetched data
       setState(() {});
     });
