@@ -48,7 +48,7 @@ class _DashboardState extends State<Dashboard> {
     }
     stats["Mtech_hours"]=countm;
     if(stats["Mtech_number"]!=0)
-    stats["Mtech_avg"]=(stats["Mtech_hours"]/stats["Mtech_number"]).toStringAsFixed(2);
+      stats["Mtech_avg"]=(stats["Mtech_hours"]/stats["Mtech_number"]).toStringAsFixed(2);
     else
       stats["Mtech_avg"]=0;
     m=await LocalDB().readDB("select * from Phd");
@@ -127,7 +127,7 @@ class _DashboardState extends State<Dashboard> {
           child: Column(
             children: [
               Text(
-                  "Are you sure you want to reset work hours?",style: TextStyle(
+                "Are you sure you want to reset work hours?",style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 16.0,
               ),),
@@ -203,65 +203,65 @@ class _DashboardState extends State<Dashboard> {
               //   ),
               // ),
               child:FutureBuilder(
-        future: calculate_stats(),
-        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            return Container(
-              child: Column(
-                children: [
-                  SizedBox(height: 20),
-                  CarouselSlider(
-                    options: CarouselOptions(
-                      height: 200.0,
-                      autoPlay: true,
-                      enlargeCenterPage: true,
-                      aspectRatio: 16 / 9,
-                      autoPlayCurve: Curves.fastOutSlowIn,
-                      enableInfiniteScroll: true,
-                    ),
-                    items: [
-                      makeSliderCard(
-                          Color(0xff8d99ae),
-                          Color(0xffedf2f4),
-                          "Overall Stats",
-                          "${stats["Overall_hours"]}",
-                          "${stats["Overall_avg"]}",
-                          "${stats["Overall_number"]}"),
-                      makeSliderCard(
-                          Color(0xfffb8500),
-                          Color(0xffffd60a),
-                          "M.Tech",
-                          "${stats["Mtech_hours"]}",
-                          "${stats["Mtech_avg"]}",
-                          "${stats["Mtech_number"]}"),
-                      makeSliderCard(
-                          Color(0xff8d99ae),
-                          Color(0xffedf2f4),
-                          "Ph.D",
-                          "${stats["Phd_hours"]}",
-                          "${stats["Phd_avg"]}",
-                          "${stats["Phd_number"]}"),
-                      makeSliderCard(
-                          Color(0xfff72585),
-                          Color(0xffffb3c6),
-                          "Faculty",
-                          "${stats["Faculty_hours"]}",
-                          "${stats["Fac_avg"]}",
-                          "${stats["Fac_number"]}"),
-                    ],
-                  ),
-                ],
+                future: calculate_stats(),
+                builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    return Container(
+                      child: Column(
+                        children: [
+                          SizedBox(height: 20),
+                          CarouselSlider(
+                            options: CarouselOptions(
+                              height: 200.0,
+                              autoPlay: true,
+                              enlargeCenterPage: true,
+                              aspectRatio: 16 / 9,
+                              autoPlayCurve: Curves.fastOutSlowIn,
+                              enableInfiniteScroll: true,
+                            ),
+                            items: [
+                              makeSliderCard(
+                                  Color(0xff8d99ae),
+                                  Color(0xffedf2f4),
+                                  "Overall Stats",
+                                  "${stats["Overall_hours"]}",
+                                  "${stats["Overall_avg"]}",
+                                  "${stats["Overall_number"]}"),
+                              makeSliderCard(
+                                  Color(0xfffb8500),
+                                  Color(0xffffd60a),
+                                  "M.Tech",
+                                  "${stats["Mtech_hours"]}",
+                                  "${stats["Mtech_avg"]}",
+                                  "${stats["Mtech_number"]}"),
+                              makeSliderCard(
+                                  Color(0xff8d99ae),
+                                  Color(0xffedf2f4),
+                                  "Ph.D",
+                                  "${stats["Phd_hours"]}",
+                                  "${stats["Phd_avg"]}",
+                                  "${stats["Phd_number"]}"),
+                              makeSliderCard(
+                                  Color(0xfff72585),
+                                  Color(0xffffb3c6),
+                                  "Faculty",
+                                  "${stats["Faculty_hours"]}",
+                                  "${stats["Fac_avg"]}",
+                                  "${stats["Fac_number"]}"),
+                            ],
+                          ),
+                        ],
+                      ),
+                    );
+                  } else {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                },
               ),
-            );
-          } else {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
-      ),
 
-    ),
+            ),
 
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -521,6 +521,8 @@ class _DashboardState extends State<Dashboard> {
         //fixedColor: Colors.deepPurple[900],
         selectedItemColor: Colors.black54,
         unselectedItemColor: Colors.black54,
+        selectedLabelStyle: TextStyle(fontSize: 13),
+        unselectedLabelStyle: TextStyle(fontSize: 13),
         iconSize: 40,
         elevation: 5,
         onTap: (int index) {
