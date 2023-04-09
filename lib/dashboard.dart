@@ -68,8 +68,38 @@ class _DashboardState extends State<Dashboard> {
       // set up the AlertDialog
       AlertDialog alert = AlertDialog(
         title: Text("Alert"),
-        content: Text(
-            "Are you sure you want to reset work hours?"),
+        content: SizedBox(
+          height: 110,
+          child: Column(
+            children: [
+              Text(
+                  "Are you sure you want to reset work hours?",style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16.0,
+              ),),
+              SizedBox(height: 8.0),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Icon(
+                    Icons.warning,
+                    color: Colors.yellow,
+                  ),
+                  SizedBox(width: 8.0),
+                  Expanded(
+                    child: Text(
+                      "All details will be deleted by resetting. If required you can download the reports from \"Generate Reports\" and then proceed with the reset.",
+                      style: TextStyle(
+                        fontStyle: FontStyle.italic,
+                        fontSize: 14.0,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
         actions: [
           cancelButton,
           continueButton,
@@ -128,258 +158,73 @@ class _DashboardState extends State<Dashboard> {
                   enableInfiniteScroll: true,
                 ),
                 items: [
-                  Container(
-                    margin: EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                      // color: Colors.green,
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [Color(0xff8d99ae),Color(0xffedf2f4)],//[Color(0xfffb8500), Color(0xffffd60a)],
-                      ),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Container(
-                      //width: 300,
-
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 15,horizontal: 8),
-                        child: Column(
-                          children: [
-                            Center(
-                              child: Text(
-                                "Overall Stats",
-                                style: TextStyle(
-                                    color: Color(0xff9381ff),
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'roboto',
-                                    fontSize: 24
-                                ),
-                              ),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Column(
-                                  children: [
-                                    Text(
-                                      "Total Work hours: var",
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    Text(
-                                      "Avg Work hours: var",
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                ElevatedButton.icon(
-                                  onPressed: null,
-                                  icon: Icon(Icons.people_alt_rounded,color: Colors.black,),
-                                  label: Text("63",style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                  ),),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                      ),),
-                  ),
-                  Container(
-                    margin: EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                      // color: Colors.red,
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [Color(0xfffb8500), Color(0xffffd60a)],
-                      ),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Container(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 15,horizontal: 8),
-                          child: Column(
-                            children: [
-                              Center(
-                                child: Text(
-                                  "M.Tech",
-                                  style: TextStyle(
-                                      color: Color(0xff9381ff),
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: 'roboto',
-                                      fontSize: 24
-                                  ),
-                                ),
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                children: [
-                                  Column(
-                                    children: [
-                                      Text(
-                                        "Total Work hours: var",
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      Text(
-                                        "Avg Work hours: var",
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  ElevatedButton.icon(
-                                    onPressed: null,
-                                    icon: Icon(Icons.people_alt_rounded,color: Colors.black,),
-                                    label: Text("63",style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                    ),),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                        )),
-                  ),
-                  Container(
-                    margin: EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                      // color: Colors.green,
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [Color(0xff8d99ae),Color(0xffedf2f4)],//[Color(0xfffb8500), Color(0xffffd60a)],
-                      ),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Container(
-                      //width: 300,
-
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 15,horizontal: 8),
-                        child: Column(
-                          children: [
-                            Center(
-                              child: Text(
-                                "Ph.D",
-                                style: TextStyle(
-                                    color: Color(0xff9381ff),
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'roboto',
-                                    fontSize: 24
-                                ),
-                              ),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Column(
-                                  children: [
-                                    Text(
-                                      "Total Work hours: var",
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    Text(
-                                      "Avg Work hours: var",
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                ElevatedButton.icon(
-                                  onPressed: null,
-                                  icon: Icon(Icons.people_alt_rounded,color: Colors.black,),
-                                  label: Text("63",style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                  ),),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                      ),),
-                  ),
-                  Container(
-                    margin: EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                      // color: Colors.blue,
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [Color(0xfff72585), Color(0xffffb3c6)],
-                      ),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Container(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 15,horizontal: 8),
-                        child: Column(
-                          children: [
-                            Center(
-                              child: Text(
-                                "Faculty",
-                                style: TextStyle(
-                                    color: Color(0xff9381ff),
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'roboto',
-                                    fontSize: 24
-                                ),
-                              ),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Column(
-                                  children: [
-                                    Text(
-                                      "Total Work hours: var",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    Text(
-                                      "Avg Work hours: var",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                ElevatedButton.icon(
-                                  onPressed: null,
-                                  icon: Icon(Icons.people_alt_rounded,color: Colors.black,),
-                                  label: Text("63",style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                  ),),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                      ),),
-                  ),],
+                  makeSliderCard(Color(0xff8d99ae),Color(0xffedf2f4), "Overall Stats", "var", "var", "69"),
+                  makeSliderCard(Color(0xfffb8500), Color(0xffffd60a), "M.Tech", "var", "var", "70"),
+                  makeSliderCard(Color(0xff8d99ae),Color(0xffedf2f4), "Ph.D", "var", "var", "71"),
+                  makeSliderCard(Color(0xfff72585), Color(0xffffb3c6), "Faculty", "var", "var", "72"),
+                  // Container(
+                  //   margin: EdgeInsets.all(5),
+                  //   decoration: BoxDecoration(
+                  //     // color: Colors.blue,
+                  //     gradient: LinearGradient(
+                  //       begin: Alignment.topLeft,
+                  //       end: Alignment.bottomRight,
+                  //       colors: [Color(0xfff72585), Color(0xffffb3c6)],
+                  //     ),
+                  //     borderRadius: BorderRadius.circular(10),
+                  //   ),
+                  //   child: Container(
+                  //     child: Padding(
+                  //       padding: const EdgeInsets.symmetric(vertical: 15,horizontal: 8),
+                  //       child: Column(
+                  //         children: [
+                  //           Center(
+                  //             child: Text(
+                  //               "Faculty",
+                  //               style: TextStyle(
+                  //                   color: Color(0xff9381ff),
+                  //                   fontWeight: FontWeight.bold,
+                  //                   fontFamily: 'roboto',
+                  //                   fontSize: 24
+                  //               ),
+                  //             ),
+                  //           ),
+                  //           Row(
+                  //             mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  //             children: [
+                  //               Column(
+                  //                 children: [
+                  //                   Text(
+                  //                     "Total Work hours: var",
+                  //                     style: TextStyle(
+                  //                       color: Colors.white,
+                  //                       fontWeight: FontWeight.bold,
+                  //                     ),
+                  //                   ),
+                  //                   Text(
+                  //                     "Avg Work hours: var",
+                  //                     style: TextStyle(
+                  //                       color: Colors.white,
+                  //                       fontWeight: FontWeight.bold,
+                  //                     ),
+                  //                   ),
+                  //                 ],
+                  //               ),
+                  //               ElevatedButton.icon(
+                  //                 onPressed: null,
+                  //                 icon: Icon(Icons.people_alt_rounded,color: Colors.black,),
+                  //                 label: Text("63",style: TextStyle(
+                  //                   color: Colors.black,
+                  //                   fontWeight: FontWeight.bold,
+                  //                 ),),
+                  //               ),
+                  //             ],
+                  //           )
+                  //         ],
+                  //       ),
+                  //     ),),
+                  // ),
+                  ],
               ),
             ),
 
@@ -680,6 +525,71 @@ class _DashboardState extends State<Dashboard> {
     );
     return myWidget;
   }
+
+  Container makeSliderCard(Color fromColor, Color toColor,String heading,String totalWH,String avgWH,String pplCount){
+    return Container(
+      margin: EdgeInsets.all(5),
+      decoration: BoxDecoration(
+        // color: Colors.blue,
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [fromColor, toColor],
+        ),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Container(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 15,horizontal: 8),
+          child: Column(
+            children: [
+              Center(
+                child: Text(heading,
+                  style: TextStyle(
+                      color: Color(0xff9381ff),
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'roboto',
+                      fontSize: 24
+                  ),
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Column(
+                    children: [
+                      Text(
+                        "Total Work hours: $totalWH",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        "Avg Work hours: $avgWH",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  ElevatedButton.icon(
+                    onPressed: null,
+                    icon: Icon(Icons.people_alt_rounded,color: Colors.black,),
+                    label: Text(pplCount,style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),),
+    );
+  }
+
 
 //   Card makeDashboardItem(String title, String path) {
 //     return Card(
