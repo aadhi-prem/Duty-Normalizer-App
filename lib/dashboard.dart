@@ -1,11 +1,14 @@
-import 'reassign_main.dart';
-import 'BlockUnblock.dart';
-import 'ReportGeneration.dart';
-import 'add_main.dart';
-import 'reassign.dart';
-import 'DeleteDuty.dart';
+// import 'reassign_main.dart';
+// import 'BlockUnblock.dart';
+// import 'ReportGeneration.dart';
+// import 'add_main.dart';
+// import 'reassign.dart';
+// import 'DeleteDuty.dart';
 import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'BlockUnblock.dart';
 import 'DutyReport_Duty.dart';
+import 'add_main.dart';
 import 'assign.dart';
 import 'main.dart';
 import 'delete.dart';
@@ -41,8 +44,6 @@ class _DashboardState extends State<Dashboard> {
     /*24 is for notification bar on Android*/
     final double itemHeight = (size.height - kToolbarHeight - 220) / 2;
     final double itemWidth = size.width / 2;
-
-
 
     showAlertDialog(BuildContext context) {
       // set up the buttons
@@ -90,7 +91,8 @@ class _DashboardState extends State<Dashboard> {
           "Duty Normalizer",
         ),
         elevation: .1,
-        backgroundColor: Color(0xff9381ff), //Color.fromRGBO(143, 148, 251, 1), //violet color
+        backgroundColor: Color(
+            0xff9381ff), //Color.fromRGBO(143, 148, 251, 1), //violet color
       ),
       /////////////////////////////////////////////
       body: Container(
@@ -100,191 +102,510 @@ class _DashboardState extends State<Dashboard> {
             fit: BoxFit.cover,
           ),
         ),
-        child: GridView.count(
-          padding: const EdgeInsets.fromLTRB(1, 10, 1, 10),
-          crossAxisCount: 2,
-          childAspectRatio: (itemWidth / itemHeight),
-          mainAxisSpacing: 5.0,
-          children: <Widget>[
-            InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => AssignPage()),
-                );
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  //color: Colors.white,
-                  borderRadius: BorderRadius.circular(16.0),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.deepPurple.withOpacity(0.7),
-                      spreadRadius: 3,
-                      blurRadius: 7,
-                      offset: Offset(0, 3),
-                    ),
-                  ],
+        // child: GridView.count(
+        //   padding: const EdgeInsets.fromLTRB(1, 10, 1, 10),
+        //   crossAxisCount: 2,
+        //   childAspectRatio: (itemWidth / itemHeight),
+        //   mainAxisSpacing: 5.0,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Container(
+              //   decoration: BoxDecoration(
+              //   gradient: LinearGradient(
+              //     begin: Alignment.topLeft,
+              //     end: Alignment.bottomRight,
+              //     colors: [Colors.blueAccent, Colors.deepPurple],
+              //   ),
+              // ),
+              child: CarouselSlider(
+                options: CarouselOptions(
+                  height: 200.0,
+                  autoPlay: true,
+                  enlargeCenterPage: true,
+                  aspectRatio: 16 / 9,
+                  autoPlayCurve: Curves.fastOutSlowIn,
+                  enableInfiniteScroll: true,
                 ),
-                child: Container(
-                  child: Card(
-                    child: Column(
-                      children: <Widget>[
-                        SizedBox(height: 15,),
-                        Image.asset(
-                          'assets/assigndemo.png',
-                          height: 165,
+                items: [
+                  Container(
+                    margin: EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      // color: Colors.green,
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [Color(0xff8d99ae),Color(0xffedf2f4)],//[Color(0xfffb8500), Color(0xffffd60a)],
+                      ),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Container(
+                      //width: 300,
+
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 15,horizontal: 8),
+                        child: Column(
+                          children: [
+                            Center(
+                              child: Text(
+                                "Overall Stats",
+                                style: TextStyle(
+                                    color: Color(0xff9381ff),
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'roboto',
+                                    fontSize: 24
+                                ),
+                              ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Column(
+                                  children: [
+                                    Text(
+                                      "Total Work hours: var",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text(
+                                      "Avg Work hours: var",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                ElevatedButton.icon(
+                                  onPressed: null,
+                                  icon: Icon(Icons.people_alt_rounded,color: Colors.black,),
+                                  label: Text("63",style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),),
+                                ),
+                              ],
+                            )
+                          ],
                         ),
-                        Padding(
-                          padding: EdgeInsets.all(12),
-                          child: Text(
-                            'Assign Duty',
-                            style: TextStyle(
-                                fontSize: 21,
-                                fontFamily: 'Alkatra',
-                                color: Colors.deepPurple[900]),
+                      ),),
+                  ),
+                  Container(
+                    margin: EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      // color: Colors.red,
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [Color(0xfffb8500), Color(0xffffd60a)],
+                      ),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Container(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 15,horizontal: 8),
+                          child: Column(
+                            children: [
+                              Center(
+                                child: Text(
+                                  "M.Tech",
+                                  style: TextStyle(
+                                      color: Color(0xff9381ff),
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'roboto',
+                                      fontSize: 24
+                                  ),
+                                ),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  Column(
+                                    children: [
+                                      Text(
+                                        "Total Work hours: var",
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Text(
+                                        "Avg Work hours: var",
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  ElevatedButton.icon(
+                                    onPressed: null,
+                                    icon: Icon(Icons.people_alt_rounded,color: Colors.black,),
+                                    label: Text("63",style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                    ),),
+                                  ),
+                                ],
+                              )
+                            ],
                           ),
+                        )),
+                  ),
+                  Container(
+                    margin: EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      // color: Colors.green,
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [Color(0xff8d99ae),Color(0xffedf2f4)],//[Color(0xfffb8500), Color(0xffffd60a)],
+                      ),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Container(
+                      //width: 300,
+
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 15,horizontal: 8),
+                        child: Column(
+                          children: [
+                            Center(
+                              child: Text(
+                                "Ph.D",
+                                style: TextStyle(
+                                    color: Color(0xff9381ff),
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'roboto',
+                                    fontSize: 24
+                                ),
+                              ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Column(
+                                  children: [
+                                    Text(
+                                      "Total Work hours: var",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text(
+                                      "Avg Work hours: var",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                ElevatedButton.icon(
+                                  onPressed: null,
+                                  icon: Icon(Icons.people_alt_rounded,color: Colors.black,),
+                                  label: Text("63",style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),),
+                  ),
+                  Container(
+                    margin: EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      // color: Colors.blue,
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [Color(0xfff72585), Color(0xffffb3c6)],
+                      ),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Container(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 15,horizontal: 8),
+                        child: Column(
+                          children: [
+                            Center(
+                              child: Text(
+                                "Faculty",
+                                style: TextStyle(
+                                    color: Color(0xff9381ff),
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'roboto',
+                                    fontSize: 24
+                                ),
+                              ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Column(
+                                  children: [
+                                    Text(
+                                      "Total Work hours: var",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text(
+                                      "Avg Work hours: var",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                ElevatedButton.icon(
+                                  onPressed: null,
+                                  icon: Icon(Icons.people_alt_rounded,color: Colors.black,),
+                                  label: Text("63",style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),),
+                  ),],
+              ),
+            ),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Dashboard()), //AssignPage
+                    );
+                  },
+                  child: Container(
+                    width: 175,
+                    //height: 155,
+                    decoration: BoxDecoration(
+                      //color: Colors.white,
+                      borderRadius: BorderRadius.circular(16.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.deepPurple.withOpacity(0.7),
+                          spreadRadius: 3,
+                          blurRadius: 7,
+                          offset: Offset(0, 3),
                         ),
                       ],
                     ),
-                  ),
-                ),
-              ),
-            ),
-            InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => DutyReport1()),
-                );
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  //color: Colors.white,
-                  borderRadius: BorderRadius.circular(16.0),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.deepPurple.withOpacity(0.7),
-                      spreadRadius: 2,
-                      blurRadius: 7,
-                      offset: Offset(0, 3),
-                    ),
-                  ],
-                ),
-                child: Card(
-                  child: Column(
-                    children: <Widget>[
-                      SizedBox(height: 15,),
-                      Image.asset(
-                        'assets/reallocatedemo.png',
-                        height: 165,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(12),
-                        child: Text(
-                          'Reallocate Duty',
-                          style: TextStyle(
-                              fontSize: 21,
-                              fontFamily: 'Alkatra',
-                              color: Colors.deepPurple[900]),
+                    child: Container(
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            //SizedBox(height: 15,),
+                            Image.asset(
+                              'assets/assigndemo.png',
+                              height: 90,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.all(12),
+                              child: Text(
+                                'Assign Duty',
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontFamily: 'Alkatra',
+                                    color: Colors.deepPurple[900]),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
-            ),
-            InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) =>ReportGenerationPage()),
-                );
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  //color: Colors.white,
-                  borderRadius: BorderRadius.circular(16.0),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.deepPurple.withOpacity(0.7),
-                      spreadRadius: 2,
-                      blurRadius: 7,
-                      offset: Offset(0, 3),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Dashboard()), //DutyReport1
+                    );
+                  },
+                  child: Container(
+                    width: 175,
+                    //height: 155,
+                    decoration: BoxDecoration(
+                      //color: Colors.white,
+                      borderRadius: BorderRadius.circular(16.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.deepPurple.withOpacity(0.7),
+                          spreadRadius: 2,
+                          blurRadius: 7,
+                          offset: Offset(0, 3),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-                child: Card(
-                  child: Column(
-                    children: <Widget>[
-                      SizedBox(height: 15,),
-                      Image.asset(
-                        'assets/reportdemo.png',
-                        height: 165,
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
                       ),
-                      Padding(
-                        padding: EdgeInsets.all(12,),
-                        child: Center(
-                          child: Text(
-                            'Generate Report',
-                            style: TextStyle(
-                                fontSize: 21,
-                                fontFamily: 'Alkatra',
-                                color: Colors.deepPurple[900]),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          //SizedBox(height: 15,),
+                          Image.asset(
+                            'assets/reallocatedemo.png',
+                            height: 90,
                           ),
-                        ),
+                          Padding(
+                            padding: EdgeInsets.all(12),
+                            child: Text(
+                              'Reallocate Duty',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'roboto',
+                                  color: Colors.deepPurple[900]),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) =>DeleteDutyPage()),
-                );
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  //color: Colors.white,
-                  borderRadius: BorderRadius.circular(16.0),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.deepPurple.withOpacity(0.7),
-                      spreadRadius: 2,
-                      blurRadius: 7,
-                      offset: Offset(0, 3),
                     ),
-                  ],
-                ),
-                child: Card(
-                  child: Column(
-                    children: <Widget>[
-                      SizedBox(height: 15,),
-                      Image.asset(
-                        'assets/deletedemo.png',
-                        height: 165,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(12),
-                        child: Text(
-                          'Delete Duty',
-                          style: TextStyle(
-                              fontSize: 21,
-                              fontFamily: 'Alkatra',
-                              color: Colors.deepPurple[900]),
-                        ),
-                      ),
-                    ],
                   ),
                 ),
-              ),
+              ],
             ),
-            // Container(
-            //   child: _widgetOptions.elementAt(_selectedIndex),
-            // ),
+
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              Dashboard()), //ReportGenerationPage
+                    );
+                  },
+                  child: Container(
+
+                    width: 175,
+                    //height: 155,
+                    decoration: BoxDecoration(
+                      //color: Colors.white,
+                      borderRadius: BorderRadius.circular(16.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.deepPurple.withOpacity(0.7),
+                          spreadRadius: 2,
+                          blurRadius: 7,
+                          offset: Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          //SizedBox(height: 15,),
+                          Image.asset(
+                            'assets/reportdemo.png',
+                            height: 90,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(
+                              12,
+                            ),
+                            child: Center(
+                              child: Text(
+                                'Generate Report',
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontFamily: 'roboto',
+                                    color: Colors.deepPurple[900]),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Dashboard()), //DeleteDutyPage
+                    );
+                  },
+                  child: Container(
+                    width: 175,
+                    //height: 155,
+                    decoration: BoxDecoration(
+                      //color: Colors.white,
+                      borderRadius: BorderRadius.circular(16.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.deepPurple.withOpacity(0.7),
+                          spreadRadius: 2,
+                          blurRadius: 7,
+                          offset: Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          //SizedBox(height: 15,),
+                          Image.asset(
+                            'assets/deletedemo.png',
+                            height: 90,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(12),
+                            child: Text(
+                              'Delete Duty',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'roboto',
+                                  color: Colors.deepPurple[900]),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                // Container(
+                //   child: _widgetOptions.elementAt(_selectedIndex),
+                // ),
+              ],
+            ),
           ],
         ),
       ),
@@ -295,12 +616,12 @@ class _DashboardState extends State<Dashboard> {
         //Color.fromRGBO(143, 148, 251, 1),
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.add),
+            icon: Icon(Icons.person_add_alt_1_rounded),
             label: "Add Members",
             // backgroundColor: Colors.green
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.delete),
+            icon: Icon(Icons.person_remove_alt_1_rounded),
             label: "Delete Member",
             // backgroundColor: Colors.yellow
           ),
