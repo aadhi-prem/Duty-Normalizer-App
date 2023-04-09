@@ -18,6 +18,8 @@ class _PinEntryPageState extends State<PinEntryPage> {
     await LocalDB().executeDB("Update Mtech set WorkHours = 0;");
     await LocalDB().executeDB("Update Phd set WorkHours = 0;");
     await LocalDB().executeDB("Update Faculty set WorkHours = 0;");
+    await LocalDB().executeDB("Delete from DutyDetails;")
+    await LocalDB().executeDB("Delete from Duty;");
   }
 
   Widget build(BuildContext context) {
