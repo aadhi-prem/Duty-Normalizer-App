@@ -47,7 +47,10 @@ class _DashboardState extends State<Dashboard> {
       countm+=row["WorkHours"];
     }
     stats["Mtech_hours"]=countm;
+    if(stats["Mtech_number"]!=0)
     stats["Mtech_avg"]=(stats["Mtech_hours"]/stats["Mtech_number"]).toStringAsFixed(2);
+    else
+      stats["Mtech_avg"]=0;
     m=await LocalDB().readDB("select * from Phd");
     stats["Phd_number"]=m.length;
     num countp=0;
@@ -55,7 +58,11 @@ class _DashboardState extends State<Dashboard> {
       countp+=row["WorkHours"];
     }
     stats["Phd_hours"]=countp;
-    stats["Phd_avg"]=(stats["Phd_hours"]/stats["Phd_number"]).toStringAsFixed(2);
+    if(stats["Phd_number"]!=0) {
+      stats["Phd_avg"]=(stats["Phd_hours"]/stats["Phd_number"]).toStringAsFixed(2);
+    } else {
+      stats["Phd_avg"]=0;
+    }
     m=await LocalDB().readDB("select * from Faculty");
     stats["Fac_number"]=m.length;
     num countf=0;
@@ -63,11 +70,19 @@ class _DashboardState extends State<Dashboard> {
       countp+=row["WorkHours"];
     }
     stats["Faculty_hours"]=countf;
-    stats["Fac_avg"]=(stats["Faculty_hours"]/stats["Fac_number"]).toStringAsFixed(2);
+    if(stats["Fac_number"]!=0) {
+      stats["Fac_avg"]=(stats["Faculty_hours"]/stats["Fac_number"]).toStringAsFixed(2);
+    } else {
+      stats["Fac_avg"]=0;
+    }
     m=await LocalDB().readDB("select * from Mtech union select * from Phd union select * from Faculty");
     stats["Overall_number"]=m.length;
     stats["Overall_hours"]=countf+countm+countp;
-    stats["Overall_avg"]=(stats["Overall_hours"]/stats["Overall_number"]).toStringAsFixed(2);
+    if(stats["Overall_number"]!=0) {
+      stats["Overall_avg"]=(stats["Overall_hours"]/stats["Overall_number"]).toStringAsFixed(2);
+    } else {
+      stats["Overall_avg"]=0.00;
+    }
   }
   @override
   @override
