@@ -356,7 +356,7 @@ class _DeleteDutyState extends State<DeleteDuty> {
                 SizedBox(width: 32,),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom( primary: Color(0xffff595e),),
-                  onPressed: () {
+                  onPressed: () async {
                     // Fluttertoast.showToast(
                     //     msg: "Deleted Successfully",
                     //     toastLength: Toast.LENGTH_SHORT,
@@ -378,8 +378,12 @@ class _DeleteDutyState extends State<DeleteDuty> {
                             _deleteCandidateFromDuty(r,ID);
                           }
                         }
+                        List<Map<String,dynamic>>m=await LocalDB().readDB("Select* from DutyDetails where DUTY_NAME = '${r["DUTY_NAME"]}'");
+                        if(m.length == 0)
+                          _deleteDuty(r);
                       }
                     }
+
                     // _deleteDuty(selectedDuties);
 
                     // Navigator.push(
