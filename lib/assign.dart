@@ -74,7 +74,7 @@ class _AssignState extends State<assign> {
   }
   bool isValid(String name) {
     // A valid username contains only letters, numbers, and underscores
-    final RegExp regex = RegExp(r'^[\w\s]+$');
+    final RegExp regex = RegExp(r'^[/\w\s,-]+$');
     return name!="" && regex.hasMatch(name);
   }
   String trimName(String name) {
