@@ -1,9 +1,9 @@
-// import 'reassign_main.dart';
-// import 'BlockUnblock.dart';
-// import 'ReportGeneration.dart';
-// import 'add_main.dart';
-// import 'reassign.dart';
-// import 'DeleteDuty.dart';
+import 'reassign_main.dart';
+import 'BlockUnblock.dart';
+import 'ReportGeneration.dart';
+import 'add_main.dart';
+import 'reassign.dart';
+import 'DeleteDuty.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'BlockUnblock.dart';
@@ -141,13 +141,6 @@ class _DashboardState extends State<Dashboard> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Container(
-              //   decoration: BoxDecoration(
-              //   gradient: LinearGradient(
-              //     begin: Alignment.topLeft,
-              //     end: Alignment.bottomRight,
-              //     colors: [Colors.blueAccent, Colors.deepPurple],
-              //   ),
-              // ),
               child: CarouselSlider(
                 options: CarouselOptions(
                   height: 200.0,
@@ -273,7 +266,7 @@ class _DashboardState extends State<Dashboard> {
                                 'Assign Duty',
                                 style: TextStyle(
                                     fontSize: 16,
-                                    fontFamily: 'Alkatra',
+                                    fontFamily: 'Roboto',
                                     color: Colors.deepPurple[900]),
                               ),
                             ),
@@ -288,7 +281,7 @@ class _DashboardState extends State<Dashboard> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => Dashboard()), //DutyReport1
+                          builder: (context) => DutyReport1()), //DutyReport1
                     );
                   },
                   child: Container(
@@ -324,7 +317,7 @@ class _DashboardState extends State<Dashboard> {
                               'Reallocate Duty',
                               style: TextStyle(
                                   fontSize: 16,
-                                  fontFamily: 'roboto',
+                                  fontFamily: 'Roboto',
                                   color: Colors.deepPurple[900]),
                             ),
                           ),
@@ -346,7 +339,7 @@ class _DashboardState extends State<Dashboard> {
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              Dashboard()), //ReportGenerationPage
+                              ReportGenerationPage()), //ReportGenerationPage
                     );
                   },
                   child: Container(
@@ -386,7 +379,7 @@ class _DashboardState extends State<Dashboard> {
                                 'Generate Report',
                                 style: TextStyle(
                                     fontSize: 16,
-                                    fontFamily: 'roboto',
+                                    fontFamily: 'Roboto',
                                     color: Colors.deepPurple[900]),
                               ),
                             ),
@@ -401,7 +394,7 @@ class _DashboardState extends State<Dashboard> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => Dashboard()), //DeleteDutyPage
+                          builder: (context) => DeleteDutyPage()), //DeleteDutyPage
                     );
                   },
                   child: Container(
@@ -437,7 +430,7 @@ class _DashboardState extends State<Dashboard> {
                               'Delete Duty',
                               style: TextStyle(
                                   fontSize: 16,
-                                  fontFamily: 'roboto',
+                                  fontFamily: 'Roboto',
                                   color: Colors.deepPurple[900]),
                             ),
                           ),
@@ -548,7 +541,7 @@ class _DashboardState extends State<Dashboard> {
                   style: TextStyle(
                       color: Color(0xff9381ff),
                       fontWeight: FontWeight.bold,
-                      fontFamily: 'roboto',
+                      fontFamily: 'Roboto',
                       fontSize: 24
                   ),
                 ),
