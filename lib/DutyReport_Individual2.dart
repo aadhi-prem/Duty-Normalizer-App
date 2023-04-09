@@ -98,35 +98,58 @@ class _IndividualReport2State extends State<IndividualReport2> {
             ),
 
             Expanded(
+                child: Card(
+                  key: ValueKey(selectedUser["id"]),
+                  color: Color(0xff9381ff),
+                  elevation: 4,
+                  margin: const EdgeInsets.symmetric(vertical: 10),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Container(
+                      height: 50,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text(
+                            ' ${selectedUser["ID"]} ${selectedUser['Name']} ${selectedUser['DEPARTMENT']} WorkHours:${selectedUser['WorkHours']}',
+                            style: TextStyle(fontSize: 17, color: Colors.black.withOpacity(0.8)
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+            ),
+
+            Expanded(
               child: selectedUser.isNotEmpty
-                  ? ListView.builder  (
-                  itemCount: 1,
-                  itemBuilder: (context, index) => FutureBuilder<List<Widget>>(
+                  ? FutureBuilder<List<Widget>>(
                       future: _Duties(selectedUser),
                       builder: (context, snapshot){
                         if(snapshot.hasData) {
-                          return ExpansionTile(
-                            title: Container(
-                              height: 60,
-                              child: Card(
-                                color: Color(0xff9381ff),
-                                elevation: 4,
-                                margin: const EdgeInsets.symmetric(vertical: 10),
-                                child: SingleChildScrollView(
-                                  scrollDirection: Axis.horizontal,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        ' ${selectedUser["ID"]} ${selectedUser['Name']} ${selectedUser['DEPARTMENT']} WorkHours:${selectedUser['WorkHours']}',
-                                        style: TextStyle(fontSize: 17, color: Colors.black.withOpacity(0.8)
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
+                          return ListView(
+                            // title: Container(
+                            //   height: 60,
+                            //   child: Card(
+                            //     color: Color(0xff9381ff),
+                            //     elevation: 4,
+                            //     margin: const EdgeInsets.symmetric(vertical: 10),
+                            //     child: SingleChildScrollView(
+                            //       scrollDirection: Axis.horizontal,
+                            //       child: Row(
+                            //         mainAxisAlignment: MainAxisAlignment.start,
+                            //         children: [
+                            //           Text(
+                            //             ' ${selectedUser["ID"]} ${selectedUser['Name']} ${selectedUser['DEPARTMENT']} WorkHours:${selectedUser['WorkHours']}',
+                            //             style: TextStyle(fontSize: 17, color: Colors.black.withOpacity(0.8)
+                            //             ),
+                            //           ),
+                            //         ],
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
                             children: snapshot.data!,
                           );
                         }
@@ -138,7 +161,6 @@ class _IndividualReport2State extends State<IndividualReport2> {
                         }
                       }
                   )
-              )
                   : const Text(
                 'No results found',
                 style: TextStyle(fontSize: 24,color: Color(0xffff595e),),
