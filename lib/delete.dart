@@ -143,7 +143,58 @@ class _DeleteState extends State<Delete> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+
+    showDelAlertDialog(BuildContext context) {
+      // set up the buttons
+      Widget cancelButton = TextButton(
+        onPressed: () {
+          Navigator.of(context, rootNavigator: true).pop();
+          // Navigator.pushReplacement(context, MaterialPageRoute(
+          //   builder: (context) => Dashboard(),
+          // ),); //dismiss dialog
+        },
+        child: Text("Cancel"),
+      );
+      Widget continueButton = TextButton(
+        onPressed: () {
+          Navigator.of(context, rootNavigator: true).pop();
+          // Navigator.push(context, MaterialPageRoute(
+          //   builder: (context) => PinEntryPage(),
+          // ),);
+          Fluttertoast.showToast(
+              msg: "Deleted Successfully",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.grey[600],
+              textColor: Colors.white,
+              fontSize: 16.0
+          );
+        },
+        child: Text("Continue"),
+      );
+      // set up the AlertDialog
+      AlertDialog alert = AlertDialog(
+        title: Text("Alert"),
+        content: Text(
+          "Are you sure you want to delete this member?", style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 16.0,
+        ),),
+        actions: [
+          cancelButton,
+          continueButton,
+        ],
+      );
+      // show the dialog
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        },
+      );
+    }
+    var delpg= Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xff9381ff),
         title: const Text('Delete Student/Faculty'),
@@ -305,15 +356,8 @@ class _DeleteState extends State<Delete> {
             ElevatedButton(
               style: ElevatedButton.styleFrom( primary: Color(0xffff595e),),
               onPressed: () {
-                Fluttertoast.showToast(
-                    msg: "Deleted Successfully",
-                    toastLength: Toast.LENGTH_SHORT,
-                    gravity: ToastGravity.BOTTOM,
-                    timeInSecForIosWeb: 1,
-                    backgroundColor: Colors.grey[600],
-                    textColor: Colors.white,
-                    fontSize: 16.0
-                );
+
+                showDelAlertDialog(context);
                 selectall=false;
                 List<Map<String, dynamic>> selectedUsers = [];
                 for (Map<String,dynamic>r in _allUsers) {
@@ -336,5 +380,6 @@ class _DeleteState extends State<Delete> {
         ),
       ),
     );
+    return delpg;
   }
 }
