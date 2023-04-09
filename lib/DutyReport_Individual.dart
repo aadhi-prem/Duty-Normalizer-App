@@ -27,13 +27,14 @@ class _IndividualReportState extends State<IndividualReport> {
   // You can use data fetched from a database or a server as well
   Future<void> runSqlQuery() async {
     if('$dept'=='null' && '$category'=='null' )
-      _allUsers = await LocalDB().readDB("SELECT * FROM Phd UNION select * from Mtech union select * from Faculty order by name ;");
+      _allUsers = await LocalDB().readDB("Select* from (SELECT * FROM Phd UNION select * from Mtech union select * from Faculty) order by WorkHours DESC;");
     else if('$dept'!='null' && '$category'=='null')
-      _allUsers = await LocalDB().readDB("SELECT * FROM Phd where department='$dept' union SELECT * FROM Mtech where department='$dept' union SELECT * FROM Faculty where department='$dept'");
+      // _allUsers = await LocalDB().readDB("SELECT * FROM Phd where department='$dept' union SELECT * FROM Mtech where department='$dept' union SELECT * FROM Faculty where department='$dept'");
+      _allUsers = await LocalDB().readDB("Select* from (Select* from Mtech union Select* from Phd union Select* from Faculty) where department='$dept' order by WorkHours DESC;");
     else if('$dept'=='null' && '$category'!='null')
-      _allUsers = await LocalDB().readDB("SELECT * FROM '$category';");
+      _allUsers = await LocalDB().readDB("SELECT * FROM '$category' order by WorkHours DESC;");
     else
-      _allUsers = await LocalDB().readDB("SELECT * FROM '$category' where department='$dept';");
+      _allUsers = await LocalDB().readDB("SELECT * FROM '$category' where department='$dept' order by WorkHours DESC;");
 
     setState(() {
       _allUsers=_allUsers;
@@ -215,7 +216,7 @@ class _IndividualReportState extends State<IndividualReport> {
                               );
                               // selectedUsers.clear();
                             },
-                            child: Text('${_foundUsers[index]["ID"]} ${_foundUsers[index]["Name"]} ${_foundUsers[index]["DEPARTMENT"]} ',
+                            child: Text('${_foundUsers[index]["ID"]} ${_foundUsers[index]["Name"]} ${_foundUsers[index]["DEPARTMENT"]} WorkHours: ${_foundUsers[index]["WorkHours"]}',
                               style: TextStyle(fontSize: 14, color: Colors.black.withOpacity(0.8)),
                             ),
 
