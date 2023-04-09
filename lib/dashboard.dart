@@ -4,6 +4,7 @@ import 'ReportGeneration.dart';
 import 'add_main.dart';
 import 'reassign.dart';
 import 'DeleteDuty.dart';
+import 'package:demoapp/DB_HELPER.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'BlockUnblock.dart';
@@ -36,6 +37,44 @@ class _DashboardState extends State<Dashboard> {
     Text('Reset'),
     Text('Block'),
   ];
+  int mtech=0,phd=0,fac=0,overall=0;    Map<String,dynamic>stats={};
+  Future<void>calculate_stats()async{
+    List<Map<String,dynamic>>m=[];
+    m=await LocalDB().readDB("select * from Mtech");
+    stats["Mtech_number"]=m.length;
+    num countm=0;
+    for(Map<String,dynamic>row in m){
+      countm+=row["WorkHours"];
+    }
+    stats["Mtech_hours"]=countm;
+    stats["Mtech_avg"]=(stats["Mtech_hours"]/stats["Mtech_number"]).toStringAsFixed(2);
+    m=await LocalDB().readDB("select * from Phd");
+    stats["Phd_number"]=m.length;
+    num countp=0;
+    for(Map<String,dynamic>row in m){
+      countp+=row["WorkHours"];
+    }
+    stats["Phd_hours"]=countp;
+    stats["Phd_avg"]=(stats["Phd_hours"]/stats["Phd_number"]).toStringAsFixed(2);
+    m=await LocalDB().readDB("select * from Faculty");
+    stats["Fac_number"]=m.length;
+    num countf=0;
+    for(Map<String,dynamic>row in m){
+      countp+=row["WorkHours"];
+    }
+    stats["Faculty_hours"]=countf;
+    stats["Fac_avg"]=(stats["Faculty_hours"]/stats["Fac_number"]).toStringAsFixed(2);
+    m=await LocalDB().readDB("select * from Mtech union select * from Phd union select * from Faculty");
+    stats["Overall_number"]=m.length;
+    stats["Overall_hours"]=countf+countm+countp;
+    stats["Overall_avg"]=(stats["Overall_hours"]/stats["Overall_number"]).toStringAsFixed(2);
+  }
+  @override
+  @override
+  void initState(){
+    super.initState();
+    calculate_stats();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -141,85 +180,73 @@ class _DashboardState extends State<Dashboard> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Container(
-              child: CarouselSlider(
-                options: CarouselOptions(
-                  height: 200.0,
-                  autoPlay: true,
-                  enlargeCenterPage: true,
-                  aspectRatio: 16 / 9,
-                  autoPlayCurve: Curves.fastOutSlowIn,
-                  enableInfiniteScroll: true,
-                ),
-                items: [
-                  makeSliderCard(Color(0xff8d99ae),Color(0xffedf2f4), "Overall Stats", "var", "var", "69"),
-                  makeSliderCard(Color(0xfffb8500), Color(0xffffd60a), "M.Tech", "var", "var", "70"),
-                  makeSliderCard(Color(0xff8d99ae),Color(0xffedf2f4), "Ph.D", "var", "var", "71"),
-                  makeSliderCard(Color(0xfff72585), Color(0xffffb3c6), "Faculty", "var", "var", "72"),
-                  // Container(
-                  //   margin: EdgeInsets.all(5),
-                  //   decoration: BoxDecoration(
-                  //     // color: Colors.blue,
-                  //     gradient: LinearGradient(
-                  //       begin: Alignment.topLeft,
-                  //       end: Alignment.bottomRight,
-                  //       colors: [Color(0xfff72585), Color(0xffffb3c6)],
-                  //     ),
-                  //     borderRadius: BorderRadius.circular(10),
-                  //   ),
-                  //   child: Container(
-                  //     child: Padding(
-                  //       padding: const EdgeInsets.symmetric(vertical: 15,horizontal: 8),
-                  //       child: Column(
-                  //         children: [
-                  //           Center(
-                  //             child: Text(
-                  //               "Faculty",
-                  //               style: TextStyle(
-                  //                   color: Color(0xff9381ff),
-                  //                   fontWeight: FontWeight.bold,
-                  //                   fontFamily: 'roboto',
-                  //                   fontSize: 24
-                  //               ),
-                  //             ),
-                  //           ),
-                  //           Row(
-                  //             mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  //             children: [
-                  //               Column(
-                  //                 children: [
-                  //                   Text(
-                  //                     "Total Work hours: var",
-                  //                     style: TextStyle(
-                  //                       color: Colors.white,
-                  //                       fontWeight: FontWeight.bold,
-                  //                     ),
-                  //                   ),
-                  //                   Text(
-                  //                     "Avg Work hours: var",
-                  //                     style: TextStyle(
-                  //                       color: Colors.white,
-                  //                       fontWeight: FontWeight.bold,
-                  //                     ),
-                  //                   ),
-                  //                 ],
-                  //               ),
-                  //               ElevatedButton.icon(
-                  //                 onPressed: null,
-                  //                 icon: Icon(Icons.people_alt_rounded,color: Colors.black,),
-                  //                 label: Text("63",style: TextStyle(
-                  //                   color: Colors.black,
-                  //                   fontWeight: FontWeight.bold,
-                  //                 ),),
-                  //               ),
-                  //             ],
-                  //           )
-                  //         ],
-                  //       ),
-                  //     ),),
-                  // ),
-                  ],
+              //   decoration: BoxDecoration(
+              //   gradient: LinearGradient(
+              //     begin: Alignment.topLeft,
+              //     end: Alignment.bottomRight,
+              //     colors: [Colors.blueAccent, Colors.deepPurple],
+              //   ),
+              // ),
+              child:FutureBuilder(
+        future: calculate_stats(),
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return Container(
+              child: Column(
+                children: [
+                  SizedBox(height: 20),
+                  CarouselSlider(
+                    options: CarouselOptions(
+                      height: 200.0,
+                      autoPlay: true,
+                      enlargeCenterPage: true,
+                      aspectRatio: 16 / 9,
+                      autoPlayCurve: Curves.fastOutSlowIn,
+                      enableInfiniteScroll: true,
+                    ),
+                    items: [
+                      makeSliderCard(
+                          Color(0xff8d99ae),
+                          Color(0xffedf2f4),
+                          "Overall Stats",
+                          "${stats["Overall_hours"]}",
+                          "${stats["Overall_avg"]}",
+                          "${stats["Overall_number"]}"),
+                      makeSliderCard(
+                          Color(0xfffb8500),
+                          Color(0xffffd60a),
+                          "M.Tech",
+                          "${stats["Mtech_hours"]}",
+                          "${stats["Mtech_avg"]}",
+                          "${stats["Mtech_number"]}"),
+                      makeSliderCard(
+                          Color(0xff8d99ae),
+                          Color(0xffedf2f4),
+                          "Ph.D",
+                          "${stats["Phd_hours"]}",
+                          "${stats["Phd_avg"]}",
+                          "${stats["Phd_number"]}"),
+                      makeSliderCard(
+                          Color(0xfff72585),
+                          Color(0xffffb3c6),
+                          "Faculty",
+                          "${stats["Faculty_hours"]}",
+                          "${stats["Fac_avg"]}",
+                          "${stats["Fac_number"]}"),
+                    ],
+                  ),
+                ],
               ),
-            ),
+            );
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+      ),
+
+    ),
 
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -266,7 +293,7 @@ class _DashboardState extends State<Dashboard> {
                                 'Assign Duty',
                                 style: TextStyle(
                                     fontSize: 16,
-                                    fontFamily: 'Roboto',
+                                    fontFamily: 'Alkatra',
                                     color: Colors.deepPurple[900]),
                               ),
                             ),
@@ -317,7 +344,7 @@ class _DashboardState extends State<Dashboard> {
                               'Reallocate Duty',
                               style: TextStyle(
                                   fontSize: 16,
-                                  fontFamily: 'Roboto',
+                                  fontFamily: 'roboto',
                                   color: Colors.deepPurple[900]),
                             ),
                           ),
@@ -379,7 +406,7 @@ class _DashboardState extends State<Dashboard> {
                                 'Generate Report',
                                 style: TextStyle(
                                     fontSize: 16,
-                                    fontFamily: 'Roboto',
+                                    fontFamily: 'roboto',
                                     color: Colors.deepPurple[900]),
                               ),
                             ),
@@ -430,7 +457,7 @@ class _DashboardState extends State<Dashboard> {
                               'Delete Duty',
                               style: TextStyle(
                                   fontSize: 16,
-                                  fontFamily: 'Roboto',
+                                  fontFamily: 'roboto',
                                   color: Colors.deepPurple[900]),
                             ),
                           ),
@@ -541,7 +568,7 @@ class _DashboardState extends State<Dashboard> {
                   style: TextStyle(
                       color: Color(0xff9381ff),
                       fontWeight: FontWeight.bold,
-                      fontFamily: 'Roboto',
+                      fontFamily: 'roboto',
                       fontSize: 24
                   ),
                 ),
