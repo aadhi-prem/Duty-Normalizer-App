@@ -43,6 +43,23 @@ class _DeleteDutyState extends State<DeleteDuty> {
     });
   }
 
+  Future<void> setvariables() async {
+    _selected.clear();
+    ppl_in_duties.clear();
+    _selected_from_duties.clear();
+    for(Map<String,dynamic>row in _allDuties){
+      _selected[row["DUTY_NAME"]]=false;
+      ppl_in_duties[row["DUTY_NAME"]]=[];
+      _selected_from_duties[row["DUTY_NAME"]] = {};
+      String s = "Select* from (Select* from Mtech union Select* from Phd union Select* from Faculty) where ID in (Select ID from DutyDetails where DUTY_NAME = '${row['DUTY_NAME']}')";
+      List<Map<String, dynamic>> Candidates = await LocalDB().readDB(s);
+      for(var i in Candidates){
+        _selected_from_duties[row["DUTY_NAME"]]![i["ID"]] = false;
+        ppl_in_duties[row["DUTY_NAME"]]!.add(i["ID"]);
+      }
+    }
+  }
+
   @override
   void initState () {
     super.initState();
@@ -51,17 +68,18 @@ class _DeleteDutyState extends State<DeleteDuty> {
       // at the beginning, all users are shown
       _foundDuties = _allDuties;
 
-      for(Map<String,dynamic>row in _allDuties){
-        _selected[row["DUTY_NAME"]]=false;
-        ppl_in_duties[row["DUTY_NAME"]]=[];
-        _selected_from_duties[row["DUTY_NAME"]] = {};
-        String s = "Select* from (Select* from Mtech union Select* from Phd union Select* from Faculty) where ID in (Select ID from DutyDetails where DUTY_NAME = '${row['DUTY_NAME']}')";
-        List<Map<String, dynamic>> Candidates = await LocalDB().readDB(s);
-        for(var i in Candidates){
-          _selected_from_duties[row["DUTY_NAME"]]![i["ID"]] = false;
-          ppl_in_duties[row["DUTY_NAME"]]!.add(i["ID"]);
-        }
-      }
+      // for(Map<String,dynamic>row in _allDuties){
+      //   _selected[row["DUTY_NAME"]]=false;
+      //   ppl_in_duties[row["DUTY_NAME"]]=[];
+      //   _selected_from_duties[row["DUTY_NAME"]] = {};
+      //   String s = "Select* from (Select* from Mtech union Select* from Phd union Select* from Faculty) where ID in (Select ID from DutyDetails where DUTY_NAME = '${row['DUTY_NAME']}')";
+      //   List<Map<String, dynamic>> Candidates = await LocalDB().readDB(s);
+      //   for(var i in Candidates){
+      //     _selected_from_duties[row["DUTY_NAME"]]![i["ID"]] = false;
+      //     ppl_in_duties[row["DUTY_NAME"]]!.add(i["ID"]);
+      //   }
+      // }
+      setvariables();
       // update the state with the fetched data
       setState(() {});
     });
@@ -143,21 +161,26 @@ class _DeleteDutyState extends State<DeleteDuty> {
     }
   }
 
-  Future<void> _deleteDuty(Map<String, dynamic> selectedDuty) async {
+  Future<void> _deleteDuty(Map<String, dynamic> selectedDuty, int i) async {
     String statement;
     debugPrint('This is the list : $selectedDuty');
     await LocalDB().executeDB("DELETE FROM DutyDetails where DUTY_NAME = '${selectedDuty["DUTY_NAME"]}';");
     await LocalDB().executeDB("DELETE FROM Duty where DUTY_NAME = '${selectedDuty["DUTY_NAME"]}';");
     int hours = selectedDuty["WorkHours"];
-    for(String ID in ppl_in_duties[selectedDuty["DUTY_NAME"]]!){
-      String table = await check_table(ID);
-      List<Map<String, dynamic>> person = await LocalDB().readDB("Select* from $table where ID = '$ID'");
-      int new_work = person[0]["WorkHours"] - hours;
-      await LocalDB().executeDB("Update $table set WorkHours = $new_work where ID = '$ID'");
+    if(i==0) {
+      for (String ID in ppl_in_duties[selectedDuty["DUTY_NAME"]]!) {
+        String table = await check_table(ID);
+        List<Map<String, dynamic>> person = await LocalDB().readDB(
+            "Select* from $table where ID = '$ID'");
+        int new_work = person[0]["WorkHours"] - hours;
+        await LocalDB().executeDB(
+            "Update $table set WorkHours = $new_work where ID = '$ID'");
+      }
     }
     debugPrint("delete completed");
     // Refresh the UI
     await runSqlQuery();
+    await setvariables();
     setState(() {
       _runFilter(searchWord);
     });
@@ -171,6 +194,7 @@ class _DeleteDutyState extends State<DeleteDuty> {
     int new_work = person[0]["WorkHours"] - hours;
     await LocalDB().executeDB("Update $table set WorkHours = $new_work where ID = '$ID'");
     await runSqlQuery();
+    await setvariables();
     setState(() {
       _runFilter(searchWord);
     });
@@ -368,19 +392,22 @@ class _DeleteDutyState extends State<DeleteDuty> {
                     // );
                     selectall=false;
                     // List<Map<String, dynamic>> selectedDuties = [];
+
                     for (Map<String,dynamic>r in _allDuties) {
+                      int flag = 0;
                       if (_selected[r["DUTY_NAME"]]!) {
-                        _deleteDuty(r);
+                        _deleteDuty(r,0);
                       }
                       else{
                         for(String ID in ppl_in_duties[r["DUTY_NAME"]]!){
                           if(_selected_from_duties[r["DUTY_NAME"]]![ID]!){
                             _deleteCandidateFromDuty(r,ID);
+                            flag = 1;
                           }
                         }
                         List<Map<String,dynamic>>m=await LocalDB().readDB("Select* from DutyDetails where DUTY_NAME = '${r["DUTY_NAME"]}'");
-                        if(m.length == 0)
-                          _deleteDuty(r);
+                        if(m.length == 0 && flag == 1)
+                          _deleteDuty(r,1);
                       }
                     }
 
