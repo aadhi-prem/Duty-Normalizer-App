@@ -1,16 +1,11 @@
-import 'dart:ffi';
 
 import 'package:demoapp/dashboard.dart';
 import 'package:demoapp/reassign.dart';
 
-import 'ReportGeneration.dart';
 
 import 'DB_HELPER.dart';
 import 'package:flutter/material.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
 //import 'DutyReport_Duty2.dart';
-import 'DutyReport_Individual.dart';
 
 class DutyReport1 extends StatefulWidget {
   const DutyReport1({Key? key}) : super(key: key);
@@ -69,9 +64,9 @@ class _DutyReportState1 extends State<DutyReport1> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Reallocate Duty'),
+        title: const Text('Reallocate Duty'),
         elevation: .1,
-        backgroundColor: Color(0xff9381ff),
+        backgroundColor: const Color(0xff9381ff),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10),
@@ -111,11 +106,11 @@ class _DutyReportState1 extends State<DutyReport1> {
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.grey[300]!, width: 1.0),
-                    borderRadius: BorderRadius.all(Radius.circular(45.0)),
+                    borderRadius: const BorderRadius.all(Radius.circular(45.0)),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.grey[400]!, width: 1.5),
-                    borderRadius: BorderRadius.all(Radius.circular(45.0)),
+                    borderRadius: const BorderRadius.all(Radius.circular(45.0)),
                   ),
                 ),
               ),
@@ -130,7 +125,7 @@ class _DutyReportState1 extends State<DutyReport1> {
                 itemCount: _foundDuties.length,
                 itemBuilder: (context, index) => Card(
                   key: ValueKey(_foundDuties[index]["id"]),
-                  color: Color(0xff9381ff),
+                  color: const Color(0xff9381ff),
                   elevation: 4,
                   margin: const EdgeInsets.symmetric(vertical: 10),
                   child: SingleChildScrollView(
@@ -139,11 +134,11 @@ class _DutyReportState1 extends State<DutyReport1> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         //${_foundDuties[index]["DUTY_NAME"]}
-                        Container(
+                        SizedBox(
                           width: 392,height: 40,
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              primary: Color(0xff9381ff),
+                              backgroundColor: const Color(0xff9381ff),
                             ),
                             onPressed: (){
                               Navigator.push(context, MaterialPageRoute(builder: (context) => Reassign(_foundDuties[index]["DUTY_NAME"])),
@@ -160,8 +155,10 @@ class _DutyReportState1 extends State<DutyReport1> {
                     ),
                   ),
                 ),
-              )
-                  : Container(),
+              ) : const Text(
+                'No results found',
+                style: TextStyle(fontSize: 24,color: Color(0xffff595e),),
+              ),
             )
             ,
             Row(
@@ -169,7 +166,7 @@ class _DutyReportState1 extends State<DutyReport1> {
               children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: Color(0xffff595e),
+                    backgroundColor: const Color(0xffff595e),
                   ),
                   onPressed: () {
                     Navigator.pushReplacement(
@@ -179,7 +176,7 @@ class _DutyReportState1 extends State<DutyReport1> {
                       ),
                     );
                   },
-                  child: Text('Cancel',style: TextStyle(fontSize: 17),),
+                  child: const Text('Cancel',style: TextStyle(fontSize: 17),),
                 ),
                 
               ],
