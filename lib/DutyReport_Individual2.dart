@@ -86,6 +86,7 @@ class _IndividualReport2State extends State<IndividualReport2> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
           title: Text('Duty Reports'),
         elevation: .1,
         backgroundColor: Color(0xff9381ff),

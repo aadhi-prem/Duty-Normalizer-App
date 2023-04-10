@@ -70,6 +70,7 @@ class _DutyReportState extends State<DutyReport> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
           title: Text('Report Generation on Duty'),
         elevation: .1,
         backgroundColor: Color(0xff9381ff),

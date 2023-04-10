@@ -109,6 +109,7 @@ class ReportState extends State<Report> {
       appBar: AppBar(
         backgroundColor: Color(0xff9381ff),
         title: const Text('Duty Assigned'),
+        automaticallyImplyLeading: false,
       ),
       body: Padding(
         padding: const EdgeInsets.all(10),

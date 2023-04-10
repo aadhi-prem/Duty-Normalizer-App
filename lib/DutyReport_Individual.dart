@@ -89,6 +89,7 @@ class _IndividualReportState extends State<IndividualReport> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Color(0xff9381ff),
         title: const Text('Report Generation on Individual'),
       ),

@@ -67,6 +67,7 @@ class _DutyReportState1 extends State<DutyReport1> {
         title: const Text('Reallocate Duty'),
         elevation: .1,
         backgroundColor: const Color(0xff9381ff),
+        automaticallyImplyLeading: false,
       ),
       body: Padding(
         padding: const EdgeInsets.all(10),

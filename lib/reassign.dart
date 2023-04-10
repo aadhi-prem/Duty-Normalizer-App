@@ -215,6 +215,7 @@ class ReassignState extends State<Reassign> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Color(0xff9381ff),
         title: const Text('Reallocate Student/Faculty'),
       ),

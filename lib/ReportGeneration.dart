@@ -33,6 +33,7 @@ class _ReportGenerationState extends State<ReportGeneration> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text('Report Generation'),
         elevation: .1,
         backgroundColor: Color(0xff9381ff),
