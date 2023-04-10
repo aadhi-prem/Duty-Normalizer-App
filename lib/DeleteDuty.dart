@@ -44,11 +44,11 @@ class _DeleteDutyState extends State<DeleteDuty> {
   }
 
   Future<void> setvariables() async {
-    _selected.clear();
+    // _selected.clear();
     ppl_in_duties.clear();
     _selected_from_duties.clear();
     for(Map<String,dynamic>row in _allDuties){
-      _selected[row["DUTY_NAME"]]=false;
+      // _selected[row["DUTY_NAME"]]=false;
       ppl_in_duties[row["DUTY_NAME"]]=[];
       _selected_from_duties[row["DUTY_NAME"]] = {};
       String s = "Select* from (Select* from Mtech union Select* from Phd union Select* from Faculty) where ID in (Select ID from DutyDetails where DUTY_NAME = '${row['DUTY_NAME']}')";
@@ -67,7 +67,9 @@ class _DeleteDutyState extends State<DeleteDuty> {
     runSqlQuery().then((_) async {
       // at the beginning, all users are shown
       _foundDuties = _allDuties;
-
+      for(Map<String,dynamic>row in _allDuties) {
+        _selected[row["DUTY_NAME"]] = false;
+      }
       // for(Map<String,dynamic>row in _allDuties){
       //   _selected[row["DUTY_NAME"]]=false;
       //   ppl_in_duties[row["DUTY_NAME"]]=[];
