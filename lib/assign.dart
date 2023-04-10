@@ -174,21 +174,39 @@ class _AssignState extends State<assign> {
                       alignment: Alignment.topLeft,
                       child: Material(
                         elevation: 4.0,
-                        child: SizedBox(
-                          height: 200.0,
-                          child: ListView.builder(
-                            itemCount: options.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              final String option = options.elementAt(index);
-                              const Text("The following names are already chosen:");
-                              return
-                                ListTile(
-                                title: Text(option),
-                                onTap: () {
-                                  onSelected(option);
-                                },
-                              );
-                            },
+                        child: Container(
+                          color: Color(0xff9381ff),
+                          child: SizedBox(
+                            height: 200.0,width: 380,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children:[
+                                SizedBox(height: 6,),
+                                Container(
+                                  height: 40,
+                                    child: Text("The following names are already chosen:")
+                                ),
+                                Expanded(
+                                child: ListView.builder(
+                                  itemCount: options.length,
+                                  itemExtent: 50.0,
+                                  itemBuilder: (BuildContext context, int index) {
+                                    final String option = options.elementAt(index);
+                                    // const Text("The following names are already chosen:");
+                                    return
+                                      ListTile(
+                                      title: Text(option),
+                                        tileColor: Color(0xff9381ff),
+                                        onTap: () {
+                                        onSelected(option);
+                                      },
+                                    );
+                                  },
+                                  padding: EdgeInsets.zero,
+                                ),
+                              ),
+                            ],
+                            ),
                           ),
                         ),
                       ),
