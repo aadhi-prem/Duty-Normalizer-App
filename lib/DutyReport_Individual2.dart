@@ -165,19 +165,22 @@ class _IndividualReport2State extends State<IndividualReport2> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: Color(0xffff595e), //0xff9381ff
+                Container(
+                  width: 125,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Color(0xff0077b6), //0xff9381ff
+                    ),
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ReportGeneration(),
+                        ),
+                      );
+                    },
+                    child: Text('Done',style: TextStyle(fontSize: 17),),
                   ),
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ReportGeneration(),
-                      ),
-                    );
-                  },
-                  child: Text('Cancel',style: TextStyle(fontSize: 17),),
                 ),
 
                 ElevatedButton.icon(

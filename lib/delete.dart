@@ -335,44 +335,49 @@ class _DeleteState extends State<Delete> {
               ),
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: Color(0xff9381ff),
+                Container(
+                  width: 110,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Color(0xff0077b6),
+                    ),
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Dashboard(),
+                        ),
+                      );
+                    },
+                    child: Text('Cancel',style: TextStyle(fontSize: 17),),
                   ),
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Dashboard(),
-                      ),
-                    );
-                  },
-                  child: Text('Cancel',style: TextStyle(fontSize: 17),),
                 ),
 
-            SizedBox(width: 32,),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom( primary: Color(0xffff595e),),
-              onPressed: () {
+            Container(
+              width: 110,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom( primary: Color(0xffff595e),),
+                onPressed: () {
 
-                showDelAlertDialog(context);
-                selectall=false;
-                List<Map<String, dynamic>> selectedUsers = [];
-                for (Map<String,dynamic>r in _allUsers) {
-                  if (_selected[r["ID"]]!) {
-                    selectedUsers.add(r);
+                  showDelAlertDialog(context);
+                  selectall=false;
+                  List<Map<String, dynamic>> selectedUsers = [];
+                  for (Map<String,dynamic>r in _allUsers) {
+                    if (_selected[r["ID"]]!) {
+                      selectedUsers.add(r);
+                    }
                   }
-                }
-                _deletecandidate(selectedUsers);
+                  _deletecandidate(selectedUsers);
 
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(builder: (context) => BlankPage(selectedusers: selectedUsers)),
-                // );
-              },
-              child: const Text('Delete',style: TextStyle(fontSize: 17),),
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(builder: (context) => BlankPage(selectedusers: selectedUsers)),
+                  // );
+                },
+                child: const Text('Delete',style: TextStyle(fontSize: 17),),
+              ),
             )
               ],
             ),

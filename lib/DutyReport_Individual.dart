@@ -235,14 +235,16 @@ class _IndividualReportState extends State<IndividualReport> {
                 style: TextStyle(fontSize: 24,color: Color(0xffff595e),),
               ),
             ),
-            Row(
+            Row( //ReportGeneration()
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ElevatedButton(
+                ElevatedButton.icon(
+                  icon: Icon(Icons.arrow_back),
                   style: ElevatedButton.styleFrom(
-                    primary: Color(0xffff595e), //0xff9381ff
+                    primary: Color(0xff0077b6),
                   ),
                   onPressed: () {
+                    // Navigator.of(context, rootNavigator: true).pop();
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
@@ -250,7 +252,7 @@ class _IndividualReportState extends State<IndividualReport> {
                       ),
                     );
                   },
-                  child: Text('Cancel',style: TextStyle(fontSize: 17),),
+                  label: Text('Back'),
                 ),
 
                 // SizedBox(width: 32,),

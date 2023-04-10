@@ -138,7 +138,7 @@ class _ReportGenerationState extends State<ReportGeneration> {
                                       'Generate Report based on Duty',
                                       style: TextStyle(
                                           fontSize: 21,
-                                          fontFamily: 'Alkatra',
+                                          fontFamily: 'Roboto',
                                           color: Colors.white),
                                     ),
                                   ),
@@ -198,7 +198,7 @@ class _ReportGenerationState extends State<ReportGeneration> {
                                       'Generate Report on Individual',
                                       style: TextStyle(
                                           fontSize: 21,
-                                          fontFamily: 'Alkatra',
+                                          fontFamily: 'Roboto',
                                           color: Colors.white),
                                     ),
                                   ),
@@ -214,7 +214,7 @@ class _ReportGenerationState extends State<ReportGeneration> {
                       ElevatedButton.icon(
                         icon: Icon(Icons.arrow_back),
                         style: ElevatedButton.styleFrom(
-                          primary: Color(0xff9381ff),
+                          primary: Color(0xff0077b6),
                         ),
                         onPressed: () {
                           Navigator.of(context, rootNavigator: true).pop();
@@ -225,7 +225,7 @@ class _ReportGenerationState extends State<ReportGeneration> {
                           //   ),
                           // );
                         },
-                        label: Text('Back'),
+                        label: Text('Back',),
                       ),
 
                       // ElevatedButton(

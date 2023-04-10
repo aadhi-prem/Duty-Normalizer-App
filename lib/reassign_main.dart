@@ -144,8 +144,11 @@ class _DutyReportState1 extends State<DutyReport1> {
                               Navigator.push(context, MaterialPageRoute(builder: (context) => Reassign(_foundDuties[index]["DUTY_NAME"])),
                               );
                             },
-                            child: Text('${_foundDuties[index]["DUTY_NAME"]} ',
-                              style: TextStyle(fontSize: 15, color: Colors.black.withOpacity(0.8)),
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Text('${_foundDuties[index]["DUTY_NAME"]} ',
+                                style: TextStyle(fontSize: 15, color: Colors.black.withOpacity(0.8)),
+                              ),
                             ),
 
                           ),
@@ -162,7 +165,7 @@ class _DutyReportState1 extends State<DutyReport1> {
             )
             ,
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(

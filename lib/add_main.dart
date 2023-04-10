@@ -134,8 +134,8 @@ class _AddPageState extends State<AddPage> {
                                   child: Text(
                                     'Add Students/Faculty in Batches',
                                     style: TextStyle(
-                                        fontSize: 21,
-                                        fontFamily: 'Alkatra',
+                                        fontSize: 20,
+                                        fontFamily: 'Roboto',
                                         color: Colors.white),
                                   ),
                                 ),
@@ -192,10 +192,10 @@ class _AddPageState extends State<AddPage> {
                                 Padding(
                                   padding: EdgeInsets.all(12),
                                   child: Text(
-                                    'Add Students/Faculty individually',
+                                    'Add Students/Faculty Individually',
                                     style: TextStyle(
-                                        fontSize: 21,
-                                        fontFamily: 'Alkatra',
+                                        fontSize: 20,
+                                        fontFamily: 'Roboto',
                                         color: Colors.white),
                                   ),
                                 ),
@@ -211,7 +211,7 @@ class _AddPageState extends State<AddPage> {
                     ElevatedButton.icon(
                       icon: Icon(Icons.arrow_back),
                       style: ElevatedButton.styleFrom(
-                        primary: Color(0xff9381ff),
+                        primary: Color(0xff0077b6),
                       ),
                       onPressed: () {
                         //Navigator.of(context, rootNavigator: true).pop();

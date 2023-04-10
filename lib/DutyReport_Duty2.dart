@@ -88,14 +88,17 @@ class _DutyReport2State extends State<DutyReport2> {
                               color: Color(0xff9381ff),
                               elevation: 4,
                               margin: const EdgeInsets.symmetric(vertical: 10),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    '   ${selectedDuties[index]["DUTY_NAME"]}    Duty Hours: ${selectedDuties[index]['WorkHours']}',
-                                    style: TextStyle(fontSize: 17, color: Colors.black.withOpacity(0.8)),
-                                  ),
-                                ],
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      '   ${selectedDuties[index]["DUTY_NAME"]}    Duty Hours: ${selectedDuties[index]['WorkHours']}  ',
+                                      style: TextStyle(fontSize: 17, color: Colors.black.withOpacity(0.8)),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -117,24 +120,25 @@ class _DutyReport2State extends State<DutyReport2> {
               ),
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: Color(0xffff595e), //0xff9381ff
+                Container(
+                  width: 125,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Color(0xff0077b6), //0xff9381ff
+                    ),
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ReportGeneration(),
+                        ),
+                      );
+                    },
+                    child: Text('Done',style: TextStyle(fontSize: 17),),
                   ),
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ReportGeneration(),
-                      ),
-                    );
-                  },
-                  child: Text('Cancel',style: TextStyle(fontSize: 17),),
                 ),
-
-                SizedBox(width: 32,),
                 ElevatedButton.icon(
                   style: ElevatedButton.styleFrom( primary: Color(0xff9381ff),),
                   onPressed: () async {

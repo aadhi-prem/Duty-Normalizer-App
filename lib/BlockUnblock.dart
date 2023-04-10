@@ -422,24 +422,25 @@ class _HomePageState extends State<HomePage> {
             ),
 
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                ElevatedButton.icon(
-                  icon: Icon(Icons.arrow_back),
-                  style: ElevatedButton.styleFrom(
-                    primary: Color(0xff9381ff),
+                Container(
+                  width: 135,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Color(0xff0077b6),
+                    ),
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Dashboard(),
+                        ),
+                      );
+                    },
+                    child: Text('Done',style: TextStyle(color: Colors.white,fontSize: 18),),
                   ),
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Dashboard(),
-                      ),
-                    );
-                  },
-                  label: Text('Back',style: TextStyle(color: Colors.white,fontSize: 18),),
                 ),
-                SizedBox(width: 32,),
 
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(

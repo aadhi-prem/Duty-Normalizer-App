@@ -208,24 +208,27 @@ class _DutyReportState extends State<DutyReport> {
               ),
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: Color(0xffff595e), //0xff9381ff
+                Container(
+                  width: 125,
+                  child: ElevatedButton.icon(
+                    icon: Icon(Icons.arrow_back),
+                    style: ElevatedButton.styleFrom(
+                      primary: Color(0xff0077b6),
+                    ),
+                    onPressed: () {
+                      // Navigator.of(context, rootNavigator: true).pop();
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ReportGeneration(),
+                        ),
+                      );
+                    },
+                    label: Text('Back',style: TextStyle(fontSize: 17),),
                   ),
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ReportGeneration(),
-                      ),
-                    );
-                  },
-                  child: Text('Cancel',style: TextStyle(fontSize: 17),),
                 ),
-
-                SizedBox(width: 32,),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom( primary: Color(0xff9381ff),),
                   onPressed: () {

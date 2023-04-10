@@ -288,24 +288,7 @@ class _DeleteDutyState extends State<DeleteDuty> {
                     Text("  Select All",style: TextStyle(color: Colors.black87),),
                   ],
                 ),
-
-                // ElevatedButton.icon(
-                //   onPressed: (){
-                //     Navigator.push(context, MaterialPageRoute(builder: (context) => FilterPage()),
-                //     );
-                //   },
-                //   icon: Icon(Icons.filter_alt,color: Colors.black87,),
-                //
-                //   label: Text('Filter',style: TextStyle(color: Colors.black87),),
-                //   style:
-                //   ElevatedButton.styleFrom(
-                //       primary:
-                //       Colors.grey[300]
-                //   ),
-                // )
-
               ],
-
             ),
 
             Expanded(
@@ -323,24 +306,27 @@ class _DeleteDutyState extends State<DeleteDuty> {
                             color: Color(0xff9381ff),
                             elevation: 4,
                             margin: const EdgeInsets.symmetric(vertical: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Checkbox(
-                                  activeColor: Color(0xfff28482),
-                                  checkColor: Colors.black,
-                                  value: _selected[_foundDuties[index]["DUTY_NAME"]],
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _selected[_foundDuties[index]["DUTY_NAME"]] = value!;
-                                    });
-                                  },
-                                ),
-                                Text(
-                                  '   ${_foundDuties[index]["DUTY_NAME"]}    Duty Hours: ${_foundDuties[index]['WorkHours']}',
-                                  style: TextStyle(fontSize: 17, color: Colors.black.withOpacity(0.8)),
-                                ),
-                              ],
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Checkbox(
+                                    activeColor: Color(0xfff28482),
+                                    checkColor: Colors.black,
+                                    value: _selected[_foundDuties[index]["DUTY_NAME"]],
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _selected[_foundDuties[index]["DUTY_NAME"]] = value!;
+                                      });
+                                    },
+                                  ),
+                                  Text(
+                                    '   ${_foundDuties[index]["DUTY_NAME"]}    Duty Hours: ${_foundDuties[index]['WorkHours']}',
+                                    style: TextStyle(fontSize: 17, color: Colors.black.withOpacity(0.8)),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -362,24 +348,25 @@ class _DeleteDutyState extends State<DeleteDuty> {
               ),
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: Color(0xff9381ff),
+                Container(
+                  width: 120,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Color(0xff0077b6),
+                    ),
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Dashboard(),
+                        ),
+                      );
+                    },
+                    child: Text('Cancel',style: TextStyle(fontSize: 17),),
                   ),
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Dashboard(),
-                      ),
-                    );
-                  },
-                  child: Text('Cancel',style: TextStyle(fontSize: 17),),
                 ),
-
-                SizedBox(width: 32,),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom( primary: Color(0xffff595e),),
                   onPressed: () async {
