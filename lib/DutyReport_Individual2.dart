@@ -43,10 +43,12 @@ class _IndividualReport2State extends State<IndividualReport2> {
           scrollDirection: Axis.horizontal,
           child: Container(
             height: 40,width: 380,
-            child: Text(
-              "${item['Name']} has not been assigned any duties",
-              style: TextStyle(
-                color: Colors.red
+            child: Center(
+              child: Text(
+                "${item['Name']} has not been assigned any duties",
+                style: TextStyle(
+                  color: Colors.red
+                ),
               ),
             ),
           ),
@@ -59,16 +61,15 @@ class _IndividualReport2State extends State<IndividualReport2> {
           elevation: 4,
           margin: const EdgeInsets.symmetric(vertical: 10),
           child: Container(
-            height: 30, width: 200,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text('  ${i["DUTY_NAME"]}  Duty Hours:${i["WorkHours"]} ',
+            height: 30, width: 100,
+            child: Center(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Text('  ${i["DUTY_NAME"]}  Duty Hours: ${i["WorkHours"]}  ',
                   style: TextStyle(fontSize: 15, color: Colors.black.withOpacity(0.8)
                   ),
                 ),
-                SizedBox(height: 100,),
-              ],
+              ),
             ),
           )
       )
@@ -97,29 +98,24 @@ class _IndividualReport2State extends State<IndividualReport2> {
               height: 20,
             ),
 
-            Expanded(
-                child: Card(
-                  key: ValueKey(selectedUser["id"]),
-                  color: Color(0xff9381ff),
-                  elevation: 4,
-                  margin: const EdgeInsets.symmetric(vertical: 10),
+            Card(
+              key: ValueKey(selectedUser["id"]),
+              color: Color(0xff9381ff),
+              elevation: 4,
+              margin: const EdgeInsets.symmetric(vertical: 10),
+              child: Container(
+                height: 50,width: 380,
+                child: Center(
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
-                    child: Container(
-                      height: 50,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Text(
-                            ' ${selectedUser["ID"]} ${selectedUser['Name']} ${selectedUser['DEPARTMENT']} WorkHours:${selectedUser['WorkHours']}',
-                            style: TextStyle(fontSize: 17, color: Colors.black.withOpacity(0.8)
-                            ),
-                          ),
-                        ],
+                    child: Text(
+                      ' ${selectedUser["ID"]} ${selectedUser['Name']} ${selectedUser['DEPARTMENT']} WorkHours: ${selectedUser['WorkHours']} ',
+                      style: TextStyle(fontSize: 17, color: Colors.black.withOpacity(0.8)
                       ),
                     ),
                   ),
-                )
+                ),
+              ),
             ),
 
             Expanded(
@@ -167,7 +163,7 @@ class _IndividualReport2State extends State<IndividualReport2> {
               ),
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -184,7 +180,6 @@ class _IndividualReport2State extends State<IndividualReport2> {
                   child: Text('Cancel',style: TextStyle(fontSize: 17),),
                 ),
 
-                SizedBox(width: 32,),
                 ElevatedButton.icon(
                   style: ElevatedButton.styleFrom( primary: Color(0xff9381ff),),
                   onPressed: () async {
