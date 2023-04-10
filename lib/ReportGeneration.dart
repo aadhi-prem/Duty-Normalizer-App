@@ -137,8 +137,8 @@ class _ReportGenerationState extends State<ReportGeneration> {
                                     child: Text(
                                       'Generate Report based on Duty',
                                       style: TextStyle(
-                                          fontSize: 21,
-                                          fontFamily: 'Roboto',
+                                          fontSize: 20,
+                                          fontFamily: 'JosefinSans',
                                           color: Colors.white),
                                     ),
                                   ),
@@ -197,8 +197,8 @@ class _ReportGenerationState extends State<ReportGeneration> {
                                     child: Text(
                                       'Generate Report on Individual',
                                       style: TextStyle(
-                                          fontSize: 21,
-                                          fontFamily: 'Roboto',
+                                          fontSize: 20,
+                                          fontFamily: 'JosefinSans',
                                           color: Colors.white),
                                     ),
                                   ),

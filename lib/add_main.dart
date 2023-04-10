@@ -134,8 +134,8 @@ class _AddPageState extends State<AddPage> {
                                   child: Text(
                                     'Add Students/Faculty in Batches',
                                     style: TextStyle(
-                                        fontSize: 20,
-                                        fontFamily: 'Roboto',
+                                        fontSize: 19,
+                                        fontFamily: 'JosefinSans',
                                         color: Colors.white),
                                   ),
                                 ),
@@ -194,8 +194,8 @@ class _AddPageState extends State<AddPage> {
                                   child: Text(
                                     'Add Students/Faculty Individually',
                                     style: TextStyle(
-                                        fontSize: 20,
-                                        fontFamily: 'Roboto',
+                                        fontSize: 19,
+                                        fontFamily: 'JosefinSans',
                                         color: Colors.white),
                                   ),
                                 ),
