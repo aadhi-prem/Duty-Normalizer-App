@@ -93,9 +93,12 @@ flutter:
 #        - asset: assets/fonts/Alkatra-SemiBold.ttf
 #        - asset: assets/fonts/Alkatra-VariableFont_wght.ttf
   #         style: italic
-    - family: roboto
+    - family: Roboto
       fonts:
         - asset: assets/fonts/Roboto-Regular.ttf
+    - family: JosefinSans
+      fonts:
+        - asset: assets/fonts/JosefinSans-MediumItalic
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf
