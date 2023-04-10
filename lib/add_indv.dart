@@ -26,6 +26,7 @@ class MyCustomForm extends StatefulWidget {
 }
 class MyCustomFormState extends State<MyCustomForm> {
   final _formKey = GlobalKey<FormState>();
+  final _idKey = GlobalKey<FormFieldState>();
   String?batch;
   String?rollno;
   String?rollno1;
@@ -34,6 +35,7 @@ class MyCustomFormState extends State<MyCustomForm> {
   String?phno;
   String?email;
   int pop = -1;
+  int exist=0;
   late String newValue;
   late String newValue2;
   List _deptList = ["CSED","CED","EED","ECED","MED","CHED","EPD","PED","BTD","ARD"];
@@ -123,19 +125,34 @@ class MyCustomFormState extends State<MyCustomForm> {
 
                 Padding(padding: EdgeInsets.all(2),),
                 TextFormField(
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  key: _idKey,
                   decoration: InputDecoration(
                     hintText: 'Enter your ID',
                     enabledBorder: OutlineInputBorder(
                       borderSide:
-                      BorderSide(
+                      const BorderSide(
                         width: 3, //<-- SEE HERE
                         color: Color.fromRGBO(143, 148, 251, 1),),
                       borderRadius: BorderRadius.circular(50.0),
                     ),
                   ),
-
+                  onChanged: (String value) async {
+                    _idKey.currentState?.validate();
+                    List<Map<String, dynamic>>m = await LocalDB().readDB("SELECT * FROM $batch where ID = '$value';");
+                    debugPrint(" changed$value--");
+                    if (m.isEmpty) {
+                      exist = 0;
+                    } else {
+                      exist = 1;
+                    }
+                  },
                   validator: (value) {
                     //value=value?.toUpperCase();
+                    debugPrint("$value--");
+                    if(exist!=0) {
+                      return 'ID already exists';
+                    }
                     if (value == null || value.isEmpty) {
                       //debugPrint("1");
                       return 'Please enter your ID';
@@ -276,7 +293,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                       // debugPrint("4");
                       return 'Please enter your email';
                     }
-                    if (validateEmail(value) == false) {
+                    if (validateEmail(value.trim()) == false) {
                       return 'Invalid Email';
                     }
                     return null;
@@ -292,7 +309,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     children: [
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          primary: Color(0xffff595e),
+                          backgroundColor: Color(0xffff595e),
                         ),
                         onPressed: () {
                           //Navigator.of(context, rootNavigator: true).pop();
@@ -307,7 +324,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                       ),
                       SizedBox(width: 32,),
                       ElevatedButton(
-                        style: ElevatedButton.styleFrom( primary: Color(0xff0077b6),), //darkblue color
+                        style: ElevatedButton.styleFrom( backgroundColor: Color(0xff0077b6),), //darkblue color
                         onPressed: () async {
                           _formKey.currentState?.save();
                           if (_formKey.currentState?.validate() == true) {
@@ -333,8 +350,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                             // pop=check(rollno!) as int;
                             List<Map<String, dynamic>> _allUsers = [];
                             _allUsers = await LocalDB().readDB(
-                                "SELECT * FROM $batch where ID = '$rollno';") as List<
-                                Map<String, dynamic>>;
+                                "SELECT * FROM $batch where ID = '$rollno';");
                             if (_allUsers.length == 0)
                               pop = 1;
                             else {
@@ -363,11 +379,11 @@ class MyCustomFormState extends State<MyCustomForm> {
                                                 fontSize: 16.0
                                             );
                                             Navigator.pushReplacement(ctx, MaterialPageRoute(
-                                              builder: (ctx) => Add(),
+                                              builder: (ctx) => const Add(),
                                             ),);
                                           },
                                           child: Container(
-                                            color: Color(0xff9381ff),
+                                            color: const Color(0xff9381ff),
                                             padding: const EdgeInsets.all(14),
                                             child: const Text("OK",style: TextStyle(color: Colors.white),),
                                           ),
