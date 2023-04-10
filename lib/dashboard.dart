@@ -1,3 +1,5 @@
+import 'package:flutter/services.dart';
+
 import 'reassign_main.dart';
 import 'BlockUnblock.dart';
 import 'ReportGeneration.dart';
@@ -190,6 +192,17 @@ class _DashboardState extends State<Dashboard> {
         elevation: .1,
         backgroundColor: Color(
             0xff9381ff), //Color.fromRGBO(143, 148, 251, 1), //violet color
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: () {
+              Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => loginnew()
+              ), (route) => false
+              );
+              // SystemNavigator.pop();
+            },
+          ),
+        ],
       ),
       /////////////////////////////////////////////
       body: Container(
@@ -474,7 +487,7 @@ class _DashboardState extends State<Dashboard> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          //SizedBox(height: 15,),
+                          //SizedBox(height: 2,),
                           Image.asset(
                             'assets/deletedemo.png',
                             height: 90,
@@ -519,18 +532,14 @@ class _DashboardState extends State<Dashboard> {
             // backgroundColor: Colors.yellow
           ),
           BottomNavigationBarItem(
+            icon: Icon(Icons.block),
+            label: "Block/Unblock",
+            // backgroundColor: Colors.blue,
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.refresh),
             label: "Reset Hours",
             // backgroundColor: Colors.yellow
-          ),
-          BottomNavigationBarItem(
-            icon: Padding(
-              padding: EdgeInsets.only(bottom: 5.0),
-              child: SizedBox(height: 30,child: ImageIcon(AssetImage("assets/personblock.png",),)),
-            ),
-            label: "Block/Unblock",
-
-            // backgroundColor: Colors.blue,
           ),
         ],
         type: BottomNavigationBarType.fixed,
@@ -565,10 +574,10 @@ class _DashboardState extends State<Dashboard> {
                 ),
               );
               break;
-            case 2:
+            case 3:
               showAlertDialog(context);
               break;
-            case 3:
+            case 2:
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -762,6 +771,8 @@ class _DashboardState extends State<Dashboard> {
                     ),
                   ),
                 ),
+                // Container(width: 80,
+                // child: Image.asset("assets/FACULTY.png"),),
               ],
             ),
           ],
@@ -799,4 +810,7 @@ class _DashboardState extends State<Dashboard> {
 //           ),
 //         ));
 //   }
+
+
+
 }

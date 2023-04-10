@@ -361,13 +361,16 @@ class _DeleteState extends State<Delete> {
                 style: ElevatedButton.styleFrom( primary: Color(0xffff595e),),
                 onPressed: () {
 
-                  showDelAlertDialog(context);
+
                   selectall=false;
                   List<Map<String, dynamic>> selectedUsers = [];
                   for (Map<String,dynamic>r in _allUsers) {
                     if (_selected[r["ID"]]!) {
                       selectedUsers.add(r);
                     }
+                  }
+                  if(selectedUsers.isNotEmpty){
+                    showDelAlertDialog(context);
                   }
                   _deletecandidate(selectedUsers);
 

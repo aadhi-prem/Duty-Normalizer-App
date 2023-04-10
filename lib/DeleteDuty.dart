@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'dashboard.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
 
 void main() => runApp(DeleteDutyPage());
 
@@ -204,7 +206,59 @@ class _DeleteDutyState extends State<DeleteDuty> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+
+    showDelAlertDialog(BuildContext context) {
+      // set up the buttons
+      Widget cancelButton = TextButton(
+        onPressed: () {
+          Navigator.of(context, rootNavigator: true).pop();
+          // Navigator.pushReplacement(context, MaterialPageRoute(
+          //   builder: (context) => Dashboard(),
+          // ),); //dismiss dialog
+        },
+        child: Text("Cancel"),
+      );
+      Widget continueButton = TextButton(
+        onPressed: () {
+          Navigator.of(context, rootNavigator: true).pop();
+          // Navigator.push(context, MaterialPageRoute(
+          //   builder: (context) => PinEntryPage(),
+          // ),);
+          Fluttertoast.showToast(
+              msg: "Deleted Successfully",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.grey[600],
+              textColor: Colors.white,
+              fontSize: 16.0
+          );
+        },
+        child: Text("Continue"),
+      );
+      // set up the AlertDialog
+      AlertDialog alert = AlertDialog(
+        title: Text("Alert"),
+        content: Text(
+          "Are you sure you want to delete this duty?", style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 16.0,
+        ),),
+        actions: [
+          cancelButton,
+          continueButton,
+        ],
+      );
+      // show the dialog
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        },
+      );
+    }
+
+    var dltdt= Scaffold(
       appBar: AppBar(
           title: Text('Delete Duty'),
         elevation: .1,
@@ -364,21 +418,13 @@ class _DeleteDutyState extends State<DeleteDuty> {
                         ),
                       );
                     },
-                    child: Text('Cancel',style: TextStyle(fontSize: 17),),
+                    child: Text('Done',style: TextStyle(fontSize: 17),),
                   ),
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom( primary: Color(0xffff595e),),
                   onPressed: () async {
-                    // Fluttertoast.showToast(
-                    //     msg: "Deleted Successfully",
-                    //     toastLength: Toast.LENGTH_SHORT,
-                    //     gravity: ToastGravity.BOTTOM,
-                    //     timeInSecForIosWeb: 1,
-                    //     backgroundColor: Colors.grey[600],
-                    //     textColor: Colors.white,
-                    //     fontSize: 16.0
-                    // );
+                    showDelAlertDialog(context);
                     selectall=false;
                     // List<Map<String, dynamic>> selectedDuties = [];
 
@@ -415,5 +461,6 @@ class _DeleteDutyState extends State<DeleteDuty> {
         ),
       ),
     );
+    return dltdt;
   }
 }
