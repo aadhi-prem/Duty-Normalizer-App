@@ -211,7 +211,7 @@ class _AddPageState extends State<AddPage> {
                     ElevatedButton.icon(
                       icon: Icon(Icons.arrow_back),
                       style: ElevatedButton.styleFrom(
-                        primary: Color(0xff0077b6),
+                        primary: Color(0xff9381ff),
                       ),
                       onPressed: () {
                         //Navigator.of(context, rootNavigator: true).pop();
