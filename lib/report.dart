@@ -159,13 +159,16 @@ class ReportState extends State<Report> {
                   label: const Text('Print',style: TextStyle(fontSize: 17),),
                   icon: Icon(Icons.print),
                 ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom( primary: Color(0xff0077b6),),
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => Dashboard()),
-                    ); },
-                  child: const Text('Done',style: TextStyle(fontSize: 17),),
+                Container(
+                  width: 90,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom( primary: Color(0xff0077b6),),
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => Dashboard()),
+                      ); },
+                    child: const Text('Done',style: TextStyle(fontSize: 17),),
+                  ),
                 ),
               ],
             )
