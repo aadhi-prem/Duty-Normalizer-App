@@ -240,21 +240,21 @@ class _DashboardState extends State<Dashboard> {
                                   "Overall",
                                   "${stats["Overall_hours"]}",
                                   "${stats["Overall_avg"]}",
-                                  "${stats["Overall_number"]}"),
+                                  "${stats["Overall_number"]}","assets/overallbg.png",),
                               makeSliderCard(
                                   Color(0xffdbc1e6),
                                   Color(0xffdbc1e6),
                                   "M.Tech",
                                   "${stats["Mtech_hours"]}",
                                   "${stats["Mtech_avg"]}",
-                                  "${stats["Mtech_number"]}"),
+                                  "${stats["Mtech_number"]}","assets/mtechbg.png",),
                               makeSliderCard(
                                   Color(0xffcbe6c1),
                                   Color(0xffcbe6c1),
                                   "Ph.D",
                                   "${stats["Phd_hours"]}",
                                   "${stats["Phd_avg"]}",
-                                  "${stats["Phd_number"]}"),
+                                  "${stats["Phd_number"]}","assets/phdbg.png",),
                               makeSliderCard(
                                   Color(0xffffb3c6),
                                   //Color(0xffE9E5FD),//Color(0xfff72585),
@@ -263,7 +263,8 @@ class _DashboardState extends State<Dashboard> {
                                   "Faculty",
                                   "${stats["Faculty_hours"]}",
                                   "${stats["Fac_avg"]}",
-                                  "${stats["Fac_number"]}"),
+                                  "${stats["Fac_number"]}",
+                              "assets/fac.png",),
                             ],
                           ),
                         ],
@@ -509,12 +510,12 @@ class _DashboardState extends State<Dashboard> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.person_add_alt_1_rounded),
-            label: "Add Members",
+            label: "Add",
             // backgroundColor: Colors.green
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person_remove_alt_1_rounded),
-            label: "Delete Member",
+            label: "Delete",
             // backgroundColor: Colors.yellow
           ),
           BottomNavigationBarItem(
@@ -523,8 +524,11 @@ class _DashboardState extends State<Dashboard> {
             // backgroundColor: Colors.yellow
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: "Block",
+            icon: Padding(
+              padding: EdgeInsets.only(bottom: 5.0),
+              child: SizedBox(height: 30,child: ImageIcon(AssetImage("assets/personblock.png",),)),
+            ),
+            label: "Block/Unblock",
 
             // backgroundColor: Colors.blue,
           ),
@@ -582,11 +586,15 @@ class _DashboardState extends State<Dashboard> {
   }
 
   Container makeSliderCard(Color fromColor, Color toColor, String heading,
-      String totalWH, String avgWH, String pplCount) {
+      String totalWH, String avgWH, String pplCount,String bgPath) {
     return Container(
       margin: EdgeInsets.all(5),
       decoration: BoxDecoration(
         // color: Colors.blue,
+        image: DecorationImage(
+          image: AssetImage(bgPath),
+          fit: BoxFit.cover,
+        ),
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -600,79 +608,36 @@ class _DashboardState extends State<Dashboard> {
           children: [
             Row(
               children: [
-                // Expanded(
-                //   flex: 1,
-                //   child: Image.asset(
-                //     'assets/line1.png',
-                //     fit: BoxFit.cover,
-                //     height: 20,
-                //   ),
+                // SizedBox(
+                //   width: 40,
                 // ),
-                SizedBox(
-                  width: 40,
-                ),
                 Expanded(
                   flex: 1,
-                  child: Text(
-                    heading,
-                    style: TextStyle(
-                        color: Color(0xff03045e),
-                        //fontWeight: FontWeight.bold,
-                        fontFamily: 'fonts/JosefinSans',
-                        fontSize: 26),
-                  ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Opacity(
-                    opacity: 0.3,
-                    child: Image.asset(
-                      'assets/line2.png',
-                      fit: BoxFit.cover,
-                      height: 44,
-                      color: Color(0xff023e8a),
+                  child: Center(
+                    child: Text(
+                      heading,
+                      style: TextStyle(
+                          color: Color(0xff03045e),
+                          //fontWeight: FontWeight.bold,
+                          fontFamily: 'JosefinSans',
+                          fontSize: 30),
                     ),
                   ),
                 ),
+                // Expanded(
+                //   flex: 1,
+                //   child: Opacity(
+                //     opacity: 0.3,
+                //     child: Image.asset(
+                //       'assets/line2.png',
+                //       fit: BoxFit.cover,
+                //       height: 44,
+                //       color: Color(0xff023e8a),
+                //     ),
+                //   ),
+                // ),
               ],
             ),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-            //   children: [
-            //     Column(
-            //       children: [
-            //         Text(
-            //           "Total Work hours: $totalWH",
-            //           style: TextStyle(
-            //             color: Colors.white,
-            //             fontWeight: FontWeight.bold,
-            //           ),
-            //         ),
-            //         Text(
-            //           "Avg Work hours: $avgWH",
-            //           style: TextStyle(
-            //             color: Colors.white,
-            //             fontWeight: FontWeight.bold,
-            //           ),
-            //         ),
-            //       ],
-            //     ),
-            //     ElevatedButton.icon(
-            //       onPressed: null,
-            //       icon: Icon(
-            //         Icons.people_alt_rounded,
-            //         color: Colors.black,
-            //       ),
-            //       label: Text(
-            //         pplCount,
-            //         style: TextStyle(
-            //           color: Colors.black,
-            //           fontWeight: FontWeight.bold,
-            //         ),
-            //       ),
-            //     ),
-            //   ],
-            // )
             Padding(
               padding: const EdgeInsets.only(left: 8,right: 8),
               child: Row(
@@ -765,7 +730,7 @@ class _DashboardState extends State<Dashboard> {
                 ),
                 Container(
                   height: MediaQuery.of(context).size.height * 0.08,
-                  width: 100,
+                  width: 120,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     color: Colors.white,
