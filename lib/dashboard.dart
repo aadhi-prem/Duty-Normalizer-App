@@ -67,7 +67,7 @@ class _DashboardState extends State<Dashboard> {
     stats["Fac_number"]=m.length;
     num countf=0;
     for(Map<String,dynamic>row in m){
-      countp+=row["WorkHours"];
+      countf+=row["WorkHours"];
     }
     stats["Faculty_hours"]=countf;
     if(stats["Fac_number"]!=0) {
