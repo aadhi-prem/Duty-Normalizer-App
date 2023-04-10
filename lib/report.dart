@@ -148,7 +148,7 @@ class ReportState extends State<Report> {
             ),
 
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedButton.icon(
                   style: ElevatedButton.styleFrom( primary: Color(0xffff595e),),
@@ -159,7 +159,6 @@ class ReportState extends State<Report> {
                   label: const Text('Print',style: TextStyle(fontSize: 17),),
                   icon: Icon(Icons.print),
                 ),
-                SizedBox(width: 40,),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom( primary: Color(0xff0077b6),),
                   onPressed: () {
