@@ -98,7 +98,7 @@ flutter:
         - asset: assets/fonts/Roboto-Regular.ttf
     - family: JosefinSans
       fonts:
-        - asset: assets/fonts/JosefinSans-MediumItalic
+        - asset: assets/fonts/JosefinSans-MediumItalic.ttf
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf
