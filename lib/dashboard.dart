@@ -37,56 +37,64 @@ class _DashboardState extends State<Dashboard> {
     Text('Reset'),
     Text('Block'),
   ];
-  int mtech=0,phd=0,fac=0,overall=0;    Map<String,dynamic>stats={};
-  Future<void>calculate_stats()async{
-    List<Map<String,dynamic>>m=[];
-    m=await LocalDB().readDB("select * from Mtech");
-    stats["Mtech_number"]=m.length;
-    num countm=0;
-    for(Map<String,dynamic>row in m){
-      countm+=row["WorkHours"];
+  int mtech = 0, phd = 0, fac = 0, overall = 0;
+  Map<String, dynamic> stats = {};
+
+  Future<void> calculate_stats() async {
+    List<Map<String, dynamic>> m = [];
+    m = await LocalDB().readDB("select * from Mtech");
+    stats["Mtech_number"] = m.length;
+    num countm = 0;
+    for (Map<String, dynamic> row in m) {
+      countm += row["WorkHours"];
     }
-    stats["Mtech_hours"]=countm;
-    if(stats["Mtech_number"]!=0)
-      stats["Mtech_avg"]=(stats["Mtech_hours"]/stats["Mtech_number"]).toStringAsFixed(2);
+    stats["Mtech_hours"] = countm;
+    if (stats["Mtech_number"] != 0)
+      stats["Mtech_avg"] =
+          (stats["Mtech_hours"] / stats["Mtech_number"]).toStringAsFixed(2);
     else
-      stats["Mtech_avg"]=0;
-    m=await LocalDB().readDB("select * from Phd");
-    stats["Phd_number"]=m.length;
-    num countp=0;
-    for(Map<String,dynamic>row in m){
-      countp+=row["WorkHours"];
+      stats["Mtech_avg"] = 0;
+    m = await LocalDB().readDB("select * from Phd");
+    stats["Phd_number"] = m.length;
+    num countp = 0;
+    for (Map<String, dynamic> row in m) {
+      countp += row["WorkHours"];
     }
-    stats["Phd_hours"]=countp;
-    if(stats["Phd_number"]!=0) {
-      stats["Phd_avg"]=(stats["Phd_hours"]/stats["Phd_number"]).toStringAsFixed(2);
+    stats["Phd_hours"] = countp;
+    if (stats["Phd_number"] != 0) {
+      stats["Phd_avg"] =
+          (stats["Phd_hours"] / stats["Phd_number"]).toStringAsFixed(2);
     } else {
-      stats["Phd_avg"]=0;
+      stats["Phd_avg"] = 0;
     }
-    m=await LocalDB().readDB("select * from Faculty");
-    stats["Fac_number"]=m.length;
-    num countf=0;
-    for(Map<String,dynamic>row in m){
-      countf+=row["WorkHours"];
+    m = await LocalDB().readDB("select * from Faculty");
+    stats["Fac_number"] = m.length;
+    num countf = 0;
+    for (Map<String, dynamic> row in m) {
+      countp += row["WorkHours"];
     }
-    stats["Faculty_hours"]=countf;
-    if(stats["Fac_number"]!=0) {
-      stats["Fac_avg"]=(stats["Faculty_hours"]/stats["Fac_number"]).toStringAsFixed(2);
+    stats["Faculty_hours"] = countf;
+    if (stats["Fac_number"] != 0) {
+      stats["Fac_avg"] =
+          (stats["Faculty_hours"] / stats["Fac_number"]).toStringAsFixed(2);
     } else {
-      stats["Fac_avg"]=0;
+      stats["Fac_avg"] = 0;
     }
-    m=await LocalDB().readDB("select * from Mtech union select * from Phd union select * from Faculty");
-    stats["Overall_number"]=m.length;
-    stats["Overall_hours"]=countf+countm+countp;
-    if(stats["Overall_number"]!=0) {
-      stats["Overall_avg"]=(stats["Overall_hours"]/stats["Overall_number"]).toStringAsFixed(2);
+    m = await LocalDB().readDB(
+        "select * from Mtech union select * from Phd union select * from Faculty");
+    stats["Overall_number"] = m.length;
+    stats["Overall_hours"] = countf + countm + countp;
+    if (stats["Overall_number"] != 0) {
+      stats["Overall_avg"] =
+          (stats["Overall_hours"] / stats["Overall_number"]).toStringAsFixed(2);
     } else {
-      stats["Overall_avg"]=0.00;
+      stats["Overall_avg"] = 0.00;
     }
   }
+
   @override
   @override
-  void initState(){
+  void initState() {
     super.initState();
     calculate_stats();
   }
@@ -113,9 +121,12 @@ class _DashboardState extends State<Dashboard> {
       Widget continueButton = TextButton(
         onPressed: () {
           Navigator.of(context, rootNavigator: true).pop();
-          Navigator.push(context, MaterialPageRoute(
-            builder: (context) => PinEntryPage(),
-          ),); /////////////// add the enter pin function here
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => PinEntryPage(),
+            ),
+          ); /////////////// add the enter pin function here
         },
         child: Text("Continue"),
       );
@@ -127,10 +138,12 @@ class _DashboardState extends State<Dashboard> {
           child: Column(
             children: [
               Text(
-                "Are you sure you want to reset work hours?",style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16.0,
-              ),),
+                "Are you sure you want to reset work hours?",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16.0,
+                ),
+              ),
               SizedBox(height: 8.0),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -202,9 +215,10 @@ class _DashboardState extends State<Dashboard> {
               //     colors: [Colors.blueAccent, Colors.deepPurple],
               //   ),
               // ),
-              child:FutureBuilder(
+              child: FutureBuilder(
                 future: calculate_stats(),
-                builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                builder:
+                    (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
                     return Container(
                       child: Column(
@@ -221,29 +235,31 @@ class _DashboardState extends State<Dashboard> {
                             ),
                             items: [
                               makeSliderCard(
-                                  Color(0xff8d99ae),
-                                  Color(0xffedf2f4),
-                                  "Overall Stats",
+                                  Color(0xffc1dee6),
+                                  Color(0xffc1dee6),
+                                  "Overall",
                                   "${stats["Overall_hours"]}",
                                   "${stats["Overall_avg"]}",
                                   "${stats["Overall_number"]}"),
                               makeSliderCard(
-                                  Color(0xfffb8500),
-                                  Color(0xffffd60a),
+                                  Color(0xffdbc1e6),
+                                  Color(0xffdbc1e6),
                                   "M.Tech",
                                   "${stats["Mtech_hours"]}",
                                   "${stats["Mtech_avg"]}",
                                   "${stats["Mtech_number"]}"),
                               makeSliderCard(
-                                  Color(0xff8d99ae),
-                                  Color(0xffedf2f4),
+                                  Color(0xffcbe6c1),
+                                  Color(0xffcbe6c1),
                                   "Ph.D",
                                   "${stats["Phd_hours"]}",
                                   "${stats["Phd_avg"]}",
                                   "${stats["Phd_number"]}"),
                               makeSliderCard(
-                                  Color(0xfff72585),
                                   Color(0xffffb3c6),
+                                  //Color(0xffE9E5FD),//Color(0xfff72585),
+                                  Color(0xffffb3c6),
+                                  //Color(0xffE9E5FD),//Color(0xffffb3c6),
                                   "Faculty",
                                   "${stats["Faculty_hours"]}",
                                   "${stats["Fac_avg"]}",
@@ -260,9 +276,7 @@ class _DashboardState extends State<Dashboard> {
                   }
                 },
               ),
-
             ),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
@@ -308,7 +322,7 @@ class _DashboardState extends State<Dashboard> {
                                 'Assign Duty',
                                 style: TextStyle(
                                     fontSize: 16,
-                                    fontFamily: 'Alkatra',
+                                    fontFamily: 'Roboto',
                                     color: Colors.deepPurple[900]),
                               ),
                             ),
@@ -359,7 +373,7 @@ class _DashboardState extends State<Dashboard> {
                               'Reallocate Duty',
                               style: TextStyle(
                                   fontSize: 16,
-                                  fontFamily: 'roboto',
+                                  fontFamily: 'Roboto',
                                   color: Colors.deepPurple[900]),
                             ),
                           ),
@@ -370,8 +384,6 @@ class _DashboardState extends State<Dashboard> {
                 ),
               ],
             ),
-
-
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
@@ -385,7 +397,6 @@ class _DashboardState extends State<Dashboard> {
                     );
                   },
                   child: Container(
-
                     width: 175,
                     //height: 155,
                     decoration: BoxDecoration(
@@ -421,7 +432,7 @@ class _DashboardState extends State<Dashboard> {
                                 'Generate Report',
                                 style: TextStyle(
                                     fontSize: 16,
-                                    fontFamily: 'roboto',
+                                    fontFamily: 'Roboto',
                                     color: Colors.deepPurple[900]),
                               ),
                             ),
@@ -436,7 +447,8 @@ class _DashboardState extends State<Dashboard> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => DeleteDutyPage()), //DeleteDutyPage
+                          builder: (context) =>
+                              DeleteDutyPage()), //DeleteDutyPage
                     );
                   },
                   child: Container(
@@ -472,7 +484,7 @@ class _DashboardState extends State<Dashboard> {
                               'Delete Duty',
                               style: TextStyle(
                                   fontSize: 16,
-                                  fontFamily: 'roboto',
+                                  fontFamily: 'Roboto',
                                   color: Colors.deepPurple[900]),
                             ),
                           ),
@@ -511,7 +523,7 @@ class _DashboardState extends State<Dashboard> {
             // backgroundColor: Colors.yellow
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.block),
+            icon: Icon(Icons.person),
             label: "Block",
 
             // backgroundColor: Colors.blue,
@@ -521,8 +533,8 @@ class _DashboardState extends State<Dashboard> {
         //fixedColor: Colors.deepPurple[900],
         selectedItemColor: Colors.black54,
         unselectedItemColor: Colors.black54,
-        selectedLabelStyle: TextStyle(fontSize: 13),
-        unselectedLabelStyle: TextStyle(fontSize: 13),
+        selectedLabelStyle: TextStyle(fontSize: 12),
+        unselectedLabelStyle: TextStyle(fontSize: 12),
         iconSize: 40,
         elevation: 5,
         onTap: (int index) {
@@ -542,7 +554,10 @@ class _DashboardState extends State<Dashboard> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => DeletePage(dept: 'null', category: 'null',),
+                  builder: (context) => DeletePage(
+                    dept: 'null',
+                    category: 'null',
+                  ),
                 ),
               );
               break;
@@ -553,7 +568,10 @@ class _DashboardState extends State<Dashboard> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => block(dept: 'null', category: 'null',),
+                  builder: (context) => block(
+                    dept: 'null',
+                    category: 'null',
+                  ),
                 ),
               );
           }
@@ -563,7 +581,8 @@ class _DashboardState extends State<Dashboard> {
     return myWidget;
   }
 
-  Container makeSliderCard(Color fromColor, Color toColor,String heading,String totalWH,String avgWH,String pplCount){
+  Container makeSliderCard(Color fromColor, Color toColor, String heading,
+      String totalWH, String avgWH, String pplCount) {
     return Container(
       margin: EdgeInsets.all(5),
       decoration: BoxDecoration(
@@ -576,57 +595,215 @@ class _DashboardState extends State<Dashboard> {
         borderRadius: BorderRadius.circular(10),
       ),
       child: Container(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 15,horizontal: 8),
-          child: Column(
-            children: [
-              Center(
-                child: Text(heading,
-                  style: TextStyle(
-                      color: Color(0xff9381ff),
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'roboto',
-                      fontSize: 24
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Row(
+              children: [
+                // Expanded(
+                //   flex: 1,
+                //   child: Image.asset(
+                //     'assets/line1.png',
+                //     fit: BoxFit.cover,
+                //     height: 20,
+                //   ),
+                // ),
+                SizedBox(
+                  width: 40,
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Text(
+                    heading,
+                    style: TextStyle(
+                        color: Color(0xff03045e),
+                        //fontWeight: FontWeight.bold,
+                        fontFamily: 'fonts/JosefinSans',
+                        fontSize: 26),
                   ),
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                Expanded(
+                  flex: 1,
+                  child: Opacity(
+                    opacity: 0.3,
+                    child: Image.asset(
+                      'assets/line2.png',
+                      fit: BoxFit.cover,
+                      height: 44,
+                      color: Color(0xff023e8a),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+            //   children: [
+            //     Column(
+            //       children: [
+            //         Text(
+            //           "Total Work hours: $totalWH",
+            //           style: TextStyle(
+            //             color: Colors.white,
+            //             fontWeight: FontWeight.bold,
+            //           ),
+            //         ),
+            //         Text(
+            //           "Avg Work hours: $avgWH",
+            //           style: TextStyle(
+            //             color: Colors.white,
+            //             fontWeight: FontWeight.bold,
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //     ElevatedButton.icon(
+            //       onPressed: null,
+            //       icon: Icon(
+            //         Icons.people_alt_rounded,
+            //         color: Colors.black,
+            //       ),
+            //       label: Text(
+            //         pplCount,
+            //         style: TextStyle(
+            //           color: Colors.black,
+            //           fontWeight: FontWeight.bold,
+            //         ),
+            //       ),
+            //     ),
+            //   ],
+            // )
+            Padding(
+              padding: const EdgeInsets.only(left: 8,right: 8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
+                  Row(
                     children: [
-                      Text(
-                        "Total Work hours: $totalWH",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      SizedBox(
+                        width: 18,
                       ),
                       Text(
-                        "Avg Work hours: $avgWH",
+                        "Stats",
                         style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
+                            fontSize: 24,
+                            color: Color(0xff03045e),
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Roboto'),
+                      ),
+                      Icon(
+                        Icons.auto_graph,
+                        size: 26,
                       ),
                     ],
                   ),
-                  ElevatedButton.icon(
-                    onPressed: null,
-                    icon: Icon(Icons.people_alt_rounded,color: Colors.black,),
-                    label: Text(pplCount,style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                    ),),
+                  Row(
+                    children: [
+                      ElevatedButton.icon(
+                        onPressed: null,
+                        icon: Icon(
+                          Icons.people_alt_rounded,
+                          color: Color(0xff03045e),
+                        ),
+                        label: Text(
+                          pplCount,
+                          style: TextStyle(
+                            color: Color(0xff3a4345),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                    ],
                   ),
                 ],
-              )
-            ],
-          ),
-        ),),
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.08,
+                  width: 120,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Color(0xfff5cf05),
+                  ),
+                  //color: Colors.blue,
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Text(
+                              'Total Work hours',
+                              style: TextStyle(
+                                fontFamily: "Roboto",
+                                fontSize: 12,
+                                color: Color(0xff03045e),
+                                fontWeight: FontWeight.bold
+                              ),
+                            ),
+                          ],
+                        ),
+                        Text(
+                          '$totalWH',
+                          style: TextStyle(
+                            fontFamily: "Roboto",
+                            fontSize: 30,
+                            color: Color(0xff3a4345),
+                            //fontWeight: FontWeight.bold
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.08,
+                  width: 100,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
+                  ),
+                  //color: Colors.green,
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text(
+                          'Avg Work hours',
+                          style: TextStyle(
+                            fontFamily: "Roboto",
+                            fontSize: 11,
+                            color: Color(0xff03045e),
+                            fontWeight: FontWeight.bold
+                          ),
+                        ),
+                        Text(
+                          '$avgWH',
+                          style: TextStyle(
+                            fontFamily: "Roboto",
+                            fontSize: 30,
+                            color: Color(0xff3a4345),
+                            //fontWeight: FontWeight.bold
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
-
 
 //   Card makeDashboardItem(String title, String path) {
 //     return Card(
