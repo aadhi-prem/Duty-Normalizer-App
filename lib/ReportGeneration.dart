@@ -100,26 +100,31 @@ class _ReportGenerationState extends State<ReportGeneration> {
                           );
                         },
                         child: Container(
+
                           width: 330,
-                          decoration: BoxDecoration(
-                            //color: Colors.white,
-                            //   gradient: LinearGradient(colors: [
-                            //     Color(0xff9381ff),
-                            //     Color.fromRGBO(143, 148, 251, .6),
-                            //   ]),
-                            borderRadius: BorderRadius.circular(16.0),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.deepPurple.withOpacity(0.7),
-                                spreadRadius: 2,
-                                blurRadius: 7,
-                                offset: Offset(0, 3),
-                              ),
-                            ],
-                          ),
+                          // decoration: BoxDecoration(
+                          //   //color: Colors.white,
+                          //   //   gradient: LinearGradient(colors: [
+                          //   //     Color(0xff9381ff),
+                          //   //     Color.fromRGBO(143, 148, 251, .6),
+                          //   //   ]),
+                          //   borderRadius: BorderRadius.circular(16.0),
+                          //   boxShadow: [
+                          //     BoxShadow(
+                          //       color: Colors.deepPurple.withOpacity(0.7),
+                          //       spreadRadius: 2,
+                          //       blurRadius: 7,
+                          //       offset: Offset(0, 3),
+                          //     ),
+                          //   ],
+                          // ),
                           child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16.0),
+                            ),
                             child: Container(
                               decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(16.0),
                                 gradient: LinearGradient(
                                   colors: [
                                     Color(0xff8338ec),
@@ -161,25 +166,30 @@ class _ReportGenerationState extends State<ReportGeneration> {
                         },
                         child: Container(
                           width: 330,
-                          decoration: BoxDecoration(
-                            //color: Colors.white,
-                            //   gradient: LinearGradient(colors: [
-                            //     Color(0xff9381ff),
-                            //     Color.fromRGBO(143, 148, 251, .6),
-                            //   ]),
-                            borderRadius: BorderRadius.circular(16.0),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.deepPurple.withOpacity(0.7),
-                                spreadRadius: 2,
-                                blurRadius: 7,
-                                offset: Offset(0, 3),
-                              ),
-                            ],
-                          ),
+                          // decoration: BoxDecoration(
+                          //   //color: Colors.white,
+                          //   //   gradient: LinearGradient(colors: [
+                          //   //     Color(0xff9381ff),
+                          //   //     Color.fromRGBO(143, 148, 251, .6),
+                          //   //   ]),
+                          //   borderRadius: BorderRadius.circular(16.0),
+                          //   boxShadow: [
+                          //     BoxShadow(
+                          //       color: Colors.deepPurple.withOpacity(0.7),
+                          //       spreadRadius: 2,
+                          //       blurRadius: 7,
+                          //       offset: Offset(0, 3),
+                          //     ),
+                          //   ],
+                          // ),
                           child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16.0),
+                            ),
                             child: Container(
+
                               decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(16.0),
                                 gradient: LinearGradient(
                                   colors: [
                                     Color(0xff8338ec),
@@ -242,7 +252,8 @@ class _ReportGenerationState extends State<ReportGeneration> {
                       //   },
                       // ),
                     ],
-                  ))
+                  )
+              )
             ],
           ),
         ),
