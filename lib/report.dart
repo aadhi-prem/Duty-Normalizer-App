@@ -134,8 +134,7 @@ class ReportState extends State<Report> {
                           Text('  ${results[index]["ID"]} '),
                           Text(' ${results[index]["Name"]} '),
                           Text(' ${results[index]["PhoneNo"]} '),
-                          Text(' ${results[index]["Email"]} '),
-                          Text(' ${results[index]["WorkHours"] +hours}  '),
+                          Text(' ${results[index]["Email"]}'),
                         ],
                       ),
                     ),
@@ -143,7 +142,7 @@ class ReportState extends State<Report> {
                 ),
               )
                   : const Text(
-                'No results found',
+                'Loading results',
                 style: TextStyle(fontSize: 24),
               ),
             ),
