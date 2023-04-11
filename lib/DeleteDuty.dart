@@ -37,6 +37,7 @@ class _DeleteDutyState extends State<DeleteDuty> {
   Map<String,bool> _selected = {};
   Map<String,Map<String,bool>> _selected_from_duties = {};
   bool selectall = false;
+  int selectcheck = 0;
 
   Future<void> runSqlQuery() async {
     _allDuties = await LocalDB().readDB("SELECT* from Duty order by DUTY_NAME;");
@@ -48,18 +49,21 @@ class _DeleteDutyState extends State<DeleteDuty> {
   Future<void> setvariables() async {
     // _selected.clear();
     ppl_in_duties.clear();
-    _selected_from_duties.clear();
+    // _selected_from_duties.clear();
     for(Map<String,dynamic>row in _allDuties){
       // _selected[row["DUTY_NAME"]]=false;
       ppl_in_duties[row["DUTY_NAME"]]=[];
-      _selected_from_duties[row["DUTY_NAME"]] = {};
+      // _selected_from_duties[row["DUTY_NAME"]] = {};
       String s = "Select* from (Select* from Mtech union Select* from Phd union Select* from Faculty) where ID in (Select ID from DutyDetails where DUTY_NAME = '${row['DUTY_NAME']}')";
       List<Map<String, dynamic>> Candidates = await LocalDB().readDB(s);
       for(var i in Candidates){
-        _selected_from_duties[row["DUTY_NAME"]]![i["ID"]] = false;
+        // _selected_from_duties[row["DUTY_NAME"]]![i["ID"]] = false;
         ppl_in_duties[row["DUTY_NAME"]]!.add(i["ID"]);
       }
     }
+    setState(() {
+      selectcheck = 0;
+    });
   }
 
   @override
@@ -71,6 +75,12 @@ class _DeleteDutyState extends State<DeleteDuty> {
       _foundDuties = _allDuties;
       for(Map<String,dynamic>row in _allDuties) {
         _selected[row["DUTY_NAME"]] = false;
+        _selected_from_duties[row["DUTY_NAME"]] = {};
+        String s = "Select* from (Select* from Mtech union Select* from Phd union Select* from Faculty) where ID in (Select ID from DutyDetails where DUTY_NAME = '${row['DUTY_NAME']}')";
+        List<Map<String, dynamic>> Candidates = await LocalDB().readDB(s);
+        for(var i in Candidates){
+          _selected_from_duties[row["DUTY_NAME"]]![i["ID"]] = false;
+        }
       }
       // for(Map<String,dynamic>row in _allDuties){
       //   _selected[row["DUTY_NAME"]]=false;
@@ -85,7 +95,9 @@ class _DeleteDutyState extends State<DeleteDuty> {
       // }
       await setvariables();
       // update the state with the fetched data
-      setState(() {});
+      setState(() {
+        selectcheck = 0;
+      });
     });
   }
 
@@ -132,6 +144,7 @@ class _DeleteDutyState extends State<DeleteDuty> {
                     onChanged: (value) {
                       setState(() {
                         _selected_from_duties[item["DUTY_NAME"]]![i["ID"]] = value!;
+                        selectcheck = 1;
                       });
                     },
                   ),
@@ -219,7 +232,31 @@ class _DeleteDutyState extends State<DeleteDuty> {
         child: Text("Cancel"),
       );
       Widget continueButton = TextButton(
-        onPressed: () {
+        onPressed: () async {
+          selectall=false;
+          // List<Map<String, dynamic>> selectedDuties = [];
+
+          for (Map<String,dynamic>r in _allDuties) {
+            int flag = 0;
+            if (_selected[r["DUTY_NAME"]]!) {
+              _deleteDuty(r,0);
+              selectcheck = 1 ;
+            }
+            else{
+              for(String ID in ppl_in_duties[r["DUTY_NAME"]]!){
+                if(_selected_from_duties[r["DUTY_NAME"]]![ID]!){
+                  _deleteCandidateFromDuty(r,ID);
+                  flag = 1;
+                  // selectcheck = 1;
+                }
+              }
+              List<Map<String,dynamic>>m=await LocalDB().readDB("Select* from DutyDetails where DUTY_NAME = '${r["DUTY_NAME"]}'");
+              if(m.length == 0 && flag == 1) {
+                _deleteDuty(r, 1);
+                // selectcheck = 1;
+              }
+            }
+          }
           Navigator.of(context, rootNavigator: true).pop();
           // Navigator.push(context, MaterialPageRoute(
           //   builder: (context) => PinEntryPage(),
@@ -372,6 +409,7 @@ class _DeleteDutyState extends State<DeleteDuty> {
                                     onChanged: (value) {
                                       setState(() {
                                         _selected[_foundDuties[index]["DUTY_NAME"]] = value!;
+                                        selectcheck = 1;
                                       });
                                     },
                                   ),
@@ -424,27 +462,33 @@ class _DeleteDutyState extends State<DeleteDuty> {
                 ElevatedButton(
                   style: ElevatedButton.styleFrom( primary: Color(0xffff595e),),
                   onPressed: () async {
-                    showDelAlertDialog(context);
-                    selectall=false;
-                    // List<Map<String, dynamic>> selectedDuties = [];
-
-                    for (Map<String,dynamic>r in _allDuties) {
-                      int flag = 0;
-                      if (_selected[r["DUTY_NAME"]]!) {
-                        _deleteDuty(r,0);
-                      }
-                      else{
-                        for(String ID in ppl_in_duties[r["DUTY_NAME"]]!){
-                          if(_selected_from_duties[r["DUTY_NAME"]]![ID]!){
-                            _deleteCandidateFromDuty(r,ID);
-                            flag = 1;
-                          }
-                        }
-                        List<Map<String,dynamic>>m=await LocalDB().readDB("Select* from DutyDetails where DUTY_NAME = '${r["DUTY_NAME"]}'");
-                        if(m.length == 0 && flag == 1)
-                          _deleteDuty(r,1);
-                      }
-                    }
+                    // showDelAlertDialog(context);
+                    // selectall=false;
+                    // // List<Map<String, dynamic>> selectedDuties = [];
+                    //
+                    // for (Map<String,dynamic>r in _allDuties) {
+                    //   int flag = 0;
+                    //   if (_selected[r["DUTY_NAME"]]!) {
+                    //     _deleteDuty(r,0);
+                    //     selectcheck = 1 ;
+                    //   }
+                    //   else{
+                    //     for(String ID in ppl_in_duties[r["DUTY_NAME"]]!){
+                    //       if(_selected_from_duties[r["DUTY_NAME"]]![ID]!){
+                    //         _deleteCandidateFromDuty(r,ID);
+                    //         flag = 1;
+                    //         // selectcheck = 1;
+                    //       }
+                    //     }
+                    //     List<Map<String,dynamic>>m=await LocalDB().readDB("Select* from DutyDetails where DUTY_NAME = '${r["DUTY_NAME"]}'");
+                    //     if(m.length == 0 && flag == 1) {
+                    //       _deleteDuty(r, 1);
+                    //       // selectcheck = 1;
+                    //     }
+                    //   }
+                    // }
+                    if(selectcheck == 1)
+                      showDelAlertDialog(context);
 
                     // _deleteDuty(selectedDuties);
 
