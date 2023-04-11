@@ -56,6 +56,8 @@ class _DashboardState extends State<Dashboard> {
           (stats["Mtech_hours"] / stats["Mtech_number"]).toStringAsFixed(2);
     else
       stats["Mtech_avg"] = 0;
+    m=await LocalDB().readDB("SELECT duty_name FROM DutyDetails JOIN Mtech ON DutyDetails.ID = Mtech.ID GROUP BY duty_name;");
+    stats["Mtech Duty Number"]=m.length;
     m = await LocalDB().readDB("select * from Phd");
     stats["Phd_number"] = m.length;
     num countp = 0;
@@ -69,6 +71,8 @@ class _DashboardState extends State<Dashboard> {
     } else {
       stats["Phd_avg"] = 0;
     }
+    m=await LocalDB().readDB("SELECT duty_name FROM DutyDetails JOIN Phd ON DutyDetails.ID = Phd.ID GROUP BY duty_name;");
+    stats["Phd Duty Number"]=m.length;
     m = await LocalDB().readDB("select * from Faculty");
     stats["Fac_number"] = m.length;
     num countf = 0;
@@ -82,6 +86,8 @@ class _DashboardState extends State<Dashboard> {
     } else {
       stats["Fac_avg"] = 0;
     }
+    m=await LocalDB().readDB("SELECT duty_name FROM DutyDetails JOIN Faculty ON DutyDetails.ID = Faculty.ID GROUP BY duty_name;");
+    stats["Faculty Duty Number"]=m.length;
     m = await LocalDB().readDB(
         "select * from Mtech union select * from Phd union select * from Faculty");
     stats["Overall_number"] = m.length;
@@ -92,6 +98,8 @@ class _DashboardState extends State<Dashboard> {
     } else {
       stats["Overall_avg"] = 0.00;
     }
+    m=await LocalDB().readDB("SELECT duty_name from DutyDetails group by Duty_name;");
+    stats["Overall Duty Number"]=m.length;
   }
 
   @override
@@ -251,21 +259,21 @@ class _DashboardState extends State<Dashboard> {
                                   Color(0xffc1dee6),
                                   Color(0xffc1dee6),
                                   "Overall",
-                                  "${stats["Overall_hours"]}",
+                                  "${stats["Overall Duty Number"]}",
                                   "${stats["Overall_avg"]}",
                                   "${stats["Overall_number"]}","assets/overallbg.png",),
                               makeSliderCard(
                                   Color(0xffdbc1e6),
                                   Color(0xffdbc1e6),
                                   "M.Tech",
-                                  "${stats["Mtech_hours"]}",
+                                  "${stats["Mtech Duty Number"]}",
                                   "${stats["Mtech_avg"]}",
                                   "${stats["Mtech_number"]}","assets/mtechbg.png",),
                               makeSliderCard(
                                   Color(0xffcbe6c1),
                                   Color(0xffcbe6c1),
                                   "Ph.D",
-                                  "${stats["Phd_hours"]}",
+                                  "${stats["Phd Duty Number"]}",
                                   "${stats["Phd_avg"]}",
                                   "${stats["Phd_number"]}","assets/phdbg.png",),
                               makeSliderCard(
@@ -274,7 +282,7 @@ class _DashboardState extends State<Dashboard> {
                                   Color(0xffffb3c6),
                                   //Color(0xffE9E5FD),//Color(0xffffb3c6),
                                   "Faculty",
-                                  "${stats["Faculty_hours"]}",
+                                  "${stats["Faculty Duty Number"]}",
                                   "${stats["Fac_avg"]}",
                                   "${stats["Fac_number"]}",
                               "assets/fac.png",),
@@ -714,7 +722,7 @@ class _DashboardState extends State<Dashboard> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Text(
-                              'Total Work hours',
+                              'Total Duties',
                               style: TextStyle(
                                 fontFamily: "Roboto",
                                 fontSize: 12,
