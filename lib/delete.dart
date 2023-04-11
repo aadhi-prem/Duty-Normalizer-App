@@ -144,7 +144,7 @@ class _DeleteState extends State<Delete> {
   @override
   Widget build(BuildContext context) {
 
-    showDelAlertDialog(BuildContext context) {
+    showDelAlertDialog(BuildContext context, List<Map<String, dynamic>> selectedUsers) {
       // set up the buttons
       Widget cancelButton = TextButton(
         onPressed: () {
@@ -157,6 +157,8 @@ class _DeleteState extends State<Delete> {
       );
       Widget continueButton = TextButton(
         onPressed: () {
+          selectall=false; // Remove this line in case of er
+          _deletecandidate(selectedUsers);
           Navigator.of(context, rootNavigator: true).pop();
           // Navigator.push(context, MaterialPageRoute(
           //   builder: (context) => PinEntryPage(),
@@ -362,7 +364,7 @@ class _DeleteState extends State<Delete> {
                 onPressed: () {
 
 
-                  selectall=false;
+                  // selectall=false;
                   List<Map<String, dynamic>> selectedUsers = [];
                   for (Map<String,dynamic>r in _allUsers) {
                     if (_selected[r["ID"]]!) {
@@ -370,9 +372,9 @@ class _DeleteState extends State<Delete> {
                     }
                   }
                   if(selectedUsers.isNotEmpty){
-                    showDelAlertDialog(context);
+                    showDelAlertDialog(context,selectedUsers);
                   }
-                  _deletecandidate(selectedUsers);
+                  // _deletecandidate(selectedUsers);
 
                   // Navigator.push(
                   //   context,
