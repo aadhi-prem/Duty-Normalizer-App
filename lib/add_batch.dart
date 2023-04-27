@@ -79,13 +79,7 @@ class _ToggleButtonScreenState extends State<ToggleButtonScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      buttonColor = Colors.red; // change button color when clicked
-                    });
-                  },
-                  child: ElevatedButton(
+                ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       primary: buttonColor,
                     ),
@@ -95,10 +89,9 @@ class _ToggleButtonScreenState extends State<ToggleButtonScreen> {
                       style: TextStyle(fontSize: 20),
                     ),
                   ),
-                ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: buttonColor,
+                    primary: Color(0xff9381ff),
                   ),
                   onPressed: () => _toggleButton('Phd'),
                   child: Text(
@@ -165,56 +158,72 @@ class _ToggleButtonScreenState extends State<ToggleButtonScreen> {
                             primary: Color(0xff9381ff),
                           ),
                           onPressed: () async {
-                            final result =
-                            await FilePicker.platform.pickFiles();
-                            if (result == null) {
-                              print("No file selected");
-
+                            if(_buttonValue==null){
                               showDialog(
                                 context: context,
-                                builder: (ctx) => AlertDialog(
-                                  title: const Text("Alert"),
-                                  content: const Text("No file picked!",style: TextStyle(fontWeight: FontWeight.bold),),
-                                  actions: <Widget>[
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.of(ctx).pop();
-                                      },
-                                      child: Container(
-                                        color: Color(0xff9381ff),
-                                        padding: const EdgeInsets.all(14),
-                                        child: const Text("OK",style: TextStyle(color: Colors.white),),
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text("Invalid Input"),
+                                    content: Text(
+                                      "Select a category from above",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Container(
+                                          color: buttonColor,
+                                          padding: const EdgeInsets.all(14),
+                                          child: const Text("OK",
+                                            style: TextStyle(
+                                                color: Colors.white),),
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                ),
+                                    ],
+                                  );
+                                },
                               );
-                            } else {
-                              final file = result.files.first;
+                            }
+                            else {
+                              final result =
+                              await FilePicker.platform.pickFiles();
+                              if (result == null) {
+                                print("No file selected");
+
+                                showDialog(
+                                  context: context,
+                                  builder: (ctx) =>
+                                      AlertDialog(
+                                        title: const Text("Alert"),
+                                        content: const Text("No file picked!",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(ctx).pop();
+                                            },
+                                            child: Container(
+                                              color: Color(0xff9381ff),
+                                              padding: const EdgeInsets.all(14),
+                                              child: const Text("OK",
+                                                style: TextStyle(
+                                                    color: Colors.white),),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                );
+                              } else {
+                                final file = result.files.first;
 
 
                                 openFile(file, _buttonValue!);
 
-                              // showDialog(
-                              //   context: context,
-                              //   builder: (ctx) =>
-                              //       AlertDialog(
-                              //         title: const Text("Pop Up"),
-                              //         content: const Text("File picked sucessfully!"),
-                              //         actions: <Widget>[
-                              //           TextButton(
-                              //             onPressed: () {
-                              //               Navigator.of(ctx).pop();
-                              //             },
-                              //             child: Container(
-                              //               color: Colors.blueAccent,
-                              //               padding: const EdgeInsets.all(14),
-                              //               child: const Text("ok"),
-                              //             ),
-                              //           ),
-                              //         ],
-                              //       ),
-                              // );
+
+                              }
                             }
                           },
                           child: const Text("Select File"),
