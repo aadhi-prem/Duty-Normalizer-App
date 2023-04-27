@@ -42,7 +42,7 @@ class _ToggleButtonScreenState extends State<ToggleButtonScreen> {
       }
     });
   }
-
+  Color buttonColor = Color(0xff9381ff);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,19 +79,26 @@ class _ToggleButtonScreenState extends State<ToggleButtonScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: Color(0xff9381ff),
-                  ),
-                  onPressed: () => _toggleButton('Mtech'),
-                  child: Text(
-                    'Mtech',
-                    style: TextStyle(fontSize: 20),
+                InkWell(
+                  onTap: () {
+                    setState(() {
+                      buttonColor = Colors.red; // change button color when clicked
+                    });
+                  },
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: buttonColor,
+                    ),
+                    onPressed: () => _toggleButton('Mtech'),
+                    child: Text(
+                      'Mtech',
+                      style: TextStyle(fontSize: 20),
+                    ),
                   ),
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: Color(0xff9381ff),
+                    primary: buttonColor,
                   ),
                   onPressed: () => _toggleButton('Phd'),
                   child: Text(
@@ -166,8 +173,8 @@ class _ToggleButtonScreenState extends State<ToggleButtonScreen> {
                               showDialog(
                                 context: context,
                                 builder: (ctx) => AlertDialog(
-                                  title: const Text("Alert Dialog Box"),
-                                  content: const Text("No file picked!"),
+                                  title: const Text("Alert"),
+                                  content: const Text("No file picked!",style: TextStyle(fontWeight: FontWeight.bold),),
                                   actions: <Widget>[
                                     TextButton(
                                       onPressed: () {
@@ -176,7 +183,7 @@ class _ToggleButtonScreenState extends State<ToggleButtonScreen> {
                                       child: Container(
                                         color: Color(0xff9381ff),
                                         padding: const EdgeInsets.all(14),
-                                        child: const Text("ok"),
+                                        child: const Text("OK",style: TextStyle(color: Colors.white),),
                                       ),
                                     ),
                                   ],
@@ -185,7 +192,8 @@ class _ToggleButtonScreenState extends State<ToggleButtonScreen> {
                             } else {
                               final file = result.files.first;
 
-                              openFile(file, _buttonValue!);
+
+                                openFile(file, _buttonValue!);
 
                               // showDialog(
                               //   context: context,
@@ -333,7 +341,7 @@ class _ToggleButtonScreenState extends State<ToggleButtonScreen> {
         context: context,
         builder: (ctx) => AlertDialog(
           title: const Text("Added Successfully"),
-          content: const Text("File picked and added sucessfully!"),
+          content: const Text("File picked and added sucessfully!",style: TextStyle(fontWeight: FontWeight.bold),),
           actions: <Widget>[
             TextButton(
               onPressed: () {
@@ -355,9 +363,9 @@ class _ToggleButtonScreenState extends State<ToggleButtonScreen> {
       showDialog(
         context: context,
         builder: (ctx) => AlertDialog(
-          title: const Text("Pop Up"),
+          title: const Text("Invalid Format"),
           content: Text(
-              "Invalid Data in $count row in CSV File. Upload the correct CSV file!"),
+              "Invalid Data in $count row in CSV File. Upload the correct CSV file!",style: TextStyle(fontWeight: FontWeight.bold),),
           actions: <Widget>[
             TextButton(
               onPressed: () {
@@ -366,7 +374,7 @@ class _ToggleButtonScreenState extends State<ToggleButtonScreen> {
               child: Container(
                 color: Colors.blueAccent,
                 padding: const EdgeInsets.all(14),
-                child: const Text("ok"),
+                child: const Text("OK",style: TextStyle(color: Colors.white),),
               ),
             ),
           ],
