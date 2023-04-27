@@ -353,7 +353,7 @@ class _DeleteState extends State<Delete> {
                         ),
                       );
                     },
-                    child: Text('Cancel',style: TextStyle(fontSize: 17),),
+                    child: Text('Done',style: TextStyle(fontSize: 17),),
                   ),
                 ),
 
