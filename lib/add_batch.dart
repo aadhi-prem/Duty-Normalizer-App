@@ -42,7 +42,17 @@ class _ToggleButtonScreenState extends State<ToggleButtonScreen> {
       }
     });
   }
-  Color buttonColor = Color(0xff9381ff);
+
+  // Color button1Color = Color(0xff9381ff);
+  Color button1Color = Color(0xffd8d8ff); //unselected color
+  Color button2Color = Color(0xffd8d8ff); //unselected color
+  Color button3Color = Color(0xffd8d8ff); //unselected color
+  Color text1Color = Colors.deepPurple.shade900;
+  Color text2Color = Colors.deepPurple.shade900;
+  Color text3Color = Colors.deepPurple.shade900;
+  bool _isButton1Pressed = false;
+  bool _isButton2Pressed = false;
+  bool _isButton3Pressed = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,65 +64,142 @@ class _ToggleButtonScreenState extends State<ToggleButtonScreen> {
       body: Center(
         child: Column(
           children: [
+            SizedBox(height: 10,),
             Padding(
               padding: EdgeInsets.all(
                 16,
               ),
             ),
-            // ElevatedButton(
-            //   style: ElevatedButton.styleFrom( primary: Color(0xff9381ff),),
-            //   onPressed: () async { // Get the path to the application's document directory
-            //     final directory = await getApplicationDocumentsDirectory();
-            //     final path = directory.path;
-            //
-            //     // Create a File object for the CSV file
-            //     final file = File('$path/Template.csv');
-            //
-            //     // Copy the CSV file from assets to the File object
-            //     final data = await rootBundle.load('assets/Template.csv');
-            //     await file.writeAsBytes(data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
-            //
-            //     // Share the CSV file with the user
-            //     Share.shareFiles([file.path]);},
-            //   child: Text('Download CSV Template',style: TextStyle(fontSize: 20),),
-            // ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      primary: buttonColor,
-                    ),
-                    onPressed: () => _toggleButton('Mtech'),
-                    child: Text(
-                      'Mtech',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                  ),
-                ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: Color(0xff9381ff),
+                    primary: button1Color,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(topLeft: Radius.circular(10),bottomLeft: Radius.circular(10)),
+                      side: BorderSide(
+                        width: 1,
+                        color: Colors.deepPurple.shade900,
+                        style: BorderStyle.solid,
+                      )
+                    ),
                   ),
-                  onPressed: () => _toggleButton('Phd'),
+                  onPressed: () {
+                    setState(() {
+                      _isButton1Pressed = !_isButton1Pressed;
+                      _isButton2Pressed=false;
+                      _isButton3Pressed=false;
+                      if(_isButton1Pressed) {
+                        text1Color = Colors.white;
+                        text2Color = Colors.deepPurple.shade900;
+                        text3Color = Colors.deepPurple.shade900;
+                        button1Color = Color(0xff9381ff);
+                        button2Color = Color(0xffd8d8ff); //unselected color
+                        button3Color = Color(0xffd8d8ff); //unselected color
+                      }
+                      else{
+                        text1Color = Colors.deepPurple.shade900;
+                        text2Color = Colors.deepPurple.shade900;
+                        text3Color = Colors.deepPurple.shade900;
+                        button2Color = Color(0xffd8d8ff); //unselected color
+                        button1Color = Color(0xffd8d8ff); //unselected color
+                        button3Color = Color(0xffd8d8ff); //unselected color
+                      }
+                    });
+                    _toggleButton('Mtech');
+                  },
                   child: Text(
-                    'Phd',
-                    style: TextStyle(fontSize: 20),
+                    'Mtech',
+                    style: TextStyle(fontSize: 20, color: text1Color),
                   ),
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: Color(0xff9381ff),
+                    primary: button2Color,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.zero,
+                        side: BorderSide(
+                          width: 1,
+                          color: Colors.deepPurple.shade900,
+                          style: BorderStyle.solid,
+                        )
+                    ),
                   ),
-                  onPressed: () => _toggleButton('Faculty'),
+                  onPressed: () {
+                    setState(() {
+                      _isButton2Pressed = !_isButton2Pressed;
+                      _isButton1Pressed=false;
+                      _isButton3Pressed=false;
+                      if(_isButton2Pressed) {
+                        text2Color = Colors.white;
+                        text1Color = Colors.deepPurple.shade900;
+                        text3Color = Colors.deepPurple.shade900;
+                        button2Color = Color(0xff9381ff);
+                        button1Color = Color(0xffd8d8ff); //unselected color
+                        button3Color = Color(0xffd8d8ff); //unselected color
+                      }
+                      else{
+                        text1Color = Colors.deepPurple.shade900;
+                        text2Color = Colors.deepPurple.shade900;
+                        text3Color = Colors.deepPurple.shade900;
+                        button2Color = Color(0xffd8d8ff); //unselected color
+                        button1Color = Color(0xffd8d8ff); //unselected color
+                        button3Color = Color(0xffd8d8ff); //unselected color
+                      }
+                    });
+                    _toggleButton('Phd');
+                  },
+                  child: Text(
+                    'PhD',
+                    style: TextStyle(fontSize: 20,color: text2Color),
+                  ),
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: button3Color,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(topRight: Radius.circular(10),bottomRight: Radius.circular(10)),
+                        side: BorderSide(
+                          width: 1,
+                          color: Colors.deepPurple.shade900,
+                          style: BorderStyle.solid,
+                        )
+                    ),
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _isButton3Pressed = !_isButton3Pressed;
+                      _isButton2Pressed=false;
+                      _isButton1Pressed=false;
+                      if(_isButton3Pressed) {
+                        text3Color = Colors.white;
+                        text2Color = Colors.deepPurple.shade900;
+                        text1Color = Colors.deepPurple.shade900;
+                        button3Color = Color(0xff9381ff);
+                        button2Color = Color(0xffd8d8ff); //unselected color
+                        button1Color = Color(0xffd8d8ff); //unselected color
+                      }
+                      else{
+                        text1Color = Colors.deepPurple.shade900;
+                        text2Color = Colors.deepPurple.shade900;
+                        text3Color = Colors.deepPurple.shade900;
+                        button2Color = Color(0xffd8d8ff); //unselected color
+                        button1Color = Color(0xffd8d8ff); //unselected color
+                        button3Color = Color(0xffd8d8ff); //unselected color
+                      }
+                    });
+                    _toggleButton('Faculty');
+                  },
                   child: Text(
                     'Faculty',
-                    style: TextStyle(fontSize: 20),
+                    style: TextStyle(fontSize: 20,color: text3Color),
                   ),
                 ),
               ],
             ),
 
-            SizedBox(height: 20),
+            SizedBox(height: 12),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(
@@ -158,7 +245,7 @@ class _ToggleButtonScreenState extends State<ToggleButtonScreen> {
                             primary: Color(0xff9381ff),
                           ),
                           onPressed: () async {
-                            if(_buttonValue==null){
+                            if (_buttonValue == null) {
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
@@ -167,62 +254,64 @@ class _ToggleButtonScreenState extends State<ToggleButtonScreen> {
                                     content: Text(
                                       "Select a category from above",
                                       style: TextStyle(
-                                          fontWeight: FontWeight.bold),),
+                                          fontWeight: FontWeight.bold),
+                                    ),
                                     actions: <Widget>[
                                       TextButton(
                                         onPressed: () {
                                           Navigator.of(context).pop();
                                         },
                                         child: Container(
-                                          color: buttonColor,
+                                          color: Color(0xff9381ff),
                                           padding: const EdgeInsets.all(14),
-                                          child: const Text("OK",
-                                            style: TextStyle(
-                                                color: Colors.white),),
+                                          child: const Text(
+                                            "OK",
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
                                         ),
                                       ),
                                     ],
                                   );
                                 },
                               );
-                            }
-                            else {
+                            } else {
                               final result =
-                              await FilePicker.platform.pickFiles();
+                                  await FilePicker.platform.pickFiles();
                               if (result == null) {
                                 print("No file selected");
 
                                 showDialog(
                                   context: context,
-                                  builder: (ctx) =>
-                                      AlertDialog(
-                                        title: const Text("Alert"),
-                                        content: const Text("No file picked!",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold),),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.of(ctx).pop();
-                                            },
-                                            child: Container(
-                                              color: Color(0xff9381ff),
-                                              padding: const EdgeInsets.all(14),
-                                              child: const Text("OK",
-                                                style: TextStyle(
-                                                    color: Colors.white),),
-                                            ),
+                                  builder: (ctx) => AlertDialog(
+                                    title: const Text("Alert"),
+                                    content: const Text(
+                                      "No file picked!",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(ctx).pop();
+                                        },
+                                        child: Container(
+                                          color: Color(0xff9381ff),
+                                          padding: const EdgeInsets.all(14),
+                                          child: const Text(
+                                            "OK",
+                                            style:
+                                                TextStyle(color: Colors.white),
                                           ),
-                                        ],
+                                        ),
                                       ),
+                                    ],
+                                  ),
                                 );
                               } else {
                                 final file = result.files.first;
 
-
                                 openFile(file, _buttonValue!);
-
-
                               }
                             }
                           },
@@ -242,7 +331,7 @@ class _ToggleButtonScreenState extends State<ToggleButtonScreen> {
             // Added SizedBox for spacing
             ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
-                primary: Color(0xff0077b6),//Color(0xff4cc9f0),
+                primary: Color(0xff0077b6), //Color(0xff4cc9f0),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
@@ -350,7 +439,10 @@ class _ToggleButtonScreenState extends State<ToggleButtonScreen> {
         context: context,
         builder: (ctx) => AlertDialog(
           title: const Text("Added Successfully"),
-          content: const Text("File picked and added sucessfully!",style: TextStyle(fontWeight: FontWeight.bold),),
+          content: const Text(
+            "File picked and added sucessfully!",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
           actions: <Widget>[
             TextButton(
               onPressed: () {
@@ -374,7 +466,9 @@ class _ToggleButtonScreenState extends State<ToggleButtonScreen> {
         builder: (ctx) => AlertDialog(
           title: const Text("Invalid Format"),
           content: Text(
-              "Invalid Data in $count row in CSV File. Upload the correct CSV file!",style: TextStyle(fontWeight: FontWeight.bold),),
+            "Invalid Data in $count row in CSV File. Upload the correct CSV file!",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
           actions: <Widget>[
             TextButton(
               onPressed: () {
@@ -383,7 +477,10 @@ class _ToggleButtonScreenState extends State<ToggleButtonScreen> {
               child: Container(
                 color: Colors.blueAccent,
                 padding: const EdgeInsets.all(14),
-                child: const Text("OK",style: TextStyle(color: Colors.white),),
+                child: const Text(
+                  "OK",
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             ),
           ],
