@@ -19,11 +19,27 @@ class _FilterState extends State<FilterPage>{
   //     _deptList=_deptList;
   //   });
   // }
-  // List<Map<String, dynamic>> _deptList = [];
+  List _deptList = [];
+  late List<Map<String, dynamic>> _ak;
+  Future<void> _fetchData() async {
+    final dbResult = await LocalDB().readDB(
+        "Select Distinct DEPARTMENT from(select* from Mtech union select* from Phd union select* from Faculty);");
+    setState(() {
+      _ak = dbResult;
+      for(Map<String,dynamic>r in _ak){
+        _deptList.add(r["DEPARTMENT"]);
+      }
+    });
+  }
+
+  void initState() {
+    super.initState();
+    _fetchData();
+  }
 
 
 
-  List _deptList=["CSED","CED","EED","ECED","MED","CHED","EPD","PED","BTD","ARD"];
+  // List _deptList=["CSED","CED","EED","ECED","MED","CHED","EPD","PED","BTD","ARD"];
   List _catList=["MTech","PhD","Faculty"];
   // String _year='';
   String? dept;
